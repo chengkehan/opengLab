@@ -8,6 +8,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <memory.h>
 #include "FileReader.h"
 #include "cgUtil.h"
 
@@ -32,7 +33,7 @@ bool FileReader::read(const char *path)
         return false;
     }
     
-    FILE* file = fopen(path, "r");
+    FILE* file = fopen(path, "rb");
     if (file == nullptr)
     {
         cgPrintThenExit("File is not exists. %s.\n", path);
@@ -56,12 +57,14 @@ bool FileReader::read(const char *path)
     rewind(file);
     
     releaseMemory();
-    m_content = (char*)malloc(sizeof(char) * fileSize);
+    m_content = (char*)malloc(sizeof(char) * fileSize + 1);
+    
     if (m_content == nullptr)
     {
         cgPrintThenExit("Allocate memory fail for reading file. %s\n", path);
         return false;
     }
+    m_content[sizeof(char) * fileSize] = '\0';
     
     size_t readFileResult = fread(m_content, 1, fileSize, file);
     if (readFileResult != fileSize)
