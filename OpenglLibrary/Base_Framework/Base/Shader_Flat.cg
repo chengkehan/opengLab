@@ -1,0 +1,21 @@
+struct VertexIn
+{
+    float4 pos : POSITION;
+};
+
+struct FragmentIn
+{
+    float4 pos : POSITION;
+};
+
+FragmentIn main_vp(VertexIn vIn, uniform float4x4 mvpMatrix)
+{
+    FragmentIn fIn;
+    fIn.pos = mul(mvpMatrix, vIn.pos);
+    return fIn;
+}
+
+fixed4 main_fp(FragmentIn fIn, uniform fixed4 color) : COLOR
+{
+    return color;
+}

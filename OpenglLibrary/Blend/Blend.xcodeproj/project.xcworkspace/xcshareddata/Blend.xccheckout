@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>1973DD88-7E2B-490B-9BA4-26F1ECA4DE70</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>36620312-f518-11de-9bdd-55956ae4c37b++505</key>
+		<string>http://oglsuperbible5.googlecode.com/svn/trunk</string>
+	</dict>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>36620312-f518-11de-9bdd-55956ae4c37b++505</key>
+		<string>trunk/</string>
+	</dict>
+	<key>IDESourceControlProjectRepositoryRootDictionary</key>
+	<dict>
+		<key>36620312-f518-11de-9bdd-55956ae4c37b++505</key>
+		<string>http://oglsuperbible5.googlecode.com/svn</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>http://oglsuperbible5.googlecode.com/svn/trunk</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>36620312-f518-11de-9bdd-55956ae4c37b++505</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.subversion</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>36620312-f518-11de-9bdd-55956ae4c37b++505</string>
+			<key>IDESourceControlWCCName</key>
+			<string>trunk</string>
+		</dict>
+	</array>
+</dict>
+</plist>

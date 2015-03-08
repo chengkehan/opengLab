@@ -1,0 +1,29 @@
+struct VertexIn
+{
+    float4 pos : POSITION;
+    float2 uv : COLOR0;
+};
+
+struct FragmentIn
+{
+    float4 pos : POSITION;
+    float2 uv : TEXCOORD0;
+    float4 color : TEXCOORD1;
+};
+
+FragmentIn main_vp(VertexIn vIn, uniform float4x4 mvpMatrix, uniform float4 color)
+{
+    FragmentIn fIn;
+    fIn.pos = mul(mvpMatrix, vIn.pos);
+    fIn.color = color;
+    fIn.uv = vIn.uv;
+
+    return fIn;
+}
+ 
+fixed4 main_fp(FragmentIn fIn, uniform sampler2D mainTex) : COLOR
+{
+    return fIn.color * tex2D(mainTex, fIn.uv);
+}
+
+

@@ -1,0 +1,30 @@
+struct VertexIn
+{
+    float4 pos : POSITION;
+    float4 normal : NORMAL;
+};
+
+struct FragmentIn
+{
+    float4 pos : POSITION;
+    float4 color : TEXCOORD0;
+};
+
+FragmentIn main_vp(VertexIn vIn, uniform float4x4 mvpMatrix, uniform float4x4 mMatrix, uniform float4 color, uniform float4 lightDir)
+{
+    FragmentIn fIn;
+    fIn.pos = mul(mvpMatrix, vIn.pos);
+
+    float4 lightDir_normalized = normalize(lightDir);
+    float4 normal_normalized = normalize(vIn.normal);
+    float4 normal_normalized_m = mul(mMatrix, normal_normalized);
+    float d = dot(lightDir_normalized, normal_normalized_m);
+    fIn.color = color * d;
+
+    return fIn;
+}
+
+fixed4 main_fp(FragmentIn fIn) : COLOR
+{
+    return fIn.color;
+}
