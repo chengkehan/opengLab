@@ -56,8 +56,8 @@ void RenderScene(void)
 //    drawTriangleWithVertexArray_StructOfArray();
 //    drawTriangleWithVertexArray_ArrayOfCompactStruct();
 //    drawTriangleWithVertexArray_ArrayOfInterleavedStruct();
-    drawTriangleWithVertexArray_VertexBufferObjectOfArray();
-//    drawTriangleWithVertexArray_ArrayOfCompactVertexBufferObject();
+//    drawTriangleWithVertexArray_VertexBufferObjectOfArray();
+    drawTriangleWithVertexArray_ArrayOfCompactVertexBufferObject();
 //    drawTriangleWithVertexArray_ArrayOfInterleavedVertexBufferObject();
     
     // Flush drawing commands

@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "32B7B6631A86551F004A3DE9"
-               BuildableName = "Blend"
-               BlueprintName = "Blend"
-               ReferencedContainer = "container:Blend.xcodeproj">
+               BuildableName = "Base_on_glsl"
+               BlueprintName = "Base_on_glsl"
+               ReferencedContainer = "container:Base_on_glsl.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "32B7B6631A86551F004A3DE9"
-            BuildableName = "Blend"
-            BlueprintName = "Blend"
-            ReferencedContainer = "container:Blend.xcodeproj">
+            BuildableName = "Base_on_glsl"
+            BlueprintName = "Base_on_glsl"
+            ReferencedContainer = "container:Base_on_glsl.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -52,9 +52,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "32B7B6631A86551F004A3DE9"
-            BuildableName = "Blend"
-            BlueprintName = "Blend"
-            ReferencedContainer = "container:Blend.xcodeproj">
+            BuildableName = "Base_on_glsl"
+            BlueprintName = "Base_on_glsl"
+            ReferencedContainer = "container:Base_on_glsl.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -70,9 +70,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "32B7B6631A86551F004A3DE9"
-            BuildableName = "Blend"
-            BlueprintName = "Blend"
-            ReferencedContainer = "container:Blend.xcodeproj">
+            BuildableName = "Base_on_glsl"
+            BlueprintName = "Base_on_glsl"
+            ReferencedContainer = "container:Base_on_glsl.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
