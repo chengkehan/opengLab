@@ -38,6 +38,7 @@ bool ShaderManager::init(const char* projectName)
     string projectPath = string("/Users/jimCheng/projects/OpenglLibrary/") + projectName + "/Base/";
     createShader(SHADER_TYPE_IDENTITY, (projectPath + "identity.vsh").c_str(), (projectPath + "identity.fsh").c_str());
     createShader(SHADER_TYPE_IDENTITY_COLOR, (projectPath + "identity_color.vsh").c_str(), (projectPath + "identity_color.fsh").c_str());
+    createShader(SHADER_TYPE_IDENTITY_COLOR_TEXTURE, (projectPath + "identity_color_texture.vsh").c_str(), (projectPath + "identity_color_texture.fsh").c_str());
     
 #undef createShader
     

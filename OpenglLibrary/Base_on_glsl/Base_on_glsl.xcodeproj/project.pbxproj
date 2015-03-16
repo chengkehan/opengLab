@@ -33,6 +33,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		323E26D91AB71C9B005DDFB3 /* identity_color_texture.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = identity_color_texture.vsh; sourceTree = "<group>"; };
+		323E26DA1AB71D33005DDFB3 /* identity_color_texture.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = identity_color_texture.fsh; sourceTree = "<group>"; };
 		326B718A1AB45A46006C80FA /* FileReader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FileReader.cpp; sourceTree = "<group>"; };
 		326B718B1AB45A46006C80FA /* FileReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileReader.h; sourceTree = "<group>"; };
 		326B718D1AB45A6D006C80FA /* ShaderManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ShaderManager.cpp; sourceTree = "<group>"; };
@@ -119,6 +121,8 @@
 				327665641AB56F70001541F8 /* identity.fsh */,
 				3276656E1AB59FE5001541F8 /* identity_color.vsh */,
 				3276656F1AB5A23E001541F8 /* identity_color.fsh */,
+				323E26D91AB71C9B005DDFB3 /* identity_color_texture.vsh */,
+				323E26DA1AB71D33005DDFB3 /* identity_color_texture.fsh */,
 			);
 			path = Base;
 			sourceTree = "<group>";

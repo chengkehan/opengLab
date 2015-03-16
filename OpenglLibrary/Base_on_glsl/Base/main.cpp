@@ -12,6 +12,8 @@
 const char* projectName = "Base_on_glsl";
 ShaderManager shaderManager;
 
+GLuint texture;
+
 void drawTriangleWithVertexArray_ArrayOfCompactVertexBufferObject();
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -22,11 +24,29 @@ void SetupRC()
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f );
     
     shaderManager.init(projectName);
+    
+    {
+        GLint width;
+        GLint height;
+        GLint components;
+        GLenum format;
+        GLbyte* bytes = gltReadTGABits("/Users/jimCheng/projects/OpenglLibrary/Base_on_glsl/Base/Block6.tga", &width, &height, &components, &format);
+        
+        glGenTextures(1, &texture);
+        glBindTexture(GL_TEXTURE_2D, texture);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+        glTexImage2D(GL_TEXTURE_2D, 0, components, width, height, 0, format, GL_UNSIGNED_BYTE, bytes);
+        glBindTexture(GL_TEXTURE_2D, 0);
+        free(bytes);
+    }
 }
 
 void ReleaseRC()
 {
-    
+    glDeleteTextures(1, &texture);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -46,15 +66,18 @@ GLuint compactAttributeVBO = 0;
 GLuint compactIndexVBO = 0;
 void drawTriangleWithVertexArray_ArrayOfCompactVertexBufferObject()
 {
-    shaderManager.shader(SHADER_TYPE_IDENTITY_COLOR)->setFloat4("color", 0, 1, 0, 1);
-    shaderManager.shader(SHADER_TYPE_IDENTITY_COLOR)->enable();
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, texture);
+    shaderManager.shader(SHADER_TYPE_IDENTITY_COLOR_TEXTURE)->setFloat4("color", 0, 1, 0, 1);
+    shaderManager.shader(SHADER_TYPE_IDENTITY_COLOR_TEXTURE)->setTexture("texUnit0", 0);
+    shaderManager.shader(SHADER_TYPE_IDENTITY_COLOR_TEXTURE)->enable();
     
     if (compactAttributeVBO == 0)
     {
         int numVertices = 3;
         
         // Attributes
-        Vector4* attributes = static_cast<Vector4*>(malloc(sizeof(Vector4) * numVertices * 2));
+        Vector4* attributes = static_cast<Vector4*>(malloc(sizeof(Vector4) * numVertices * 3));
         // Position
         attributes[0] = Vector4(0, 0, 0, 1);
         attributes[1] = Vector4(1, 1, 0, 1);
@@ -63,16 +86,22 @@ void drawTriangleWithVertexArray_ArrayOfCompactVertexBufferObject()
         attributes[3] = Vector4(1, 0, 0, 1);
         attributes[4] = Vector4(0, 1, 0, 1);
         attributes[5] = Vector4(0, 0, 1, 1);
+        // UV
+        attributes[6] = Vector4(0, 0, 0, 0);
+        attributes[7] = Vector4(1, 1, 0, 0);
+        attributes[8] = Vector4(1, 0, 0, 0);
         
         glGenBuffers(1, &compactAttributeVBO);
         glBindBuffer(GL_ARRAY_BUFFER, compactAttributeVBO);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(Vector4) * numVertices * 2, attributes, GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(Vector4) * numVertices * 3, attributes, GL_STATIC_DRAW);
         free(attributes);
         
         glVertexAttribPointer(ATTRIBUTE_BINDING_LOCATION_POSITION, 4/*xyzw*/, GL_FLOAT, GL_FALSE, 0, reinterpret_cast<const GLvoid*>(0));
         glEnableVertexAttribArray(ATTRIBUTE_BINDING_LOCATION_POSITION);
         glVertexAttribPointer(ATTRIBUTE_BINDING_LOCATION_COLOR, 4/*xyzw*/, GL_FLOAT, GL_FALSE, 0, reinterpret_cast<const GLvoid*>(sizeof(Vector4) * numVertices));
         glEnableVertexAttribArray(ATTRIBUTE_BINDING_LOCATION_COLOR);
+        glVertexAttribPointer(ATTRIBUTE_BINDING_LOCATION_TEXTURE0, 4/*xyzw*/, GL_FLOAT, GL_FALSE, 0, reinterpret_cast<const GLvoid*>(sizeof(Vector4) * numVertices * 2));
+        glEnableVertexAttribArray(ATTRIBUTE_BINDING_LOCATION_TEXTURE0);
         
         // Indices
         GLushort* indices = static_cast<GLushort*>(malloc(sizeof(GLushort) * 3));

@@ -123,7 +123,7 @@ bool Shader::setFloat4x4(const char *name, float *float4x4)
     return true;
 }
 
-bool Shader::setTexture(const char *name, GLuint texture)
+bool Shader::setTexture(const char *name, GLint textureUnitIndex)
 {
     if (!isValid())
     {
@@ -131,7 +131,7 @@ bool Shader::setTexture(const char *name, GLuint texture)
     }
     
     GLint uniform = glGetUniformLocation(shaderProgram, name);
-    glUniform1i(uniform, texture);
+    glUniform1i(uniform, textureUnitIndex);
     return true;
 }
 
