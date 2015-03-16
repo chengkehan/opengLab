@@ -25,7 +25,7 @@ public:
     bool setFloat(const char* name, float x);
     bool setFloat4(const char* name, float x, float y, float z, float w);
     bool setFloat4x4(const char* name, float* float4x4);
-    bool setTexture(const char* name, GLint textureUnitIndex);
+    bool setTexture(const char* name, GLuint texture, GLint textureUnit);
     
 private:
     Shader(const Shader&);

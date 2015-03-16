@@ -123,15 +123,18 @@ bool Shader::setFloat4x4(const char *name, float *float4x4)
     return true;
 }
 
-bool Shader::setTexture(const char *name, GLint textureUnitIndex)
+bool Shader::setTexture(const char *name, GLuint texture, GLint textureUnit)
 {
     if (!isValid())
     {
         return false;
     }
     
+    glActiveTexture(GL_TEXTURE0 + textureUnit);
+    glBindTexture(GL_TEXTURE_2D, texture);
+    
     GLint uniform = glGetUniformLocation(shaderProgram, name);
-    glUniform1i(uniform, textureUnitIndex);
+    glUniform1i(uniform, textureUnit);
     return true;
 }
 

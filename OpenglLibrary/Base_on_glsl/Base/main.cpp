@@ -66,10 +66,8 @@ GLuint compactAttributeVBO = 0;
 GLuint compactIndexVBO = 0;
 void drawTriangleWithVertexArray_ArrayOfCompactVertexBufferObject()
 {
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, texture);
     shaderManager.shader(SHADER_TYPE_IDENTITY_COLOR_TEXTURE)->setFloat4("color", 0, 1, 0, 1);
-    shaderManager.shader(SHADER_TYPE_IDENTITY_COLOR_TEXTURE)->setTexture("texUnit0", 0);
+    shaderManager.shader(SHADER_TYPE_IDENTITY_COLOR_TEXTURE)->setTexture("texUnit", texture, 0);
     shaderManager.shader(SHADER_TYPE_IDENTITY_COLOR_TEXTURE)->enable();
     
     if (compactAttributeVBO == 0)
