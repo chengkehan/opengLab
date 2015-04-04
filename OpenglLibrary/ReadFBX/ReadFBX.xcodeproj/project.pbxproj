@@ -1,0 +1,289 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		325C3D851ACD7BF400A2A3ED /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 325C3D841ACD7BF400A2A3ED /* main.cpp */; };
+		32EF32A31ACFB97200AD713A /* AnimationUtility.cxx in Sources */ = {isa = PBXBuildFile; fileRef = 32EF329C1ACFB97200AD713A /* AnimationUtility.cxx */; };
+		32EF32A41ACFB97200AD713A /* Common.cxx in Sources */ = {isa = PBXBuildFile; fileRef = 32EF329F1ACFB97200AD713A /* Common.cxx */; };
+		32EF32A51ACFB97200AD713A /* GeometryUtility.cxx in Sources */ = {isa = PBXBuildFile; fileRef = 32EF32A11ACFB97200AD713A /* GeometryUtility.cxx */; };
+		32EF32AA1ACFBB0400AD713A /* libfbxsdk.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 32EF32A91ACFBB0400AD713A /* libfbxsdk.dylib */; };
+		32EF32AB1ACFBBFA00AD713A /* libfbxsdk.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 32EF32A91ACFBB0400AD713A /* libfbxsdk.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		325C3D7F1ACD7BF400A2A3ED /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 12;
+			dstPath = "";
+			dstSubfolderSpec = 6;
+			files = (
+				32EF32AB1ACFBBFA00AD713A /* libfbxsdk.dylib in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		325C3D811ACD7BF400A2A3ED /* ReadFBX */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = ReadFBX; sourceTree = BUILT_PRODUCTS_DIR; };
+		325C3D841ACD7BF400A2A3ED /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		32EF329C1ACFB97200AD713A /* AnimationUtility.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AnimationUtility.cxx; sourceTree = "<group>"; };
+		32EF329E1ACFB97200AD713A /* carb.r */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.rez; path = carb.r; sourceTree = "<group>"; };
+		32EF329F1ACFB97200AD713A /* Common.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Common.cxx; sourceTree = "<group>"; };
+		32EF32A11ACFB97200AD713A /* GeometryUtility.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GeometryUtility.cxx; sourceTree = "<group>"; };
+		32EF32A91ACFBB0400AD713A /* libfbxsdk.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libfbxsdk.dylib; path = "../../../../../Applications/Autodesk/FBX SDK/2015.1/lib/clang/debug/libfbxsdk.dylib"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		325C3D7E1ACD7BF400A2A3ED /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				32EF32AA1ACFBB0400AD713A /* libfbxsdk.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		325C3D781ACD7BF400A2A3ED = {
+			isa = PBXGroup;
+			children = (
+				32EF32A91ACFBB0400AD713A /* libfbxsdk.dylib */,
+				325C3D831ACD7BF400A2A3ED /* ReadFBX */,
+				325C3D821ACD7BF400A2A3ED /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		325C3D821ACD7BF400A2A3ED /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				325C3D811ACD7BF400A2A3ED /* ReadFBX */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		325C3D831ACD7BF400A2A3ED /* ReadFBX */ = {
+			isa = PBXGroup;
+			children = (
+				32EF329B1ACFB97200AD713A /* Common */,
+				325C3D841ACD7BF400A2A3ED /* main.cpp */,
+			);
+			path = ReadFBX;
+			sourceTree = "<group>";
+		};
+		32EF329B1ACFB97200AD713A /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				32EF329C1ACFB97200AD713A /* AnimationUtility.cxx */,
+				32EF329E1ACFB97200AD713A /* carb.r */,
+				32EF329F1ACFB97200AD713A /* Common.cxx */,
+				32EF32A11ACFB97200AD713A /* GeometryUtility.cxx */,
+			);
+			name = Common;
+			path = "../../../../../../Applications/Autodesk/FBX SDK/2015.1/samples/Common";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		325C3D801ACD7BF400A2A3ED /* ReadFBX */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 325C3D881ACD7BF400A2A3ED /* Build configuration list for PBXNativeTarget "ReadFBX" */;
+			buildPhases = (
+				325C3D7D1ACD7BF400A2A3ED /* Sources */,
+				325C3D7E1ACD7BF400A2A3ED /* Frameworks */,
+				325C3D7F1ACD7BF400A2A3ED /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ReadFBX;
+			productName = ReadFBX;
+			productReference = 325C3D811ACD7BF400A2A3ED /* ReadFBX */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		325C3D791ACD7BF400A2A3ED /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0610;
+				ORGANIZATIONNAME = JimCheng;
+				TargetAttributes = {
+					325C3D801ACD7BF400A2A3ED = {
+						CreatedOnToolsVersion = 6.1;
+					};
+				};
+			};
+			buildConfigurationList = 325C3D7C1ACD7BF400A2A3ED /* Build configuration list for PBXProject "ReadFBX" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 325C3D781ACD7BF400A2A3ED;
+			productRefGroup = 325C3D821ACD7BF400A2A3ED /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				325C3D801ACD7BF400A2A3ED /* ReadFBX */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		325C3D7D1ACD7BF400A2A3ED /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				32EF32A51ACFB97200AD713A /* GeometryUtility.cxx in Sources */,
+				325C3D851ACD7BF400A2A3ED /* main.cpp in Sources */,
+				32EF32A31ACFB97200AD713A /* AnimationUtility.cxx in Sources */,
+				32EF32A41ACFB97200AD713A /* Common.cxx in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		325C3D861ACD7BF400A2A3ED /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		325C3D871ACD7BF400A2A3ED /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		325C3D891ACD7BF400A2A3ED /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = "";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode2.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"/Applications/Autodesk/FBX\\ SDK/2015.1/samples/Common",
+					"/Applications/Autodesk/FBX\\ SDK/2015.1/include",
+				);
+				LD_RUNPATH_SEARCH_PATHS = "";
+				LIBRARY_SEARCH_PATHS = "/Applications/Autodesk/FBX\\ SDK/2015.1/lib/clang/debug";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "";
+			};
+			name = Debug;
+		};
+		325C3D8A1ACD7BF400A2A3ED /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = "";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode2.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"/Applications/Autodesk/FBX\\ SDK/2015.1/samples/Common",
+					"/Applications/Autodesk/FBX\\ SDK/2015.1/include",
+				);
+				LD_RUNPATH_SEARCH_PATHS = "";
+				LIBRARY_SEARCH_PATHS = "/Applications/Autodesk/FBX\\ SDK/2015.1/lib/clang/debug";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		325C3D7C1ACD7BF400A2A3ED /* Build configuration list for PBXProject "ReadFBX" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				325C3D861ACD7BF400A2A3ED /* Debug */,
+				325C3D871ACD7BF400A2A3ED /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		325C3D881ACD7BF400A2A3ED /* Build configuration list for PBXNativeTarget "ReadFBX" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				325C3D891ACD7BF400A2A3ED /* Debug */,
+				325C3D8A1ACD7BF400A2A3ED /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 325C3D791ACD7BF400A2A3ED /* Project object */;
+}
