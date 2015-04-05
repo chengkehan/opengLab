@@ -9,12 +9,24 @@
 #include "Vector4.h"
 #include "AttributeBindingLocation.h"
 #include "Mesh.h"
+#include <GLMatrixStack.h>
+#include <GLFrame.h>
+#include <GLFrustum.h>
+#include <GLBatch.h>
+#include <GLGeometryTransform.h>
 
 const char* projectName = "FbxMesh";
 ShaderManager shaderManager;
 
 GLuint texture;
 Mesh mesh;
+
+GLGeometryTransform mvpTransform;
+GLMatrixStack mvTransform;
+GLMatrixStack pTransform;
+GLFrustum viewFrustum;
+GLFrame cameraFrame;
+GLFrame modelTransform;
 
 void drawTriangleWithVertexArray_ArrayOfCompactVertexBufferObject();
 
@@ -46,31 +58,74 @@ void SetupRC()
     }
     
     {
-        int numVertices = 3;
+        cameraFrame.MoveForward(-10.0f);
+        cameraFrame.MoveUp(6.0f);
+        cameraFrame.RotateLocalX(float(m3dDegToRad(20.0f)));
+        mvpTransform.SetMatrixStacks(mvTransform, pTransform);
+        
+        int numVertices = 8;
         
         // Vertices
         Vector3* vertices = static_cast<Vector3*>(malloc(sizeof(Vector3) * numVertices));
-        vertices[0] = Vector3(0, 0, 0);
-        vertices[1] = Vector3(1, 1, 0);
-        vertices[2] = Vector3(1, 0, 0);
+        vertices[0] = Vector3(1, 1, 1);
+        vertices[1] = Vector3(1, -1, 1);
+        vertices[2] = Vector3(-1, -1, 1);
+        vertices[3] = Vector3(-1, 1, 1);
+        vertices[4] = Vector3(1, 1, -1);
+        vertices[5] = Vector3(1, -1, -1);
+        vertices[6] = Vector3(-1, -1, -1);
+        vertices[7] = Vector3(-1, 1, -1);
         
         //UV
         Vector2* uv = static_cast<Vector2*>(malloc(sizeof(Vector2) * numVertices));
-        uv[0] = Vector2(0, 0);
-        uv[1] = Vector2(1, 1);
-        uv[2] = Vector2(1, 0);
+        uv[0] = Vector2(1, 1);
+        uv[1] = Vector2(1, 0);
+        uv[2] = Vector2(0, 0);
+        uv[3] = Vector2(0, 1);
+        uv[4] = Vector2(1, 1);
+        uv[5] = Vector2(1, 0);
+        uv[6] = Vector2(0, 0);
+        uv[7] = Vector2(0, 1);
         
         // Indices
-        GLushort* indices = static_cast<GLushort*>(malloc(sizeof(GLushort) * 3));
+        GLushort* indices = static_cast<GLushort*>(malloc(sizeof(GLushort) * 7 * 3));
+        
         indices[0] = 0;
         indices[1] = 1;
         indices[2] = 2;
         
+        indices[3] = 0;
+        indices[4] = 2;
+        indices[5] = 3;
+        
+        indices[6] = 4;
+        indices[7] = 6;
+        indices[8] = 5;
+        
+        indices[9] = 4;
+        indices[10] = 7;
+        indices[11] = 6;
+        
+        indices[12] = 4;
+        indices[13] = 0;
+        indices[14] = 3;
+        
+        indices[15] = 4;
+        indices[16] = 3;
+        indices[17] = 7;
+        
+        indices[18] = 4;
+        indices[19] = 1;
+        indices[20] = 0;
+        
         mesh.setVertices(vertices, numVertices);
         mesh.setUV(uv, numVertices);
-        mesh.setIndices(indices, 3);
+        mesh.setIndices(indices, 7 * 3);
         mesh.upload();
     }
+    
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_FRONT);
 }
 
 void ReleaseRC()
@@ -89,14 +144,28 @@ void RenderScene(void)
     
     // Flush drawing commands
     glutSwapBuffers();
+    glutPostRedisplay();
 }
 
 void drawTriangleWithVertexArray_ArrayOfCompactVertexBufferObject()
 {
-    shaderManager.shader(SHADER_TYPE_IDENTITY_TEXTURE)->setTexture("texUnit", texture, 0);
-    shaderManager.shader(SHADER_TYPE_IDENTITY_TEXTURE)->enable();
+    modelTransform.RotateLocalY(0.03f);
+    M3DMatrix44f mModel;
+    modelTransform.GetMatrix(mModel);
+    
+    mvTransform.PushMatrix();
+    M3DMatrix44f mCamera;
+    cameraFrame.GetCameraMatrix(mCamera);
+    mvTransform.MultMatrix(mCamera);
+    mvTransform.MultMatrix(mModel);
+    
+    shaderManager.shader(SHADER_TYPE_MVP_TEXTURE)->setTexture("texUnit", texture, 0);
+    shaderManager.shader(SHADER_TYPE_MVP_TEXTURE)->setFloat4x4("mvp", mvpTransform.GetModelViewProjectionMatrix());
+    shaderManager.shader(SHADER_TYPE_MVP_TEXTURE)->enable();
     
     mesh.draw();
+    
+    mvTransform.PopMatrix();
 }
 
 
@@ -110,9 +179,22 @@ void KeyPressFunc(unsigned char key, int x, int y)
         ReleaseRC();
         exit(0);
     }
-    
+    else if(key == 32/*space*/)
+    {
+        static int polygonMode = 0;
+        if (polygonMode == 0)
+        {
+            glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+        }
+        else
+        {
+            glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+            polygonMode = -1;
+        }
+        ++polygonMode;
+    }
     // Refresh the Window
-    glutPostRedisplay();
+//    glutPostRedisplay();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -121,6 +203,9 @@ void KeyPressFunc(unsigned char key, int x, int y)
 void ChangeSize(int w, int h)
 {
     glViewport(0, 0, w, h);
+    viewFrustum.SetPerspective(60.0f, float(w) / float(h), 1.0f, 500.0f);
+    pTransform.LoadMatrix(viewFrustum.GetProjectionMatrix());
+    mvTransform.LoadIdentity();
 }
 
 ///////////////////////////////////////////////////////////////////////////////

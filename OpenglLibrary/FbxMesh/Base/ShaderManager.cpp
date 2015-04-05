@@ -40,6 +40,7 @@ bool ShaderManager::init(const char* projectName)
     createShader(SHADER_TYPE_IDENTITY_COLOR, (projectPath + "identity_color.vsh").c_str(), (projectPath + "identity_color.fsh").c_str());
     createShader(SHADER_TYPE_IDENTITY_COLOR_TEXTURE, (projectPath + "identity_color_texture.vsh").c_str(), (projectPath + "identity_color_texture.fsh").c_str());
     createShader(SHADER_TYPE_IDENTITY_TEXTURE, (projectPath + "identity_texture.vsh").c_str(), (projectPath + "identity_texture.fsh").c_str());
+    createShader(SHADER_TYPE_MVP_TEXTURE, (projectPath + "mvp_texture.vsh").c_str(), (projectPath + "mvp_texture.fsh").c_str());
     
 #undef createShader
     

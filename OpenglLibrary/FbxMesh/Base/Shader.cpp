@@ -111,7 +111,7 @@ bool Shader::setFloat4(const char *name, float x, float y, float z, float w)
     return true;
 }
 
-bool Shader::setFloat4x4(const char *name, float *float4x4)
+bool Shader::setFloat4x4(const char *name, const float *float4x4)
 {
     if (!isValid())
     {

@@ -66,6 +66,8 @@
 		32B9EC151AD0D99A00B06F9F /* Mesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Mesh.h; sourceTree = "<group>"; };
 		32B9EC181AD1045A00B06F9F /* identity_texture.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = identity_texture.vsh; sourceTree = "<group>"; };
 		32B9EC191AD1048000B06F9F /* identity_texture.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = identity_texture.fsh; sourceTree = "<group>"; };
+		32B9EC241AD159C300B06F9F /* mvp_texture.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = mvp_texture.vsh; sourceTree = "<group>"; };
+		32B9EC251AD159D800B06F9F /* mvp_texture.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = mvp_texture.fsh; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,8 +130,10 @@
 				3276656F1AB5A23E001541F8 /* identity_color.fsh */,
 				323E26D91AB71C9B005DDFB3 /* identity_color_texture.vsh */,
 				32B9EC181AD1045A00B06F9F /* identity_texture.vsh */,
+				32B9EC241AD159C300B06F9F /* mvp_texture.vsh */,
 				323E26DA1AB71D33005DDFB3 /* identity_color_texture.fsh */,
 				32B9EC191AD1048000B06F9F /* identity_texture.fsh */,
+				32B9EC251AD159D800B06F9F /* mvp_texture.fsh */,
 				32B9EC141AD0D99A00B06F9F /* Mesh.cpp */,
 				32B9EC151AD0D99A00B06F9F /* Mesh.h */,
 			);

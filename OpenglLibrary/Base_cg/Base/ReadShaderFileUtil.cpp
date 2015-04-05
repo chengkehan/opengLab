@@ -39,12 +39,13 @@ bool ShaderFile::readFile(const char *filePath)
     fseek(vpfile, 0, SEEK_END);
     long vpFileSize = ftell(vpfile);
     rewind(vpfile);
-    shaderProgramText = (char*)malloc(sizeof(char) * vpFileSize);
+    shaderProgramText = (char*)malloc(sizeof(char) * vpFileSize + 1);
     if (shaderProgramText == NULL)
     {
         printf("Allocate memory fail for reading file %s.\n", filePath);
         return false;
     }
+    shaderProgramText[sizeof(char) * vpFileSize] = '\0';
     size_t vpFileResult = fread(shaderProgramText, 1, vpFileSize, vpfile);
     if (vpFileResult != vpFileSize)
     {

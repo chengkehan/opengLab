@@ -32,12 +32,15 @@ private:
     
     Vector3* vertices;
     unsigned int numOfVertices;
+    unsigned int numOfVerticesForVBO;
     
     Vector2* uv;
     unsigned int numOfUV;
+    unsigned int numOfUvForVBO;
     
     unsigned short* indices;
     unsigned int numOfIndices;
+    unsigned int numOfIndicesForVBO;
     
     GLuint compactAttributesVBO;
     GLuint compactIndicesVBO;

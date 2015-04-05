@@ -20,7 +20,7 @@ Mesh::Mesh() :
     indices(nullptr), numOfIndices(0),
     compactAttributesVBO(0), compactIndicesVBO(0)
 {
-    
+    // Do nothing
 }
 
 Mesh::~Mesh()
@@ -89,6 +89,10 @@ bool Mesh::upload()
     releaseUV();
     releaseIndices();
     
+    numOfVerticesForVBO = numOfVertices;
+    numOfIndicesForVBO = numOfIndices;
+    numOfUvForVBO = numOfUV;
+    
     return true;
 }
 
@@ -103,14 +107,14 @@ bool Mesh::draw()
     glVertexAttribPointer(ATTRIBUTE_BINDING_LOCATION_POSITION, 3/*xyz*/, GL_FLOAT, GL_FALSE, 0, reinterpret_cast<const GLvoid*>(0));
     glEnableVertexAttribArray(ATTRIBUTE_BINDING_LOCATION_POSITION);
     
-    if (numOfUV > 0)
+    if (numOfUvForVBO > 0)
     {
-        glVertexAttribPointer(ATTRIBUTE_BINDING_LOCATION_TEXTURE0, 2/*xy*/, GL_FLOAT, GL_FALSE, 0, reinterpret_cast<const GLvoid*>(sizeof(Vector3) * numOfVertices));
+        glVertexAttribPointer(ATTRIBUTE_BINDING_LOCATION_TEXTURE0, 2/*xy*/, GL_FLOAT, GL_FALSE, 0, reinterpret_cast<const GLvoid*>(sizeof(Vector3) * numOfVerticesForVBO));
         glEnableVertexAttribArray(ATTRIBUTE_BINDING_LOCATION_TEXTURE0);
     }
     
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, compactIndicesVBO);
-    glDrawElements(GL_TRIANGLES, numOfIndices, GL_UNSIGNED_SHORT, nullptr);
+    glDrawElements(GL_TRIANGLES, numOfIndicesForVBO, GL_UNSIGNED_SHORT, nullptr);
     
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
