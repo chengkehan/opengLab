@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		325D3E3E1AD2815000CB6DF5 /* libfbxsdk.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 325D3E3D1AD2815000CB6DF5 /* libfbxsdk.dylib */; };
+		325D3E3F1AD2817600CB6DF5 /* libfbxsdk.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 325D3E3D1AD2815000CB6DF5 /* libfbxsdk.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		325D3E481AD2818E00CB6DF5 /* AnimationUtility.cxx in Sources */ = {isa = PBXBuildFile; fileRef = 325D3E411AD2818E00CB6DF5 /* AnimationUtility.cxx */; };
+		325D3E491AD2818E00CB6DF5 /* Common.cxx in Sources */ = {isa = PBXBuildFile; fileRef = 325D3E441AD2818E00CB6DF5 /* Common.cxx */; };
+		325D3E4A1AD2818E00CB6DF5 /* GeometryUtility.cxx in Sources */ = {isa = PBXBuildFile; fileRef = 325D3E461AD2818E00CB6DF5 /* GeometryUtility.cxx */; };
 		326B718C1AB45A46006C80FA /* FileReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 326B718A1AB45A46006C80FA /* FileReader.cpp */; };
 		326B718F1AB45A6D006C80FA /* ShaderManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 326B718D1AB45A6D006C80FA /* ShaderManager.cpp */; };
 		326B71921AB45AB0006C80FA /* Shader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 326B71901AB45AB0006C80FA /* Shader.cpp */; };
@@ -19,23 +24,31 @@
 		32B7B6731A8655A3004A3DE9 /* libGLTools.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 32B7B6721A8655A3004A3DE9 /* libGLTools.a */; };
 		32B7B6871A86597B004A3DE9 /* GLTools.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 32B7B6861A86597B004A3DE9 /* GLTools.cpp */; };
 		32B9EC161AD0D99A00B06F9F /* Mesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 32B9EC141AD0D99A00B06F9F /* Mesh.cpp */; };
+		32B9EC281AD197E200B06F9F /* FbxModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 32B9EC261AD197E200B06F9F /* FbxModel.cpp */; };
+		32D5C1C81AD2CA8300B4CEDC /* BetterList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 32D5C1C61AD2CA8300B4CEDC /* BetterList.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		32B7B6621A86551F004A3DE9 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1/;
-			dstSubfolderSpec = 0;
+			buildActionMask = 12;
+			dstPath = "";
+			dstSubfolderSpec = 6;
 			files = (
+				325D3E3F1AD2817600CB6DF5 /* libfbxsdk.dylib in CopyFiles */,
 			);
-			runOnlyForDeploymentPostprocessing = 1;
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		323E26D91AB71C9B005DDFB3 /* identity_color_texture.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = identity_color_texture.vsh; sourceTree = "<group>"; };
 		323E26DA1AB71D33005DDFB3 /* identity_color_texture.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = identity_color_texture.fsh; sourceTree = "<group>"; };
+		325D3E3D1AD2815000CB6DF5 /* libfbxsdk.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libfbxsdk.dylib; path = "../../../../../Applications/Autodesk/FBX SDK/2015.1/lib/clang/debug/libfbxsdk.dylib"; sourceTree = "<group>"; };
+		325D3E411AD2818E00CB6DF5 /* AnimationUtility.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AnimationUtility.cxx; sourceTree = "<group>"; };
+		325D3E431AD2818E00CB6DF5 /* carb.r */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.rez; path = carb.r; sourceTree = "<group>"; };
+		325D3E441AD2818E00CB6DF5 /* Common.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Common.cxx; sourceTree = "<group>"; };
+		325D3E461AD2818E00CB6DF5 /* GeometryUtility.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GeometryUtility.cxx; sourceTree = "<group>"; };
 		326B718A1AB45A46006C80FA /* FileReader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FileReader.cpp; sourceTree = "<group>"; };
 		326B718B1AB45A46006C80FA /* FileReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileReader.h; sourceTree = "<group>"; };
 		326B718D1AB45A6D006C80FA /* ShaderManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ShaderManager.cpp; sourceTree = "<group>"; };
@@ -68,6 +81,11 @@
 		32B9EC191AD1048000B06F9F /* identity_texture.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = identity_texture.fsh; sourceTree = "<group>"; };
 		32B9EC241AD159C300B06F9F /* mvp_texture.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = mvp_texture.vsh; sourceTree = "<group>"; };
 		32B9EC251AD159D800B06F9F /* mvp_texture.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = mvp_texture.fsh; sourceTree = "<group>"; };
+		32B9EC261AD197E200B06F9F /* FbxModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FbxModel.cpp; sourceTree = "<group>"; };
+		32B9EC271AD197E200B06F9F /* FbxModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FbxModel.h; sourceTree = "<group>"; };
+		32D5C1C41AD2B4E300B4CEDC /* FbxModelSubMesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FbxModelSubMesh.h; sourceTree = "<group>"; };
+		32D5C1C61AD2CA8300B4CEDC /* BetterList.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BetterList.cpp; sourceTree = "<group>"; };
+		32D5C1C71AD2CA8300B4CEDC /* BetterList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BetterList.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,6 +93,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				325D3E3E1AD2815000CB6DF5 /* libfbxsdk.dylib in Frameworks */,
 				32B7B6731A8655A3004A3DE9 /* libGLTools.a in Frameworks */,
 				32B7B6711A86558B004A3DE9 /* OpenGL.framework in Frameworks */,
 				32B7B66F1A865586004A3DE9 /* GLUT.framework in Frameworks */,
@@ -84,9 +103,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		325D3E401AD2818E00CB6DF5 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				325D3E411AD2818E00CB6DF5 /* AnimationUtility.cxx */,
+				325D3E431AD2818E00CB6DF5 /* carb.r */,
+				325D3E441AD2818E00CB6DF5 /* Common.cxx */,
+				325D3E461AD2818E00CB6DF5 /* GeometryUtility.cxx */,
+			);
+			name = Common;
+			path = "../../../../../Applications/Autodesk/FBX SDK/2015.1/samples/Common";
+			sourceTree = "<group>";
+		};
 		32B7B65B1A86551E004A3DE9 = {
 			isa = PBXGroup;
 			children = (
+				325D3E401AD2818E00CB6DF5 /* Common */,
+				325D3E3D1AD2815000CB6DF5 /* libfbxsdk.dylib */,
 				32B7B6721A8655A3004A3DE9 /* libGLTools.a */,
 				32B7B6701A86558B004A3DE9 /* OpenGL.framework */,
 				32B7B66E1A865586004A3DE9 /* GLUT.framework */,
@@ -136,6 +169,11 @@
 				32B9EC251AD159D800B06F9F /* mvp_texture.fsh */,
 				32B9EC141AD0D99A00B06F9F /* Mesh.cpp */,
 				32B9EC151AD0D99A00B06F9F /* Mesh.h */,
+				32B9EC261AD197E200B06F9F /* FbxModel.cpp */,
+				32B9EC271AD197E200B06F9F /* FbxModel.h */,
+				32D5C1C41AD2B4E300B4CEDC /* FbxModelSubMesh.h */,
+				32D5C1C61AD2CA8300B4CEDC /* BetterList.cpp */,
+				32D5C1C71AD2CA8300B4CEDC /* BetterList.h */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -197,11 +235,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				32B9EC161AD0D99A00B06F9F /* Mesh.cpp in Sources */,
+				32B9EC281AD197E200B06F9F /* FbxModel.cpp in Sources */,
 				326B718F1AB45A6D006C80FA /* ShaderManager.cpp in Sources */,
 				3276656B1AB576B9001541F8 /* Vector2.cpp in Sources */,
+				325D3E481AD2818E00CB6DF5 /* AnimationUtility.cxx in Sources */,
+				325D3E4A1AD2818E00CB6DF5 /* GeometryUtility.cxx in Sources */,
 				32B7B6871A86597B004A3DE9 /* GLTools.cpp in Sources */,
 				3276656D1AB576B9001541F8 /* Vector4.cpp in Sources */,
 				326B718C1AB45A46006C80FA /* FileReader.cpp in Sources */,
+				32D5C1C81AD2CA8300B4CEDC /* BetterList.cpp in Sources */,
+				325D3E491AD2818E00CB6DF5 /* Common.cxx in Sources */,
 				3276656C1AB576B9001541F8 /* Vector3.cpp in Sources */,
 				32B7B6681A86551F004A3DE9 /* main.cpp in Sources */,
 				326B71921AB45AB0006C80FA /* Shader.cpp in Sources */,
@@ -292,10 +335,16 @@
 					"$(inherited)",
 					"/Applications/Xcode\\ 2.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include",
 					"/Users/jimCheng/tutorial/OpenglBlueBook5/Src/GLTools/include/**",
+					"/Applications/Autodesk/FBX\\ SDK/2015.1/include",
+					"/Applications/Autodesk/FBX\\ SDK/2015.1/samples/Common",
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/jimCheng/tutorial/OpenglSuperBible5/trunk/XCode/GLTools,
+					/Applications/Autodesk/FBX,
+					SDK/2015.1/lib/clang/debug,
+					"$(SYSTEM_APPS_DIR)/Autodesk/FBX",
+					SDK/2015.1/lib/clang/debug,
 				);
 				PRODUCT_NAME = FbxMesh;
 			};
@@ -308,10 +357,16 @@
 					"$(inherited)",
 					"/Applications/Xcode\\ 2.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include",
 					"/Users/jimCheng/tutorial/OpenglBlueBook5/Src/GLTools/include/**",
+					"/Applications/Autodesk/FBX\\ SDK/2015.1/include",
+					"/Applications/Autodesk/FBX\\ SDK/2015.1/samples/Common",
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/jimCheng/tutorial/OpenglSuperBible5/trunk/XCode/GLTools,
+					/Applications/Autodesk/FBX,
+					SDK/2015.1/lib/clang/debug,
+					"$(SYSTEM_APPS_DIR)/Autodesk/FBX",
+					SDK/2015.1/lib/clang/debug,
 				);
 				PRODUCT_NAME = FbxMesh;
 			};

@@ -27,9 +27,6 @@ public:
     bool draw();
     
 private:
-    Mesh(const Mesh&);
-    const Mesh operator=(const Mesh&);
-    
     Vector3* vertices;
     unsigned int numOfVertices;
     unsigned int numOfVerticesForVBO;
@@ -46,6 +43,9 @@ private:
     GLuint compactIndicesVBO;
     
 private:
+    Mesh(const Mesh&);
+    const Mesh operator=(const Mesh&);
+    
     void releaseVertices();
     void releaseUV();
     void releaseIndices();
