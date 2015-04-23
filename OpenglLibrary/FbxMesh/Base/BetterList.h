@@ -14,6 +14,8 @@ class BetterList
 {
 public:
     BetterList();
+    BetterList(unsigned int capacity);
+    BetterList(unsigned int capacity, bool seekToEnd);
     ~BetterList();
     
     T& operator[](unsigned int index);
@@ -26,6 +28,7 @@ public:
     bool remove(T item);
     bool removeAt(unsigned int index);
     T pop();
+    unsigned int length();
     
 private:
     T* buffer;
@@ -37,6 +40,7 @@ private:
     const BetterList<T> operator=(const BetterList<T>&);
     
     bool AllocateMore();
+    bool InitAllocate(unsigned int capacity);
     void releaseBuffer();
     unsigned int max(unsigned int a, unsigned int b);
 };

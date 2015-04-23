@@ -11,6 +11,7 @@
 
 #include "fbxsdk.h"
 #include "FbxModelSubMesh.h"
+#include "BetterList.cpp"
 
 class FbxModel
 {
@@ -19,19 +20,11 @@ public:
     ~FbxModel();
     
     bool readFbxFromFile(const char* fbxFilePath);
-    
-    const Vector3* getVertices();
-    unsigned int getNumVertices();
-    
-    const Vector2* getUV();
-    unsigned int getNumUV();
-    
-    const Vector3* getNormals();
-    unsigned int getNumNormals();
+    unsigned int numSubMeshes();
+    FbxModelSubMesh* getSubMesh(unsigned int index);
     
 private:
-    FbxModelSubMesh* subMeshes;
-    unsigned int numSubMeshes;
+    BetterList<FbxModelSubMesh*> subMeshes;
     
 private:
     FbxModel(const FbxModel&);
@@ -39,10 +32,9 @@ private:
     
     void processFbxNode(FbxNode* fbxNode);
     void processFbxMesh(FbxNode* fbxNode);
-    void processVertexPosition(FbxMesh* fbxMesh);
-    void processPolygon(FbxMesh* fbxMesh);
     
     void release();
+    void releaseSubMeshes();
 };
 
 #endif /* defined(__FbxMesh__FbxModel__) */

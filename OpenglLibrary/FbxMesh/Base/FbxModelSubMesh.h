@@ -11,21 +11,28 @@
 
 #include "Vector3.h"
 #include "Vector2.h"
+#include "BetterList.cpp"
 
-struct FbxModelSubMesh
+class FbxModelSubMesh
 {
 public:
-    Vector3* vertices;
-    unsigned int numVertices;
+    BetterList<Vector3>* vertices;
     
-    Vector2* uv;
-    unsigned int numUV;
+    BetterList<Vector2>* uv;
     
-    Vector3* normals;
-    unsigned int numNormals;
+    BetterList<Vector3>* normals;
     
-    unsigned short* indices;
-    unsigned int numIndices;
+    BetterList<unsigned short>* indices;
+    
+public:
+    FbxModelSubMesh();
+    ~FbxModelSubMesh();
+    
+private:
+    FbxModelSubMesh(const FbxModelSubMesh&);
+    FbxModelSubMesh operator=(const FbxModelSubMesh&);
+    
+    void release();
 };
 
 #endif /* defined(__FbxMesh__FbxModelSubMesh__) */

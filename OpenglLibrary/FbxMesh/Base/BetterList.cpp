@@ -8,6 +8,9 @@
 
 #include "BetterList.h"
 
+#ifndef __FbxMesh__BetterList__CPP__
+#define __FbxMesh__BetterList__CPP__
+
 /* PUBLIC */
 
 template<class T>
@@ -15,6 +18,24 @@ BetterList<T>::BetterList() :
     buffer(nullptr), bufferSize(0), size(0)
 {
     // Do nothing
+}
+
+template<class T>
+BetterList<T>::BetterList(unsigned int capacity) :
+    buffer(nullptr), bufferSize(0), size(0)
+{
+    InitAllocate(capacity);
+}
+
+template<class T>
+BetterList<T>::BetterList(unsigned int capacity, bool seekToEnd) :
+    buffer(nullptr), bufferSize(0), size(0)
+{
+    InitAllocate(capacity);
+    if (seekToEnd)
+    {
+        size = capacity;
+    }
 }
 
 template<class T>
@@ -28,7 +49,7 @@ T& BetterList<T>::operator[](unsigned int index)
 {
     if (index >= size)
     {
-        return nullptr;
+        throw "IndexOutOfBoundsException";
     }
     return buffer[index];
 }
@@ -149,7 +170,13 @@ T BetterList<T>::pop()
     {
         return buffer[--size];
     }
-    return nullptr;
+    throw "Better list is empty, nothing pop";
+}
+
+template<class T>
+unsigned int BetterList<T>::length()
+{
+    return size;
 }
 
 /* PRIVATE */
@@ -171,6 +198,23 @@ bool BetterList<T>::AllocateMore()
 }
 
 template<class T>
+bool BetterList<T>::InitAllocate(unsigned int capacity)
+{
+    if (capacity == 0)
+    {
+        return false;
+    }
+    
+    buffer = new T[capacity];
+    if (buffer == nullptr)
+    {
+        return false;
+    }
+    bufferSize = capacity;
+    return true;
+}
+
+template<class T>
 void BetterList<T>::releaseBuffer()
 {
     if (buffer != nullptr)
@@ -186,3 +230,5 @@ unsigned int BetterList<T>::max(unsigned int a, unsigned int b)
 {
     return a > b ? a : b;
 }
+
+#endif /* defined(__FbxMesh__BetterList__CPP__) */
