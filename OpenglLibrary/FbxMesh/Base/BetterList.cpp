@@ -179,6 +179,12 @@ unsigned int BetterList<T>::length()
     return size;
 }
 
+template<class T>
+T* BetterList<T>::rawBuffer()
+{
+    return buffer;
+}
+
 /* PRIVATE */
 
 template<class T>

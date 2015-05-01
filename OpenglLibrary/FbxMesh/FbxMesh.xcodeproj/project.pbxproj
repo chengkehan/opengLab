@@ -25,8 +25,8 @@
 		32B7B6871A86597B004A3DE9 /* GLTools.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 32B7B6861A86597B004A3DE9 /* GLTools.cpp */; };
 		32B9EC161AD0D99A00B06F9F /* Mesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 32B9EC141AD0D99A00B06F9F /* Mesh.cpp */; };
 		32B9EC281AD197E200B06F9F /* FbxModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 32B9EC261AD197E200B06F9F /* FbxModel.cpp */; };
+		32BA7BA21AEA8CC5008F63EF /* main_fbx_mesh_test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 32BA7BA11AEA8CC5008F63EF /* main_fbx_mesh_test.cpp */; };
 		32D5C1C81AD2CA8300B4CEDC /* BetterList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 32D5C1C61AD2CA8300B4CEDC /* BetterList.cpp */; };
-		32D5C1CC1AD2E4D900B4CEDC /* main_betterList_test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 32D5C1CB1AD2E4D900B4CEDC /* main_betterList_test.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -84,10 +84,10 @@
 		32B9EC251AD159D800B06F9F /* mvp_texture.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = mvp_texture.fsh; sourceTree = "<group>"; };
 		32B9EC261AD197E200B06F9F /* FbxModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FbxModel.cpp; sourceTree = "<group>"; };
 		32B9EC271AD197E200B06F9F /* FbxModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FbxModel.h; sourceTree = "<group>"; };
+		32BA7BA11AEA8CC5008F63EF /* main_fbx_mesh_test.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main_fbx_mesh_test.cpp; sourceTree = "<group>"; };
 		32D5C1C41AD2B4E300B4CEDC /* FbxModelSubMesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FbxModelSubMesh.h; sourceTree = "<group>"; };
 		32D5C1C61AD2CA8300B4CEDC /* BetterList.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BetterList.cpp; sourceTree = "<group>"; };
 		32D5C1C71AD2CA8300B4CEDC /* BetterList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BetterList.h; sourceTree = "<group>"; };
-		32D5C1CB1AD2E4D900B4CEDC /* main_betterList_test.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main_betterList_test.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -141,16 +141,17 @@
 		32B7B6661A86551F004A3DE9 /* Base */ = {
 			isa = PBXGroup;
 			children = (
+				32BA7BA11AEA8CC5008F63EF /* main_fbx_mesh_test.cpp */,
 				327665651AB576B9001541F8 /* Vector2.cpp */,
 				327665661AB576B9001541F8 /* Vector2.h */,
 				327665671AB576B9001541F8 /* Vector3.cpp */,
 				327665681AB576B9001541F8 /* Vector3.h */,
 				327665691AB576B9001541F8 /* Vector4.cpp */,
 				3276656A1AB576B9001541F8 /* Vector4.h */,
-				327665621AB55FC7001541F8 /* ShaderType.h */,
 				326B718A1AB45A46006C80FA /* FileReader.cpp */,
 				326B718B1AB45A46006C80FA /* FileReader.h */,
 				32B7B6861A86597B004A3DE9 /* GLTools.cpp */,
+				327665621AB55FC7001541F8 /* ShaderType.h */,
 				326B718D1AB45A6D006C80FA /* ShaderManager.cpp */,
 				326B718E1AB45A6D006C80FA /* ShaderManager.h */,
 				326B71901AB45AB0006C80FA /* Shader.cpp */,
@@ -176,7 +177,6 @@
 				3230BC381AE8057F00811736 /* FbxModelSubMesh.cpp */,
 				32D5C1C61AD2CA8300B4CEDC /* BetterList.cpp */,
 				32D5C1C71AD2CA8300B4CEDC /* BetterList.h */,
-				32D5C1CB1AD2E4D900B4CEDC /* main_betterList_test.cpp */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -243,9 +243,9 @@
 				3276656B1AB576B9001541F8 /* Vector2.cpp in Sources */,
 				325D3E481AD2818E00CB6DF5 /* AnimationUtility.cxx in Sources */,
 				325D3E4A1AD2818E00CB6DF5 /* GeometryUtility.cxx in Sources */,
+				32BA7BA21AEA8CC5008F63EF /* main_fbx_mesh_test.cpp in Sources */,
 				32B7B6871A86597B004A3DE9 /* GLTools.cpp in Sources */,
 				3276656D1AB576B9001541F8 /* Vector4.cpp in Sources */,
-				32D5C1CC1AD2E4D900B4CEDC /* main_betterList_test.cpp in Sources */,
 				326B718C1AB45A46006C80FA /* FileReader.cpp in Sources */,
 				32D5C1C81AD2CA8300B4CEDC /* BetterList.cpp in Sources */,
 				325D3E491AD2818E00CB6DF5 /* Common.cxx in Sources */,

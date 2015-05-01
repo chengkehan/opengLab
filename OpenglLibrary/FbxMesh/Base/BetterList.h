@@ -29,6 +29,7 @@ public:
     bool removeAt(unsigned int index);
     T pop();
     unsigned int length();
+    T* rawBuffer();
     
 private:
     T* buffer;
