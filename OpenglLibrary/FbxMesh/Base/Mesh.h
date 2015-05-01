@@ -20,6 +20,7 @@ public:
     ~Mesh();
     
     bool setVertices(const Vector3* vertices, unsigned int count);
+    bool setNormals(const Vector3* normals, unsigned int count);
     bool setUV(const Vector2* uv, unsigned int count);
     bool setIndices(const unsigned short* indices, unsigned int count);
     
@@ -30,6 +31,10 @@ private:
     Vector3* vertices;
     unsigned int numOfVertices;
     unsigned int numOfVerticesForVBO;
+    
+    Vector3* normals;
+    unsigned int numOfNormals;
+    unsigned int numOfNormalsForVBO;
     
     Vector2* uv;
     unsigned int numOfUV;
@@ -47,6 +52,7 @@ private:
     const Mesh operator=(const Mesh&);
     
     void releaseVertices();
+    void releaseNormals();
     void releaseUV();
     void releaseIndices();
     void releaseCompactAttributesVBO();

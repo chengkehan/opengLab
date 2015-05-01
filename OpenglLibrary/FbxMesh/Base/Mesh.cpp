@@ -16,6 +16,7 @@
 
 Mesh::Mesh() :
     vertices(nullptr), numOfVertices(0),
+    normals(nullptr), numOfNormals(0),
     uv(nullptr), numOfUV(0),
     indices(nullptr), numOfIndices(0),
     compactAttributesVBO(0), compactIndicesVBO(0)
@@ -26,6 +27,7 @@ Mesh::Mesh() :
 Mesh::~Mesh()
 {
     releaseVertices();
+    releaseNormals();
     releaseUV();
     releaseIndices();
     releaseCompactAttributesVBO();
@@ -36,6 +38,13 @@ bool Mesh::setVertices(const Vector3 *vertices, unsigned int count)
     releaseVertices();
     numOfVertices = count;
     return copyAttributes(reinterpret_cast<void**>(&this->vertices), vertices, sizeof(Vector3) * count);
+}
+
+bool Mesh::setNormals(const Vector3 *normals, unsigned int count)
+{
+    releaseNormals();
+    numOfNormals = count;
+    return copyAttributes(reinterpret_cast<void**>(&this->normals), normals, sizeof(Vector3) * count);
 }
 
 bool Mesh::setUV(const Vector2 *uv, unsigned count)
@@ -59,7 +68,7 @@ bool Mesh::upload()
         return false;
     }
     
-    char* compactAttributes = static_cast<char*>(malloc(sizeof(Vector3) * numOfVertices + sizeof(Vector2) * numOfUV));
+    char* compactAttributes = static_cast<char*>(malloc(sizeof(Vector3) * numOfVertices + sizeof(Vector3) * numOfNormals + sizeof(Vector2) * numOfUV));
     if (compactAttributes == nullptr)
     {
         return false;
@@ -67,16 +76,21 @@ bool Mesh::upload()
     
     unsigned int ptrOffset = 0;
     memcpy(compactAttributes + ptrOffset, vertices, sizeof(Vector3) * numOfVertices);
+    ptrOffset += sizeof(Vector3) * numOfVertices;
+    if (numOfNormals > 0)
+    {
+        memcpy(compactAttributes + ptrOffset, normals, sizeof(Vector3) * numOfNormals);
+        ptrOffset += sizeof(Vector3) * numOfNormals;
+    }
     if (numOfUV > 0)
     {
-        ptrOffset += sizeof(Vector3) * numOfVertices;
         memcpy(compactAttributes + ptrOffset, uv, sizeof(Vector2) * numOfUV);
     }
     
     releaseCompactAttributesVBO();
     glGenBuffers(1, &compactAttributesVBO);
     glBindBuffer(GL_ARRAY_BUFFER, compactAttributesVBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(Vector3) * numOfVertices + sizeof(Vector2) * numOfVertices, compactAttributes, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(Vector3) * numOfVertices + sizeof(Vector3) * numOfNormals + sizeof(Vector2) * numOfUV, compactAttributes, GL_STATIC_DRAW);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     free(compactAttributes);
     
@@ -86,10 +100,12 @@ bool Mesh::upload()
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     
     releaseVertices();
+    releaseNormals();
     releaseUV();
     releaseIndices();
     
     numOfVerticesForVBO = numOfVertices;
+    numOfNormalsForVBO = numOfNormals;
     numOfIndicesForVBO = numOfIndices;
     numOfUvForVBO = numOfUV;
     
@@ -103,13 +119,22 @@ bool Mesh::draw()
         return false;
     }
     
+    unsigned int ptrOffset = 0;
     glBindBuffer(GL_ARRAY_BUFFER, compactAttributesVBO);
-    glVertexAttribPointer(ATTRIBUTE_BINDING_LOCATION_POSITION, 3/*xyz*/, GL_FLOAT, GL_FALSE, 0, reinterpret_cast<const GLvoid*>(0));
+    glVertexAttribPointer(ATTRIBUTE_BINDING_LOCATION_POSITION, 3/*xyz*/, GL_FLOAT, GL_FALSE, 0, reinterpret_cast<const GLvoid*>(ptrOffset));
     glEnableVertexAttribArray(ATTRIBUTE_BINDING_LOCATION_POSITION);
+    ptrOffset += sizeof(Vector3) * numOfVerticesForVBO;
+    
+    if(numOfNormalsForVBO > 0)
+    {
+        glVertexAttribPointer(ATTRIBUTE_BINDING_LOCATION_NORMAL, 3/*xyz*/, GL_FLOAT, GL_FALSE, 0, reinterpret_cast<const GLvoid*>(ptrOffset));
+        glEnableVertexAttribArray(ATTRIBUTE_BINDING_LOCATION_NORMAL);
+        ptrOffset += sizeof(Vector3) * numOfNormalsForVBO;
+    }
     
     if (numOfUvForVBO > 0)
     {
-        glVertexAttribPointer(ATTRIBUTE_BINDING_LOCATION_TEXTURE0, 2/*xy*/, GL_FLOAT, GL_FALSE, 0, reinterpret_cast<const GLvoid*>(sizeof(Vector3) * numOfVerticesForVBO));
+        glVertexAttribPointer(ATTRIBUTE_BINDING_LOCATION_TEXTURE0, 2/*xy*/, GL_FLOAT, GL_FALSE, 0, reinterpret_cast<const GLvoid*>(ptrOffset));
         glEnableVertexAttribArray(ATTRIBUTE_BINDING_LOCATION_TEXTURE0);
     }
     
@@ -130,6 +155,15 @@ void Mesh::releaseVertices()
     {
         free(vertices);
         vertices = nullptr;
+    }
+}
+
+void Mesh::releaseNormals()
+{
+    if (normals != nullptr)
+    {
+        free(normals);
+        normals = nullptr;
     }
 }
 
