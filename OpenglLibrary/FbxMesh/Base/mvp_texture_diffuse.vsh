@@ -14,5 +14,5 @@ void main()
     texCoord0 = vTexCoord0;
     vec4 normal = vNormal;
     normal.w = 0.0;
-    lightDot = max(dot(normalize(mv * normal).xyz, normalize(vec3(1, 1, 10))), 0.0) * 2.0;
+    lightDot = max(dot(normalize(mv * normal).xyz, normalize(vec3(1, 1, 10))), 0.0) * 2.5;
 }

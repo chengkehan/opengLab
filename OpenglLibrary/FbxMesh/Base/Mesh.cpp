@@ -14,12 +14,14 @@
 
 /* PUBLIC */
 
-Mesh::Mesh() :
-    vertices(nullptr), numOfVertices(0),
-    normals(nullptr), numOfNormals(0),
-    uv(nullptr), numOfUV(0),
-    indices(nullptr), numOfIndices(0),
-    compactAttributesVBO(0), compactIndicesVBO(0)
+Mesh::Mesh(enum MESH_RENDER_TYPE meshRenderType) :
+    vertices(nullptr), numOfVertices(0), numOfVerticesForVBO(0),
+    normals(nullptr), numOfNormals(0), numOfNormalsForVBO(0),
+    uv(nullptr), numOfUV(0), numOfUvForVBO(0),
+    indices(nullptr), numOfIndices(0), numOfIndicesForVBO(0),
+    colors(nullptr), numOfColors(0), numOfColorsForVBO(0),
+    compactAttributesVBO(0), compactIndicesVBO(0),
+    meshRenderType(meshRenderType), lineWidth(1.0f)
 {
     // Do nothing
 }
@@ -30,6 +32,7 @@ Mesh::~Mesh()
     releaseNormals();
     releaseUV();
     releaseIndices();
+    releaseColors();
     releaseCompactAttributesVBO();
 }
 
@@ -54,11 +57,23 @@ bool Mesh::setUV(const Vector2 *uv, unsigned count)
     return copyAttributes(reinterpret_cast<void**>(&this->uv), uv, sizeof(Vector2) * count);
 }
 
+bool Mesh::setColors(const Vector3 *colors, unsigned int count)
+{
+    releaseColors();
+    numOfColors = count;
+    return copyAttributes(reinterpret_cast<void**>(&this->colors), colors, sizeof(Vector3) * count);
+}
+
 bool Mesh::setIndices(const unsigned short *indices, unsigned int count)
 {
     releaseIndices();
     numOfIndices = count;
     return copyAttributes(reinterpret_cast<void**>(&this->indices), indices, sizeof(unsigned short) * count);
+}
+
+void Mesh::setLineWidth(GLfloat lineWidth)
+{
+    this->lineWidth = lineWidth;
 }
 
 bool Mesh::upload()
@@ -68,7 +83,7 @@ bool Mesh::upload()
         return false;
     }
     
-    char* compactAttributes = static_cast<char*>(malloc(sizeof(Vector3) * numOfVertices + sizeof(Vector3) * numOfNormals + sizeof(Vector2) * numOfUV));
+    char* compactAttributes = static_cast<char*>(malloc(sizeof(Vector3) * numOfVertices + sizeof(Vector3) * numOfNormals + sizeof(Vector2) * numOfUV + sizeof(Vector3) * numOfColors));
     if (compactAttributes == nullptr)
     {
         return false;
@@ -85,12 +100,17 @@ bool Mesh::upload()
     if (numOfUV > 0)
     {
         memcpy(compactAttributes + ptrOffset, uv, sizeof(Vector2) * numOfUV);
+        ptrOffset += sizeof(Vector2) * numOfUV;
+    }
+    if (numOfColors > 0)
+    {
+        memcpy(compactAttributes + ptrOffset, colors, sizeof(Vector3) * numOfColors);
     }
     
     releaseCompactAttributesVBO();
     glGenBuffers(1, &compactAttributesVBO);
     glBindBuffer(GL_ARRAY_BUFFER, compactAttributesVBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(Vector3) * numOfVertices + sizeof(Vector3) * numOfNormals + sizeof(Vector2) * numOfUV, compactAttributes, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(Vector3) * numOfVertices + sizeof(Vector3) * numOfNormals + sizeof(Vector2) * numOfUV + sizeof(Vector3) * numOfColors, compactAttributes, GL_STATIC_DRAW);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     free(compactAttributes);
     
@@ -102,12 +122,14 @@ bool Mesh::upload()
     releaseVertices();
     releaseNormals();
     releaseUV();
+    releaseColors();
     releaseIndices();
     
     numOfVerticesForVBO = numOfVertices;
     numOfNormalsForVBO = numOfNormals;
     numOfIndicesForVBO = numOfIndices;
     numOfUvForVBO = numOfUV;
+    numOfColorsForVBO = numOfColors;
     
     return true;
 }
@@ -136,10 +158,25 @@ bool Mesh::draw()
     {
         glVertexAttribPointer(ATTRIBUTE_BINDING_LOCATION_TEXTURE0, 2/*xy*/, GL_FLOAT, GL_FALSE, 0, reinterpret_cast<const GLvoid*>(ptrOffset));
         glEnableVertexAttribArray(ATTRIBUTE_BINDING_LOCATION_TEXTURE0);
+        ptrOffset += sizeof(Vector2) * numOfUvForVBO;
+    }
+    
+    if (numOfColorsForVBO > 0)
+    {
+        glVertexAttribPointer(ATTRIBUTE_BINDING_LOCATION_COLOR, 3/*xyz*/, GL_FLOAT, GL_FALSE, 0, reinterpret_cast<const GLvoid*>(ptrOffset));
+        glEnableVertexAttribArray(ATTRIBUTE_BINDING_LOCATION_COLOR);
     }
     
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, compactIndicesVBO);
-    glDrawElements(GL_TRIANGLES, numOfIndicesForVBO, GL_UNSIGNED_SHORT, nullptr);
+    if (meshRenderType == MESH_RENDER_TYPE_TRIANGLES)
+    {
+        glDrawElements(GL_TRIANGLES, numOfIndicesForVBO, GL_UNSIGNED_SHORT, nullptr);
+    }
+    else
+    {
+        glLineWidth(lineWidth);
+        glDrawElements(GL_LINES, numOfIndicesForVBO, GL_UNSIGNED_SHORT, nullptr);
+    }
     
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
@@ -182,6 +219,15 @@ void Mesh::releaseUV()
     {
         free(uv);
         uv = nullptr;
+    }
+}
+
+void Mesh::releaseColors()
+{
+    if (colors != nullptr)
+    {
+        free(colors);
+        colors = nullptr;
     }
 }
 

@@ -21,8 +21,7 @@
 const char* projectName = "FbxMesh";
 ShaderManager shaderManager;
 
-GLuint texture;
-Mesh mesh(MESH_RENDER_TYPE_TRIANGLES);
+Mesh mesh(MESH_RENDER_TYPE_LINES);
 
 GLGeometryTransform mvpTransform;
 GLMatrixStack mvTransform;
@@ -43,40 +42,29 @@ void SetupRC()
     shaderManager.init(projectName);
     
     {
-        GLint width;
-        GLint height;
-        GLint components;
-        GLenum format;
-        GLbyte* bytes = gltReadTGABits("/Users/jimCheng/resources/snail/DSGSY/DSG/Assets/Object/Act/NPC/34300011/34300011.tga", &width, &height, &components, &format);
-        
-        glGenTextures(1, &texture);
-        glBindTexture(GL_TEXTURE_2D, texture);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-        glTexImage2D(GL_TEXTURE_2D, 0, components, width, height, 0, format, GL_UNSIGNED_BYTE, bytes);
-        glBindTexture(GL_TEXTURE_2D, 0);
-        free(bytes);
-    }
-    
-    {
         cameraFrame.MoveForward(-250.0f);
-        cameraFrame.MoveUp(250.0f);
+        cameraFrame.MoveUp(200.0f);
         cameraFrame.RotateLocalX(float(m3dDegToRad(20.0f)));
         mvpTransform.SetMatrixStacks(mvTransform, pTransform);
         
-        FbxModel fbxModel;
-        bool fbxModelLoaded = fbxModel.readFbxFromFile("/Users/jimCheng/resources/snail/DSGSY/DSG/Assets/Object/Act/NPC/34300011/34300011@TPOSE.FBX");
+        Vector3 vertices[] = {
+            {0.0f, 0.0f, 0.0f}, {100.0f, 0.0f, 0.0f},
+            {0.0f, 0.0f, 0.0f}, {0.0f, 100.0f, 0.0f},
+            {0.0f, 0.0f, 0.0f}, {0.0f, 0.0f, 100.0f}
+        };
+        mesh.setVertices(vertices, 6);
         
-        printf("fbxModelLoaded:%s\n", fbxModelLoaded ? "yes" : "no");
+        Vector3 colors[] = {
+            {1.0f, 0.0f, 0.0f}, {1.0f, 0.0f, 0.0f},
+            {0.0f, 1.0f, 0.0f}, {0.0f, 1.0f, 0.0f},
+            {0.0f, 0.0f, 1.0f}, {0.0f, 0.0f, 1.0f}
+        };
+        mesh.setColors(colors, 6);
         
-        printf("numSubMeshes:%u\n", fbxModel.numSubMeshes());
-        assert(fbxModel.numSubMeshes() == 1);
-        mesh.setVertices(fbxModel.getSubMesh(0)->vertices->rawBuffer(), fbxModel.getSubMesh(0)->vertices->length());
-        mesh.setIndices(fbxModel.getSubMesh(0)->indices->rawBuffer(), fbxModel.getSubMesh(0)->indices->length());
-        mesh.setUV(fbxModel.getSubMesh(0)->uv->rawBuffer(), fbxModel.getSubMesh(0)->uv->length());
-        mesh.setNormals(fbxModel.getSubMesh(0)->normals->rawBuffer(), fbxModel.getSubMesh(0)->normals->length());
+        unsigned short indices[] = {0, 1, 2, 3, 4, 5};
+        mesh.setIndices(indices, 6);
+        
+        mesh.setLineWidth(2.0f);
         mesh.upload();
     }
     
@@ -88,7 +76,7 @@ void SetupRC()
 
 void ReleaseRC()
 {
-    glDeleteTextures(1, &texture);
+    
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -115,9 +103,8 @@ void drawTriangleWithVertexArray_ArrayOfCompactVertexBufferObject()
     modelTransform.SetForwardVector(forward);
     modelTransform.SetUpVector(up);
     static float rotation = 0.0f;
-    modelTransform.RotateLocalX(-1.57f);
-    modelTransform.RotateLocalZ(rotation);
-    rotation += 0.02f;
+    modelTransform.RotateLocalY(rotation);
+    rotation += 0.005f;
     M3DMatrix44f mModel;
     modelTransform.GetMatrix(mModel);
     
@@ -127,10 +114,8 @@ void drawTriangleWithVertexArray_ArrayOfCompactVertexBufferObject()
     mvTransform.MultMatrix(mCamera);
     mvTransform.MultMatrix(mModel);
     
-    shaderManager.shader(SHADER_TYPE_MVP_TEXTURE_DIFFUSE)->setTexture("texUnit", texture, 0);
-    shaderManager.shader(SHADER_TYPE_MVP_TEXTURE_DIFFUSE)->setFloat4x4("mvp", mvpTransform.GetModelViewProjectionMatrix());
-    shaderManager.shader(SHADER_TYPE_MVP_TEXTURE_DIFFUSE)->setFloat4x4("mv", mvTransform.GetMatrix());
-    shaderManager.shader(SHADER_TYPE_MVP_TEXTURE_DIFFUSE)->enable();
+    shaderManager.shader(SHADER_TYPE_MVP_COLOR)->setFloat4x4("mvp", mvpTransform.GetModelViewProjectionMatrix());
+    shaderManager.shader(SHADER_TYPE_MVP_COLOR)->enable();
     
     mesh.draw();
     

@@ -6,5 +6,6 @@ uniform sampler2D texUnit;
 void main()
 {
     vec4 c = texture2D(texUnit, texCoord0);
-    gl_FragColor = c * lightDot;
+    c.rgb *= lightDot;
+    gl_FragColor = c;
 }
