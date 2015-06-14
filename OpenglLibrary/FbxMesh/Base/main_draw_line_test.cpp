@@ -16,8 +16,7 @@
 #include <GLGeometryTransform.h>
 #include "FbxModel.h"
 #include <assert.h>
-//#include "FbxAnimation.h"
-#include "FbxSkeletons.h"
+#include "FbxAnimation.h"
 
 const char* projectName = "FbxMesh";
 ShaderManager shaderManager;
@@ -41,15 +40,6 @@ void SetupRC()
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     
     shaderManager.init(projectName);
-    
-    {
-        //FbxAnimation fbxAnimation;
-        //fbxAnimation.loadFbxFromFile("/Users/jimCheng/resources/snail/DSGSY/DSG/Assets/Object/Act/NPC/34300011/34300011@idle.FBX");
-        
-        FbxSkeletons fbxSkeletons;
-        fbxSkeletons.parseFromFile("/Users/jimCheng/resources/snail/DSGSY/DSG/Assets/Object/Act/NPC/34300011/34300011@idle.FBX");
-        fbxSkeletons.printTreeStruct();
-    }
     
     {
         cameraFrame.MoveForward(-250.0f);

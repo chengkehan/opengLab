@@ -28,7 +28,7 @@ private:
     
 private:
     FbxModel(const FbxModel&);
-    const FbxModel operator=(const FbxModel&);
+    FbxModel operator=(const FbxModel&);
     
     void processFbxNode(FbxNode* fbxNode);
     void processFbxMesh(FbxNode* fbxNode);

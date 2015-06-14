@@ -21,7 +21,9 @@ public:
     
 private:
     FbxAnimation(const FbxAnimation&);
-    const FbxAnimation operator=(const FbxAnimation&);
+    FbxAnimation operator=(const FbxAnimation&);
+    
+    void processFbxNode(FbxNode* fbxNode);
 };
 
 #endif /* defined(__FbxMesh__FbxAnimation__) */

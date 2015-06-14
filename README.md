@@ -1,2 +1,2 @@
-# opengLib
-A code lib of opengl
+# opengLab
+A code lab of opengl
