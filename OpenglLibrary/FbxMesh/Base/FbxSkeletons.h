@@ -31,8 +31,11 @@ private:
     FbxBone bones[150];
     unsigned int numBones;
     
-    void processFbxNode(FbxNode *fbxNode, int parentIndex);
+    void processSkeleton(FbxNode *fbxNode, int parentIndex);
+    void processMesh(FbxNode* fbxNode);
+    void processGeometry(FbxGeometry* fbxGeometry);
     void printTreeStructRecursively(FbxBone* bone, unsigned int indent);
+    FbxBone* getBone(const char* boneName);
 };
 
 #endif /* defined(__FbxMesh__FbxSkeleton__) */

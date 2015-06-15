@@ -45,12 +45,19 @@ bool FbxSkeletons::parseFromFile(const char *fbxFilePath)
         FbxNode* fbxNode = fbxScene->GetRootNode();
         if (fbxNode != nullptr)
         {
-            for (int i = 0; i < fbxNode->GetChildCount(); ++i)
+            int numChildren = fbxNode->GetChildCount();
+            
+            for (int i = 0; i < numChildren; ++i)
             {
-                processFbxNode(fbxNode->GetChild(i), -1);
+                processSkeleton(fbxNode->GetChild(i), -1);
             }
+            
+            for (int i = 0; i < numChildren; ++i)
+            {
+                processMesh(fbxNode->GetChild(i));
+            }
+
         }
-        
     }
     
     DestroySdkObjects(fbxManager, fbxResult);
@@ -72,7 +79,7 @@ void FbxSkeletons::printTreeStruct()
 
 /* PRIVATE */
 
-void FbxSkeletons::processFbxNode(FbxNode *fbxNode, int parentIndex)
+void FbxSkeletons::processSkeleton(FbxNode *fbxNode, int parentIndex)
 {
     if (fbxNode == nullptr)
     {
@@ -101,7 +108,6 @@ void FbxSkeletons::processFbxNode(FbxNode *fbxNode, int parentIndex)
                             bones[parentIndex].addChild(bone);
                         }
                         ++numBones;
-                        printf("%s\n", fbxNode->GetName());
                     }
                     else
                     {
@@ -120,11 +126,76 @@ void FbxSkeletons::processFbxNode(FbxNode *fbxNode, int parentIndex)
     }
     
     unsigned int numBonesCurrent = numBones;
-    for (int i = 0; i < fbxNode->GetChildCount(); ++i)
+    int numChildren = fbxNode->GetChildCount();
+    for (int i = 0; i < numChildren; ++i)
     {
-        processFbxNode(fbxNode->GetChild(i), numBonesCurrent - 1);
+        processSkeleton(fbxNode->GetChild(i), numBonesCurrent - 1);
+    }
+}
+
+void FbxSkeletons::processMesh(FbxNode *fbxNode)
+{
+    if (fbxNode == nullptr)
+    {
+        return;
+    }
+    
+    if (fbxNode->GetNodeAttribute() == nullptr)
+    {
+        FBXSDK_printf("Null node attribute\n");
+    }
+    else
+    {
+        FbxNodeAttribute::EType fbxNodeAttributeType = fbxNode->GetNodeAttribute()->GetAttributeType();
+        switch (fbxNodeAttributeType)
+        {
+            case FbxNodeAttribute::eMesh :
+            {
+                FbxMesh* mesh = (FbxMesh*)fbxNode->GetNodeAttribute();
+                processGeometry(mesh);
+                break;
+            }
+            default:
+                break;
+        }
+    }
+    
+    int numChildren = fbxNode->GetChildCount();
+    for (int i = 0; i < numChildren; ++i)
+    {
+        processMesh(fbxNode->GetChild(i));
     }
 
+}
+
+void FbxSkeletons::processGeometry(FbxGeometry *fbxGeometry)
+{
+    int skinCount = fbxGeometry->GetDeformerCount(FbxDeformer::eSkin);
+    for (int skinIndex = 0; skinIndex < skinCount; ++skinIndex)
+    {
+        FbxSkin* fbxSkin = (FbxSkin*)fbxGeometry->GetDeformer(skinIndex, FbxDeformer::eSkin);
+        int clusterCount = fbxSkin->GetClusterCount();
+        for (int clusterIndex = 0; clusterIndex < clusterCount; ++clusterIndex)
+        {
+            FbxCluster* cluster = fbxSkin->GetCluster(clusterIndex);
+            const char* boneName = cluster->GetLink()->GetName();
+            FbxBone* bone = getBone(boneName);
+            if(bone == nullptr)
+            {
+                printf("The skin link to a bone, but cannot find the definition of the bone:%s\n", boneName);
+            }
+            else
+            {
+                int numControlPoints = cluster->GetControlPointIndicesCount();
+                int* controlPointIndices = cluster->GetControlPointIndices();
+                double* controlPointWeights = cluster->GetControlPointWeights();
+                for (int controlPointIndex = 0; controlPointIndex < numControlPoints; ++controlPointIndex)
+                {
+                    
+                }
+            }
+        }
+    }
 }
 
 void FbxSkeletons::printTreeStructRecursively(FbxBone* bone, unsigned int indent)
@@ -145,4 +216,32 @@ void FbxSkeletons::printTreeStructRecursively(FbxBone* bone, unsigned int indent
     {
         printTreeStructRecursively(bone->getChild(i), indent + 1);
     }
+}
+
+FbxBone* FbxSkeletons::getBone(const char *boneName)
+{
+    for (int i = 0; i < numBones; ++i)
+    {
+        FbxBone* bone = &bones[i];
+        if (bone->getName() == nullptr && boneName == nullptr)
+        {
+            return bone;
+        }
+        else if(bone->getName() == nullptr && boneName != nullptr)
+        {
+            return nullptr;
+        }
+        else if(bone->getName() != nullptr && boneName == nullptr)
+        {
+            return nullptr;
+        }
+        else
+        {
+            if(strcmp(bone->getName(), boneName) == 0)
+            {
+                return bone;
+            }
+        }
+    }
+    return nullptr;
 }
