@@ -27,6 +27,9 @@
 		32B7B6871A86597B004A3DE9 /* GLTools.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 32B7B6861A86597B004A3DE9 /* GLTools.cpp */; };
 		32B9EC161AD0D99A00B06F9F /* Mesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 32B9EC141AD0D99A00B06F9F /* Mesh.cpp */; };
 		32B9EC281AD197E200B06F9F /* FbxModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 32B9EC261AD197E200B06F9F /* FbxModel.cpp */; };
+		32C4922A1B3076860008CDAF /* TinyMemory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 32C492281B3076860008CDAF /* TinyMemory.cpp */; };
+		32C492331B307BD90008CDAF /* Memory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 32C492311B307BD90008CDAF /* Memory.cpp */; };
+		32C492371B307E090008CDAF /* TinyHeap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 32C492351B307E090008CDAF /* TinyHeap.cpp */; };
 		32D022A41B2D7509009498E5 /* FbxBone.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 32D022A21B2D7509009498E5 /* FbxBone.cpp */; };
 		32D022A71B2DA36C009498E5 /* FbxSkeletons.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 32D022A51B2DA36C009498E5 /* FbxSkeletons.cpp */; };
 		32D5C1C81AD2CA8300B4CEDC /* BetterList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 32D5C1C61AD2CA8300B4CEDC /* BetterList.cpp */; };
@@ -93,6 +96,13 @@
 		32B9EC251AD159D800B06F9F /* mvp_texture_diffuse.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = mvp_texture_diffuse.fsh; sourceTree = "<group>"; };
 		32B9EC261AD197E200B06F9F /* FbxModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FbxModel.cpp; sourceTree = "<group>"; };
 		32B9EC271AD197E200B06F9F /* FbxModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FbxModel.h; sourceTree = "<group>"; };
+		32C492281B3076860008CDAF /* TinyMemory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TinyMemory.cpp; sourceTree = "<group>"; };
+		32C492291B3076860008CDAF /* TinyMemory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TinyMemory.h; sourceTree = "<group>"; };
+		32C492311B307BD90008CDAF /* Memory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Memory.cpp; sourceTree = "<group>"; };
+		32C492321B307BD90008CDAF /* Memory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Memory.h; sourceTree = "<group>"; };
+		32C492341B307C4A0008CDAF /* IHeap.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IHeap.h; sourceTree = "<group>"; };
+		32C492351B307E090008CDAF /* TinyHeap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TinyHeap.cpp; sourceTree = "<group>"; };
+		32C492361B307E090008CDAF /* TinyHeap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TinyHeap.h; sourceTree = "<group>"; };
 		32D022A21B2D7509009498E5 /* FbxBone.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FbxBone.cpp; sourceTree = "<group>"; };
 		32D022A31B2D7509009498E5 /* FbxBone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FbxBone.h; sourceTree = "<group>"; };
 		32D022A51B2DA36C009498E5 /* FbxSkeletons.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FbxSkeletons.cpp; sourceTree = "<group>"; };
@@ -153,6 +163,13 @@
 		32B7B6661A86551F004A3DE9 /* Base */ = {
 			isa = PBXGroup;
 			children = (
+				32C492281B3076860008CDAF /* TinyMemory.cpp */,
+				32C492291B3076860008CDAF /* TinyMemory.h */,
+				32C492311B307BD90008CDAF /* Memory.cpp */,
+				32C492321B307BD90008CDAF /* Memory.h */,
+				32C492341B307C4A0008CDAF /* IHeap.h */,
+				32C492351B307E090008CDAF /* TinyHeap.cpp */,
+				32C492361B307E090008CDAF /* TinyHeap.h */,
 				32A9E0371AF6571800A9715B /* main_draw_skeleton_test.cpp */,
 				327665651AB576B9001541F8 /* Vector2.cpp */,
 				327665661AB576B9001541F8 /* Vector2.h */,
@@ -262,14 +279,17 @@
 				32A9E0381AF6571800A9715B /* main_draw_skeleton_test.cpp in Sources */,
 				3222E2BC1AF3871900A01D8C /* FbxAnimation.cpp in Sources */,
 				32B9EC281AD197E200B06F9F /* FbxModel.cpp in Sources */,
+				32C492331B307BD90008CDAF /* Memory.cpp in Sources */,
 				326B718F1AB45A6D006C80FA /* ShaderManager.cpp in Sources */,
 				32D022A41B2D7509009498E5 /* FbxBone.cpp in Sources */,
+				32C4922A1B3076860008CDAF /* TinyMemory.cpp in Sources */,
 				3276656B1AB576B9001541F8 /* Vector2.cpp in Sources */,
 				325D3E481AD2818E00CB6DF5 /* AnimationUtility.cxx in Sources */,
 				325D3E4A1AD2818E00CB6DF5 /* GeometryUtility.cxx in Sources */,
 				32B7B6871A86597B004A3DE9 /* GLTools.cpp in Sources */,
 				3276656D1AB576B9001541F8 /* Vector4.cpp in Sources */,
 				326B718C1AB45A46006C80FA /* FileReader.cpp in Sources */,
+				32C492371B307E090008CDAF /* TinyHeap.cpp in Sources */,
 				32D5C1C81AD2CA8300B4CEDC /* BetterList.cpp in Sources */,
 				32D022A71B2DA36C009498E5 /* FbxSkeletons.cpp in Sources */,
 				325D3E491AD2818E00CB6DF5 /* Common.cxx in Sources */,
