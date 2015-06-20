@@ -27,6 +27,8 @@ namespace jcgame
         unsigned int freeList[100]; // TinyMemory::NUM_CELLS_PER_BLOCK(hard code here)
         // The status of cell, in using(true) or free(false).
         bool states[100]; // TinyMemory::NUM_CELLS_PER_BLOCK(hard code here)
+        // Index of BYTES_LEVELS
+        unsigned int indexOfBytesLevel;
     }
     TinyMemory_Block;
     
@@ -65,13 +67,17 @@ namespace jcgame
         static const unsigned int NUM_LEGAL_ALIGNMENT;
         // The number of cells in one memory block
         static const unsigned int NUM_CELLS_PER_BLOCK;
+        // How many cells of block is enabled.
+        // It must be less than or equal to NUM_CELLS_PER_BLOCK.
+        // The length of this array must be equal to NUM_LEVELS.
+        static const unsigned int ENABLED_CELLS_PER_BLOCK[];
         
     private:
         TinyMemory(const TinyMemory&);
         const TinyMemory& operator=(const TinyMemory&);
         
         // The number of bytes will map to which index of BYTES_LEVELS
-        int getIndexOfLevel(unsigned int numBytes);
+        int getIndexOfBytesLevel(unsigned int numBytes);
         // Get memory block with index of BYTES_LEVELS
         TinyMemory_Block* getBlock(unsigned int indexOfLevel);
         // New memory block
@@ -87,11 +93,11 @@ namespace jcgame
         // Set the cell is in using or free at the index
         void setFreeCell(TinyMemory_Block* block, unsigned index, bool isFree);
         // Print the inner struct of TinyMemory_Block for debug
-        void debugPrintBlock(TinyMemory_Block* block, unsigned int depth, unsigned int indexOfLevel);
+        void debugPrintBlock(TinyMemory_Block* block, unsigned int depth);
         // Print tabs with depth
         void debugPrintTabs(unsigned int depth);
         
-        TinyMemory_Block blocks[10]; // TinyMemory::NUM_LEVELS(hard code here)
+        TinyMemory_Block blocks[18]; // TinyMemory::NUM_LEVELS(hard code here)
         // The alignment of memory address that allocate from this manager
         unsigned char alignment;
     };

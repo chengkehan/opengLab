@@ -8,7 +8,6 @@
 
 #include "BetterListAllocator.h"
 #include <stdlib.h>
-#include <stdio.h>
 
 /* BetterListDefaultAllocator PUBLIC */
 

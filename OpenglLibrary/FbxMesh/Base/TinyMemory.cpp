@@ -15,11 +15,22 @@
 using namespace jcgame;
 
 /* PRIVATE STATIC */
-const unsigned int TinyMemory::BYTES_LEVELS[] = {2, 4, 8, 16, 32, 64, 128, 256, 512, 1024};
-const unsigned int TinyMemory::NUM_LEVELS = 10; // Keep pace with hard code in the header
+const unsigned int TinyMemory::BYTES_LEVELS[] =
+{
+    2,          4,          8,          16,         32,         64,         128,        256,        512,        1024/*1KB*/,
+    2048,       4096,       9216,       18432,      36864,      73728,      147456,     294912,     589824,     1179648/*1.125MB*/,
+    2359296,    4718592,    9437184,    18874368,   37748736/*36MB*/
+};
+const unsigned int TinyMemory::NUM_LEVELS = 18; // Keep pace with hard code in the header
 const unsigned char TinyMemory::LEGAL_ALIGNMENTS[] = {2, 4, 8, 16, 32, 64};
 const unsigned int TinyMemory::NUM_LEGAL_ALIGNMENT = 6;
 const unsigned int TinyMemory::NUM_CELLS_PER_BLOCK = 100; // Keep pace with hard code in the header
+const unsigned int TinyMemory::ENABLED_CELLS_PER_BLOCK[] =
+{
+    100,        100,        100,        100,        100,        100,        100,        100,        100,        100,
+    100,        100,        50,         50,         30,         15,         10,         5,          2,          1,
+    1,          1,          1,          1,          1
+};
 
 /* PUBLIC */
 
@@ -79,12 +90,12 @@ bool TinyMemory::init(unsigned char alignment, unsigned int reservedBlocks)
     {
         if (reservedBlocks > 0)
         {
-            for (int indexOfLevel = 0; indexOfLevel < TinyMemory::NUM_LEVELS; ++indexOfLevel)
+            for (int indexOfBytesLevel = 0; indexOfBytesLevel < TinyMemory::NUM_LEVELS; ++indexOfBytesLevel)
             {
                 TinyMemory_Block* block = nullptr;
-                for (int reservedBlockIndex; reservedBlockIndex < reservedBlocks; ++reservedBlockIndex)
+                for (int reservedBlockIndex = 0; reservedBlockIndex < reservedBlocks; ++reservedBlockIndex)
                 {
-                    block = this->newBlock(block, indexOfLevel);
+                    block = this->newBlock(block, indexOfBytesLevel);
                     if (block == nullptr)
                     {
                         return false;
@@ -117,13 +128,13 @@ void* TinyMemory::allocateMemory(unsigned int numBytes)
         return nullptr;
     }
     
-    int indexOfLevel = this->getIndexOfLevel(numBytes);
-    if (indexOfLevel == -1)
+    int indexOfBytesLevel = this->getIndexOfBytesLevel(numBytes);
+    if (indexOfBytesLevel == -1)
     {
         return nullptr;
     }
     
-    TinyMemory_Block* block = this->getBlock(indexOfLevel);
+    TinyMemory_Block* block = this->getBlock(indexOfBytesLevel);
     if (block == nullptr)
     {
         return nullptr;
@@ -136,7 +147,7 @@ void* TinyMemory::allocateMemory(unsigned int numBytes)
     assert(isFreeCell(block, freeIndex));
     setFreeCell(block, freeIndex, false);
     
-    char* allocPtr = &block->data[(TinyMemory::BYTES_LEVELS[indexOfLevel] + this->alignment) * freeIndex];
+    char* allocPtr = &block->data[(TinyMemory::BYTES_LEVELS[indexOfBytesLevel] + this->alignment) * freeIndex];
     char* alignedPtr = this->alignMemory(allocPtr);
 
     return alignedPtr;
@@ -150,9 +161,9 @@ void* TinyMemory::allocateZeroMemory(unsigned int numBytes)
         char* offsetPtr = (char*)ptr - 1;
         unsigned char offset = *offsetPtr;
         char* rawPtr = (char*)ptr - offset;
-        int indexOfLevel = this->getIndexOfLevel(numBytes);
-        assert(indexOfLevel != -1);
-        memset(rawPtr, 0, TinyMemory::BYTES_LEVELS[indexOfLevel] + this->alignment);
+        int indexOfBytesLevel = this->getIndexOfBytesLevel(numBytes);
+        assert(indexOfBytesLevel != -1);
+        memset(rawPtr, 0, TinyMemory::BYTES_LEVELS[indexOfBytesLevel] + this->alignment);
         *offsetPtr = offset;
     }
     return ptr;
@@ -238,7 +249,7 @@ void TinyMemory::debugPrint()
 {
     if (!this->isInitialized())
     {
-        printf("TinyMemory was not beed initialized\n");
+        printf("TinyMemory was not been initialized\n");
     }
     else
     {
@@ -246,7 +257,7 @@ void TinyMemory::debugPrint()
         for (int i = 0; i < TinyMemory::NUM_LEVELS; ++i)
         {
             TinyMemory_Block* block = &this->blocks[i];
-            this->debugPrintBlock(block, 1, i);
+            this->debugPrintBlock(block, 1);
         }
         printf("\n");
     }
@@ -254,7 +265,7 @@ void TinyMemory::debugPrint()
 
 /* PRIVATE */
 
-int TinyMemory::getIndexOfLevel(unsigned int numBytes)
+int TinyMemory::getIndexOfBytesLevel(unsigned int numBytes)
 {
     assert(numBytes <= TinyMemory::BYTES_LEVELS[TinyMemory::NUM_LEVELS - 1]);
     
@@ -268,14 +279,14 @@ int TinyMemory::getIndexOfLevel(unsigned int numBytes)
     return -1;
 }
 
-TinyMemory_Block* TinyMemory::getBlock(unsigned int indexOfLevel)
+TinyMemory_Block* TinyMemory::getBlock(unsigned int indexOfBytesLevel)
 {
-    assert(indexOfLevel < TinyMemory::NUM_LEVELS);
+    assert(indexOfBytesLevel < TinyMemory::NUM_LEVELS);
     
-    TinyMemory_Block* block = &this->blocks[indexOfLevel];
+    TinyMemory_Block* block = &this->blocks[indexOfBytesLevel];
     if (block->data == nullptr)
     {
-        if (initBlock(block, indexOfLevel))
+        if (initBlock(block, indexOfBytesLevel))
         {
             return block;
         }
@@ -296,7 +307,7 @@ TinyMemory_Block* TinyMemory::getBlock(unsigned int indexOfLevel)
             {
                 if (block->nextBlock == nullptr)
                 {
-                    return this->newBlock(block, indexOfLevel);
+                    return this->newBlock(block, indexOfBytesLevel);
                 }
                 else
                 {
@@ -308,14 +319,14 @@ TinyMemory_Block* TinyMemory::getBlock(unsigned int indexOfLevel)
     }
 }
 
-TinyMemory_Block* TinyMemory::newBlock(TinyMemory_Block *prevBlock, unsigned int indexOfLevel)
+TinyMemory_Block* TinyMemory::newBlock(TinyMemory_Block *prevBlock, unsigned int indexOfBytesLevel)
 {
-    assert(indexOfLevel < TinyMemory::NUM_LEVELS);
+    assert(indexOfBytesLevel < TinyMemory::NUM_LEVELS);
     assert(prevBlock == nullptr || prevBlock->nextBlock == nullptr);
     
     if (prevBlock == nullptr)
     {
-        return this->getBlock(indexOfLevel);
+        return this->getBlock(indexOfBytesLevel);
     }
     else
     {
@@ -326,7 +337,7 @@ TinyMemory_Block* TinyMemory::newBlock(TinyMemory_Block *prevBlock, unsigned int
         }
         else
         {
-            if (this->initBlock(nextBlock, indexOfLevel))
+            if (this->initBlock(nextBlock, indexOfBytesLevel))
             {
                 prevBlock->nextBlock = nextBlock;
                 return nextBlock;
@@ -340,15 +351,15 @@ TinyMemory_Block* TinyMemory::newBlock(TinyMemory_Block *prevBlock, unsigned int
     }
 }
 
-bool TinyMemory::initBlock(TinyMemory_Block *block, unsigned int indexOfLevel)
+bool TinyMemory::initBlock(TinyMemory_Block *block, unsigned int indexOfBytesLevel)
 {
     assert(block != nullptr);
     assert(block->data == nullptr);
-    assert(indexOfLevel < TinyMemory::NUM_LEVELS);
+    assert(indexOfBytesLevel < TinyMemory::NUM_LEVELS);
     
     memset(block, 0, sizeof(TinyMemory_Block));
     
-    size_t numBytes = (TinyMemory::BYTES_LEVELS[indexOfLevel] + this->alignment) * TinyMemory::NUM_CELLS_PER_BLOCK;
+    size_t numBytes = (TinyMemory::BYTES_LEVELS[indexOfBytesLevel] + this->alignment) * TinyMemory::NUM_CELLS_PER_BLOCK;
     block->data = (char*)malloc(numBytes);
     if (block->data == nullptr)
     {
@@ -357,6 +368,7 @@ bool TinyMemory::initBlock(TinyMemory_Block *block, unsigned int indexOfLevel)
     
     block->tail = block->data + numBytes;
     block->numFreeCells = TinyMemory::NUM_CELLS_PER_BLOCK;
+    block->indexOfBytesLevel = indexOfBytesLevel;
     
     for (int i = 0; i < TinyMemory::NUM_CELLS_PER_BLOCK; ++i)
     {
@@ -411,13 +423,13 @@ void TinyMemory::setFreeCell(TinyMemory_Block *block, unsigned int index, bool i
     block->states[index] = !isFree;
 }
 
-void TinyMemory::debugPrintBlock(TinyMemory_Block *block, unsigned int depth, unsigned int indexOfLevel)
+void TinyMemory::debugPrintBlock(TinyMemory_Block *block, unsigned int depth)
 {
     assert(block != nullptr);
-    assert(indexOfLevel < TinyMemory::NUM_LEVELS);
+    assert(block->indexOfBytesLevel < TinyMemory::NUM_LEVELS);
     
     this->debugPrintTabs(depth);
-    printf("Block %d:", TinyMemory::BYTES_LEVELS[indexOfLevel]);
+    printf("Block %d:", TinyMemory::BYTES_LEVELS[block->indexOfBytesLevel]);
     if (block->data == nullptr)
     {
         printf("Not initialized");
@@ -434,7 +446,7 @@ void TinyMemory::debugPrintBlock(TinyMemory_Block *block, unsigned int depth, un
     
     if (block->nextBlock)
     {
-        this->debugPrintBlock(block->nextBlock, depth + 1, indexOfLevel);
+        this->debugPrintBlock(block->nextBlock, depth + 1);
     }
 }
 
