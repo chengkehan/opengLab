@@ -97,7 +97,7 @@ namespace jcgame
         // Print tabs with depth
         void debugPrintTabs(unsigned int depth);
         
-        TinyMemory_Block blocks[18]; // TinyMemory::NUM_LEVELS(hard code here)
+        TinyMemory_Block blocks[25]; // TinyMemory::NUM_LEVELS(hard code here)
         // The alignment of memory address that allocate from this manager
         unsigned char alignment;
     };

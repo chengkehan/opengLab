@@ -21,7 +21,7 @@ const unsigned int TinyMemory::BYTES_LEVELS[] =
     2048,       4096,       9216,       18432,      36864,      73728,      147456,     294912,     589824,     1179648/*1.125MB*/,
     2359296,    4718592,    9437184,    18874368,   37748736/*36MB*/
 };
-const unsigned int TinyMemory::NUM_LEVELS = 18; // Keep pace with hard code in the header
+const unsigned int TinyMemory::NUM_LEVELS = 25; // Keep pace with hard code in the header
 const unsigned char TinyMemory::LEGAL_ALIGNMENTS[] = {2, 4, 8, 16, 32, 64};
 const unsigned int TinyMemory::NUM_LEGAL_ALIGNMENT = 6;
 const unsigned int TinyMemory::NUM_CELLS_PER_BLOCK = 100; // Keep pace with hard code in the header
@@ -232,7 +232,7 @@ void TinyMemory::cleanup()
         {
             if (block->data != nullptr)
             {
-                if (block->numFreeCells == TinyMemory::NUM_CELLS_PER_BLOCK)
+                if (block->numFreeCells == TinyMemory::ENABLED_CELLS_PER_BLOCK[block->indexOfBytesLevel])
                 {
                     TinyMemory_Block* nextBlock = block->nextBlock;
                     free(block->data);
@@ -359,7 +359,7 @@ bool TinyMemory::initBlock(TinyMemory_Block *block, unsigned int indexOfBytesLev
     
     memset(block, 0, sizeof(TinyMemory_Block));
     
-    size_t numBytes = (TinyMemory::BYTES_LEVELS[indexOfBytesLevel] + this->alignment) * TinyMemory::NUM_CELLS_PER_BLOCK;
+    size_t numBytes = (TinyMemory::BYTES_LEVELS[indexOfBytesLevel] + this->alignment) * TinyMemory::ENABLED_CELLS_PER_BLOCK[indexOfBytesLevel];
     block->data = (char*)malloc(numBytes);
     if (block->data == nullptr)
     {
@@ -367,10 +367,10 @@ bool TinyMemory::initBlock(TinyMemory_Block *block, unsigned int indexOfBytesLev
     }
     
     block->tail = block->data + numBytes;
-    block->numFreeCells = TinyMemory::NUM_CELLS_PER_BLOCK;
+    block->numFreeCells = TinyMemory::ENABLED_CELLS_PER_BLOCK[indexOfBytesLevel];
     block->indexOfBytesLevel = indexOfBytesLevel;
     
-    for (int i = 0; i < TinyMemory::NUM_CELLS_PER_BLOCK; ++i)
+    for (int i = 0; i < block->numFreeCells; ++i)
     {
         block->freeList[i] = i;
         block->states[i] = false;
@@ -408,7 +408,7 @@ bool TinyMemory::isLegalAlignment(unsigned char alignment)
 bool TinyMemory::isFreeCell(TinyMemory_Block *block, unsigned int index)
 {
     assert(block != nullptr);
-    assert(index < TinyMemory::NUM_CELLS_PER_BLOCK);
+    assert(index < TinyMemory::ENABLED_CELLS_PER_BLOCK[block->indexOfBytesLevel]);
     assert(block->data != nullptr);
     
     return !block->states[index];
@@ -417,7 +417,7 @@ bool TinyMemory::isFreeCell(TinyMemory_Block *block, unsigned int index)
 void TinyMemory::setFreeCell(TinyMemory_Block *block, unsigned int index, bool isFree)
 {
     assert(block != nullptr);
-    assert(index < TinyMemory::NUM_CELLS_PER_BLOCK);
+    assert(index < TinyMemory::ENABLED_CELLS_PER_BLOCK[block->indexOfBytesLevel]);
     assert(block->data != nullptr);
     
     block->states[index] = !isFree;
@@ -429,7 +429,7 @@ void TinyMemory::debugPrintBlock(TinyMemory_Block *block, unsigned int depth)
     assert(block->indexOfBytesLevel < TinyMemory::NUM_LEVELS);
     
     this->debugPrintTabs(depth);
-    printf("Block %d:", TinyMemory::BYTES_LEVELS[block->indexOfBytesLevel]);
+    printf("Block %d %d:", TinyMemory::BYTES_LEVELS[block->indexOfBytesLevel], TinyMemory::ENABLED_CELLS_PER_BLOCK[block->indexOfBytesLevel]);
     if (block->data == nullptr)
     {
         printf("Not initialized");
