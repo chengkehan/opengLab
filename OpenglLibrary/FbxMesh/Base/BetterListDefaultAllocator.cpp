@@ -1,16 +1,15 @@
 //
-//  BetterListAllocator.cpp
+//  BetterListDefaultAllocator.cpp
 //  FbxMesh
 //
-//  Created by jimCheng on 15/6/17.
+//  Created by jimCheng on 15/6/20.
 //  Copyright (c) 2015年 JimCheng. All rights reserved.
 //
 
-#include "BetterListAllocator.h"
+#include "BetterListDefaultAllocator.h"
 #include <stdlib.h>
 
-/* BetterListDefaultAllocator PUBLIC */
-
+/* PUBLIC */
 BetterListDefaultAllocator::BetterListDefaultAllocator()
 {
     
@@ -32,4 +31,4 @@ bool BetterListDefaultAllocator::release(void *ptr)
     return true;
 }
 
-/* BetterListDefaultAllocator PRIVATE */
+/* PRIVATE */

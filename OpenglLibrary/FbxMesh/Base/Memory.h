@@ -9,15 +9,21 @@
 #ifndef __FbxMesh__Memory__
 #define __FbxMesh__Memory__
 
+#include <iostream>
 #include "TinyHeap.h"
 
 class Memory
 {
 public:
-    static IHeap* heap();
+    static Heap* heap();
     
 private:
-    static IHeap* s_heap;
+    static Heap* s_heap;
 };
+
+#define Memory_NewHeapObject(ptr, T, ...) ptr = Memory::heap()->allocateMemory(sizeof(T)); \
+                                    new (ptr)T(__VA_ARGS__);
+
+#define Memory_DeleteHeapObject(ptr) Memory::heap()->freeMemory(ptr);
 
 #endif /* defined(__FbxMesh__Memory__) */

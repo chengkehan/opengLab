@@ -9,7 +9,7 @@
 #ifndef FbxMesh_IHeap_h
 #define FbxMesh_IHeap_h
 
-class IHeap
+class Heap
 {
 public:
     virtual void* allocateMemory(unsigned int numBytes) = 0;

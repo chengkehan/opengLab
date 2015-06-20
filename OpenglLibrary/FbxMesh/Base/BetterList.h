@@ -32,14 +32,14 @@ public:
     T pop();
     unsigned int length();
     T* rawBuffer();
-    IBetterListAllocator* getAllocator();
-    bool setAllocator(IBetterListAllocator* allocator);
+    BetterListAllocator* getAllocator();
+    bool setAllocator(BetterListAllocator* allocator);
     
 private:
     T* buffer;
     unsigned int bufferSize;
     unsigned int size;
-    IBetterListAllocator* allocator;
+    BetterListAllocator* allocator;
     
 private:
     BetterList<T>(const BetterList<T>&);
@@ -49,7 +49,7 @@ private:
     bool InitAllocate(unsigned int capacity);
     void releaseBuffer();
     unsigned int max(unsigned int a, unsigned int b);
-    IBetterListAllocator* currentAllocator();
+    BetterListAllocator* currentAllocator();
 };
 
 #endif /* defined(__FbxMesh__BetterList__) */

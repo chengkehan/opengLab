@@ -10,9 +10,9 @@
 
 /* STATIC */
 
-IHeap* Memory::s_heap = nullptr;
+Heap* Memory::s_heap = nullptr;
 
-IHeap* Memory::heap()
+Heap* Memory::heap()
 {
     if (s_heap == nullptr)
     {

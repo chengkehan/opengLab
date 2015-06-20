@@ -8,6 +8,7 @@
 
 #include "BetterList.h"
 #include <assert.h>
+#include "BetterListDefaultAllocator.h"
 
 #ifndef __FbxMesh__BetterList__CPP__
 #define __FbxMesh__BetterList__CPP__
@@ -189,13 +190,13 @@ T* BetterList<T>::rawBuffer()
 }
 
 template<class T>
-IBetterListAllocator* BetterList<T>::getAllocator()
+BetterListAllocator* BetterList<T>::getAllocator()
 {
     return allocator;
 }
 
 template<class T>
-bool BetterList<T>::setAllocator(IBetterListAllocator *allocator)
+bool BetterList<T>::setAllocator(BetterListAllocator *allocator)
 {
     this->allocator = allocator;
 }
@@ -254,7 +255,7 @@ unsigned int BetterList<T>::max(unsigned int a, unsigned int b)
 }
 
 template<class T>
-IBetterListAllocator* BetterList<T>::currentAllocator()
+BetterListAllocator* BetterList<T>::currentAllocator()
 {
     if(allocator == nullptr)
     {

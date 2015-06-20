@@ -9,25 +9,11 @@
 #ifndef __FbxMesh__BetterListAllocator__
 #define __FbxMesh__BetterListAllocator__
 
-class IBetterListAllocator
+class BetterListAllocator
 {
 public:
     virtual void* allocate(unsigned int numBytes) = 0;
     virtual bool release(void* ptr) = 0;
-};
-
-class BetterListDefaultAllocator : public IBetterListAllocator
-{
-public:
-    BetterListDefaultAllocator();
-    ~BetterListDefaultAllocator();
-
-    virtual void* allocate(unsigned int numBytes);
-    virtual bool release(void* ptr);
-
-private:
-    BetterListDefaultAllocator(const BetterListDefaultAllocator&);
-    BetterListDefaultAllocator& operator=(const BetterListDefaultAllocator&);
 };
 
 #endif /* defined(__FbxMesh__BetterListAllocator__) */

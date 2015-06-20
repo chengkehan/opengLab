@@ -9,10 +9,10 @@
 #ifndef __FbxMesh__TinyHeap__
 #define __FbxMesh__TinyHeap__
 
-#include "IHeap.h"
+#include "Heap.h"
 #include "TinyMemory.h"
 
-class TinyHeap : public IHeap
+class TinyHeap : public Heap
 {
 public:
     TinyHeap();
