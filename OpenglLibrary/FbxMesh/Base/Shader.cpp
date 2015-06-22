@@ -11,6 +11,7 @@
 #include "util.h"
 #include "glHeader.h"
 #include "AttributeBindingLocation.h"
+#include "Memory.h"
 
 /* PUBLIC */
 
@@ -54,10 +55,10 @@ bool Shader::loadShadersFromFile(const char *vertexShaderFile, const char *fragm
         glGetProgramiv(shaderProgram, GL_INFO_LOG_LENGTH, &infoLength);
         if (infoLength > 1)
         {
-            char* info = static_cast<char*>(malloc(sizeof(char) * infoLength));
+            char* info = (char*)Memory::heap()->allocateMemory(sizeof(char) * infoLength);
             glGetProgramInfoLog(shaderProgram, infoLength, nullptr, info);
             printThenExit("Link shader program error:%s. Vertes Shader:%s. Fragment Shader:%s.\n", info, vertexShaderFile, fragmentShaderFile);
-            free(info);
+            Memory::heap()->freeMemory(info);
         }
         release();
         return false;
@@ -171,10 +172,10 @@ GLuint Shader::createShaderFromFile(const char *shaderFile, GLenum shaderType)
         glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &infoLength);
         if (infoLength > 1)
         {
-            char* info = static_cast<char*>(malloc(sizeof(char) * infoLength));
+            char* info = (char*)Memory::heap()->allocateMemory(sizeof(char) * infoLength);
             glGetShaderInfoLog(shader, infoLength, nullptr, info);
             printThenExit("Compile vertex shader error:%s. %s\n", info, shaderFile);
-            free(info);
+            Memory::heap()->freeMemory(info);
         }
         glDeleteShader(shader);
         printThenExit("Compile shader error.\n");

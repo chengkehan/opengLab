@@ -11,6 +11,7 @@
 #include <memory.h>
 #include "FileReader.h"
 #include "util.h"
+#include "Memory.h"
 
 /* PUBLIC */
 
@@ -57,7 +58,7 @@ bool FileReader::read(const char *path)
     rewind(file);
     
     releaseMemory();
-    m_content = (char*)malloc(sizeof(char) * fileSize + 1);
+    m_content = (char*)Memory::heap()->allocateMemory((unsigned int)(sizeof(char) * fileSize + 1));
     
     if (m_content == nullptr)
     {
@@ -88,6 +89,6 @@ const char* FileReader::content()
 
 void FileReader::releaseMemory()
 {
-    delete m_content;
+    Memory::heap()->freeMemory(m_content);
     m_content = nullptr;
 }

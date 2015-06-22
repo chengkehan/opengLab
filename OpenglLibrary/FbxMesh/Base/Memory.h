@@ -15,13 +15,15 @@
 class Memory
 {
 public:
+    Memory();
+    ~Memory();
     static Heap* heap();
     
 private:
     static Heap* s_heap;
 };
 
-#define Memory_NewHeapObject(ptr, T, ...) ptr = Memory::heap()->allocateMemory(sizeof(T)); \
+#define Memory_NewHeapObject(ptr, T, ...) ptr = (T*)Memory::heap()->allocateMemory(sizeof(T)); \
                                     new (ptr)T(__VA_ARGS__);
 
 #define Memory_DeleteHeapObject(ptr) Memory::heap()->freeMemory(ptr);

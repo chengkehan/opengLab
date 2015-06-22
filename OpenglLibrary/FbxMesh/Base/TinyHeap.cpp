@@ -7,6 +7,7 @@
 //
 
 #include "TinyHeap.h"
+#include <stdio.h>
 
 /* PUBLIC */
 
@@ -17,7 +18,7 @@ TinyHeap::TinyHeap()
 
 TinyHeap::~TinyHeap()
 {
-    
+    // Do nothing
 }
 
 void* TinyHeap::allocateMemory(unsigned int numBytes)
@@ -38,6 +39,11 @@ bool TinyHeap::freeMemory(void *ptr)
 void TinyHeap::gc()
 {
     // Do nothing
+}
+
+bool TinyHeap::hasUnreleasedMemory()
+{
+    return tinyMemory.hasUnreleasedMemory();
 }
 
 /* PRIVATE */

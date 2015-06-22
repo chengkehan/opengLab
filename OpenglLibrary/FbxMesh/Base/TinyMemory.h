@@ -55,6 +55,9 @@ namespace jcgame
         void cleanup();
         // Print the inner struct of TinyMemory for debug
         void debugPrint();
+        // Check whether there is any unreleased data remain in memory.
+        // You can use this function to check memory leak while the program exit.
+        bool hasUnreleasedMemory();
         
     private:
         // Define the increment of each block's cell

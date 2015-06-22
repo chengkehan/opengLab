@@ -16,12 +16,13 @@ class TinyHeap : public Heap
 {
 public:
     TinyHeap();
-    ~TinyHeap();
+    virtual ~TinyHeap();
     
     virtual void* allocateMemory(unsigned int numBytes);
     virtual void* allocateZeroMemory(unsigned int numBytes);
     virtual bool freeMemory(void* ptr);
     virtual void gc();
+    virtual bool hasUnreleasedMemory();
     
 private:
     TinyHeap(const TinyHeap&);

@@ -32,6 +32,7 @@
 		32C4922A1B3076860008CDAF /* TinyMemory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 32C492281B3076860008CDAF /* TinyMemory.cpp */; };
 		32C492331B307BD90008CDAF /* Memory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 32C492311B307BD90008CDAF /* Memory.cpp */; };
 		32C492371B307E090008CDAF /* TinyHeap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 32C492351B307E090008CDAF /* TinyHeap.cpp */; };
+		32C4E3471B380D0700CA7700 /* MemoryLeakDetector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 32C4E3451B380D0700CA7700 /* MemoryLeakDetector.cpp */; };
 		32D022A41B2D7509009498E5 /* FbxBone.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 32D022A21B2D7509009498E5 /* FbxBone.cpp */; };
 		32D022A71B2DA36C009498E5 /* FbxSkeletons.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 32D022A51B2DA36C009498E5 /* FbxSkeletons.cpp */; };
 		32D5C1C81AD2CA8300B4CEDC /* BetterList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 32D5C1C61AD2CA8300B4CEDC /* BetterList.cpp */; };
@@ -110,6 +111,8 @@
 		32C492341B307C4A0008CDAF /* Heap.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Heap.h; sourceTree = "<group>"; };
 		32C492351B307E090008CDAF /* TinyHeap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TinyHeap.cpp; sourceTree = "<group>"; };
 		32C492361B307E090008CDAF /* TinyHeap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TinyHeap.h; sourceTree = "<group>"; };
+		32C4E3451B380D0700CA7700 /* MemoryLeakDetector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MemoryLeakDetector.cpp; sourceTree = "<group>"; };
+		32C4E3461B380D0700CA7700 /* MemoryLeakDetector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MemoryLeakDetector.h; sourceTree = "<group>"; };
 		32D022A21B2D7509009498E5 /* FbxBone.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FbxBone.cpp; sourceTree = "<group>"; };
 		32D022A31B2D7509009498E5 /* FbxBone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FbxBone.h; sourceTree = "<group>"; };
 		32D022A51B2DA36C009498E5 /* FbxSkeletons.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FbxSkeletons.cpp; sourceTree = "<group>"; };
@@ -171,6 +174,8 @@
 			isa = PBXGroup;
 			children = (
 				32C23C421B31BFD8006827E4 /* main_fbx_mesh_test.cpp */,
+				32C4E3451B380D0700CA7700 /* MemoryLeakDetector.cpp */,
+				32C4E3461B380D0700CA7700 /* MemoryLeakDetector.h */,
 				32C492281B3076860008CDAF /* TinyMemory.cpp */,
 				32C492291B3076860008CDAF /* TinyMemory.h */,
 				32C492311B307BD90008CDAF /* Memory.cpp */,
@@ -302,6 +307,7 @@
 				3276656D1AB576B9001541F8 /* Vector4.cpp in Sources */,
 				32C23C431B31BFD8006827E4 /* main_fbx_mesh_test.cpp in Sources */,
 				326B718C1AB45A46006C80FA /* FileReader.cpp in Sources */,
+				32C4E3471B380D0700CA7700 /* MemoryLeakDetector.cpp in Sources */,
 				32C492371B307E090008CDAF /* TinyHeap.cpp in Sources */,
 				32D5C1C81AD2CA8300B4CEDC /* BetterList.cpp in Sources */,
 				32C423771B351FCC00855BB2 /* BetterListHeapMemoryAllocator.cpp in Sources */,

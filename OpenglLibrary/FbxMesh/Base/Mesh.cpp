@@ -11,6 +11,7 @@
 #include <memory.h>
 #include "Mesh.h"
 #include "AttributeBindingLocation.h"
+#include "Memory.h"
 
 /* PUBLIC */
 
@@ -83,7 +84,7 @@ bool Mesh::upload()
         return false;
     }
     
-    char* compactAttributes = static_cast<char*>(malloc(sizeof(Vector3) * numOfVertices + sizeof(Vector3) * numOfNormals + sizeof(Vector2) * numOfUV + sizeof(Vector3) * numOfColors));
+    char* compactAttributes = (char*)Memory::heap()->allocateMemory(sizeof(Vector3) * numOfVertices + sizeof(Vector3) * numOfNormals + sizeof(Vector2) * numOfUV + sizeof(Vector3) * numOfColors);
     if (compactAttributes == nullptr)
     {
         return false;
@@ -112,7 +113,7 @@ bool Mesh::upload()
     glBindBuffer(GL_ARRAY_BUFFER, compactAttributesVBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(Vector3) * numOfVertices + sizeof(Vector3) * numOfNormals + sizeof(Vector2) * numOfUV + sizeof(Vector3) * numOfColors, compactAttributes, GL_STATIC_DRAW);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
-    free(compactAttributes);
+    Memory::heap()->freeMemory(compactAttributes);
     
     glGenBuffers(1, &compactIndicesVBO);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, compactIndicesVBO);
@@ -190,7 +191,7 @@ void Mesh::releaseVertices()
 {
     if (vertices != nullptr)
     {
-        free(vertices);
+        Memory::heap()->freeMemory(vertices);
         vertices = nullptr;
     }
 }
@@ -199,7 +200,7 @@ void Mesh::releaseNormals()
 {
     if (normals != nullptr)
     {
-        free(normals);
+        Memory::heap()->freeMemory(normals);
         normals = nullptr;
     }
 }
@@ -208,7 +209,7 @@ void Mesh::releaseIndices()
 {
     if (indices != nullptr)
     {
-        free(indices);
+        Memory::heap()->freeMemory(indices);
         indices = nullptr;
     }
 }
@@ -217,7 +218,7 @@ void Mesh::releaseUV()
 {
     if (uv != nullptr)
     {
-        free(uv);
+        Memory::heap()->freeMemory(uv);
         uv = nullptr;
     }
 }
@@ -226,7 +227,7 @@ void Mesh::releaseColors()
 {
     if (colors != nullptr)
     {
-        free(colors);
+        Memory::heap()->freeMemory(colors);
         colors = nullptr;
     }
 }
@@ -250,7 +251,7 @@ bool Mesh::copyAttributes(void **dest, const void *src, unsigned int numBytes)
         return false;
     }
     
-    *dest = malloc(numBytes);
+    *dest = Memory::heap()->allocateMemory(numBytes);
     if (*dest == nullptr)
     {
         return false;

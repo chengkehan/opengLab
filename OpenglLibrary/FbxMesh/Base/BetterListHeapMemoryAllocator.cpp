@@ -13,12 +13,12 @@
 
 BetterListHeapMemoryAllocator::BetterListHeapMemoryAllocator()
 {
-    
+    // Do nothing
 }
 
 BetterListHeapMemoryAllocator::~BetterListHeapMemoryAllocator()
 {
-    
+    // Do nothing
 }
 
 void* BetterListHeapMemoryAllocator::allocate(unsigned int numBytes)

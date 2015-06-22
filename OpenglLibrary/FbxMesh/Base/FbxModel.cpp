@@ -9,6 +9,7 @@
 #include <assert.h>
 #include "FbxModel.h"
 #include "Common.h"
+#include "Memory.h"
 
 /* PUBLIC */
 
@@ -115,14 +116,15 @@ void FbxModel::processFbxMesh(FbxNode *fbxNode)
         printf("There are more than 65535 vertices in a subMesh. The mesh is ignored.");
         return;
     }
-    FbxModelSubMesh* subMesh = new FbxModelSubMesh();
+    FbxModelSubMesh* subMesh = nullptr;
+    Memory_NewHeapObject(subMesh, FbxModelSubMesh);
     subMeshes.add(subMesh);
     
     // Position
     FbxVector4* vertices = fbxMesh->GetControlPoints();
-    subMesh->vertices = new BetterList<Vector3>(numVertices, true);
-    subMesh->uv = new BetterList<Vector2>(numVertices, true);
-    subMesh->normals = new BetterList<Vector3>(numVertices, true);
+    Memory_NewHeapObject(subMesh->vertices, BetterList<Vector3>, numVertices, true);
+    Memory_NewHeapObject(subMesh->uv, BetterList<Vector2>, numVertices, true);
+    Memory_NewHeapObject(subMesh->normals, BetterList<Vector3>, numVertices, true);
     for (int i = 0; i < numVertices; ++i)
     {
         FbxVector4* fbxVertex = &vertices[i];
@@ -138,7 +140,7 @@ void FbxModel::processFbxMesh(FbxNode *fbxNode)
     
     // Attributes
     int numPolygons = fbxMesh->GetPolygonCount();
-    subMesh->indices = new BetterList<unsigned short>();
+    Memory_NewHeapObject(subMesh->indices, BetterList<unsigned short>);
     for (int i = 0; i < numPolygons; ++i)
     {
         int polygonSize = fbxMesh->GetPolygonSize(i);
@@ -256,12 +258,12 @@ void FbxModel::processFbxMesh(FbxNode *fbxNode)
     // If uv or normal is not exists, delete the corresponding data-list.
     if (!uvExists)
     {
-        delete subMesh->uv;
+        Memory_DeleteHeapObject(subMesh->uv);
         subMesh->uv = nullptr;
     }
     if (!normalExists)
     {
-        delete subMesh->normals;
+        Memory_DeleteHeapObject(subMesh->normals);
         subMesh->normals = nullptr;
     }
 }
@@ -279,25 +281,25 @@ void FbxModel::releaseSubMeshes()
         FbxModelSubMesh* subMesh = subMeshes[i];
         if (subMesh->vertices != nullptr)
         {
-            delete subMesh->vertices;
+            Memory_DeleteHeapObject(subMesh->vertices);
             subMesh->vertices = nullptr;
         }
         if (subMesh->uv != nullptr)
         {
-            delete subMesh->uv;
+            Memory_DeleteHeapObject(subMesh->uv);
             subMesh->uv = nullptr;
         }
         if (subMesh->normals != nullptr)
         {
-            delete subMesh->normals;
+            Memory_DeleteHeapObject(subMesh->normals);
             subMesh->normals = nullptr;
         }
         if (subMesh->indices != nullptr)
         {
-            delete subMesh->indices;
+            Memory_DeleteHeapObject(subMesh->indices);
             subMesh->indices = nullptr;
         }
-        delete subMeshes[i];
+        Memory_DeleteHeapObject(subMeshes[i]);
     }
     subMeshes.release();
 }

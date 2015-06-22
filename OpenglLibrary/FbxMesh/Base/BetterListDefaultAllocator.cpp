@@ -12,12 +12,12 @@
 /* PUBLIC */
 BetterListDefaultAllocator::BetterListDefaultAllocator()
 {
-    
+    // Do nothing
 }
 
 BetterListDefaultAllocator::~BetterListDefaultAllocator()
 {
-    
+    // Do nothing
 }
 
 void* BetterListDefaultAllocator::allocate(unsigned int numBytes)

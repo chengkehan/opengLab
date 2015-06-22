@@ -12,10 +12,12 @@
 class Heap
 {
 public:
+    virtual ~Heap() {}
     virtual void* allocateMemory(unsigned int numBytes) = 0;
     virtual void* allocateZeroMemory(unsigned int numBytes) = 0;
     virtual bool freeMemory(void* ptr) = 0;
     virtual void gc() = 0;
+    virtual bool hasUnreleasedMemory() = 0;
 };
 
 #endif

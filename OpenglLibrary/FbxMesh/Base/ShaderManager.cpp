@@ -8,6 +8,7 @@
 
 #include <string>
 #include "ShaderManager.h"
+#include "Memory.h"
 
 using namespace std;
 
@@ -32,7 +33,7 @@ bool ShaderManager::init(const char* projectName)
     }
     
 #define createShader(shaderType, vertexShaderFilePath, fragmentShaderFilePath) \
-        shaders[shaderType] = new Shader(); \
+        Memory_NewHeapObject(shaders[shaderType], Shader); \
         shaders[shaderType]->loadShadersFromFile(vertexShaderFilePath, fragmentShaderFilePath);
     
     string projectPath = string("/Users/jimCheng/projects/OpenglLibrary/") + projectName + "/Base/";
@@ -66,7 +67,7 @@ void ShaderManager::release()
 {
     for (int i = 0; i < SHADER_TYPE_AMOUNT; ++i)
     {
-        delete shaders[i];
+        Memory_DeleteHeapObject(shaders[i]);
         shaders[i] = nullptr;
     }
 }

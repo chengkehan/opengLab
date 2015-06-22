@@ -23,5 +23,15 @@ Heap* Memory::heap()
 
 /* PUBLIC */
 
+Memory::Memory()
+{
+    // Do nothing
+}
+
+Memory::~Memory()
+{
+    // Do nothing
+}
+
 
 /* PRIVATE */

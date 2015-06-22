@@ -122,9 +122,10 @@ void* TinyMemory::allocateMemory(unsigned int numBytes)
     {
         return nullptr;
     }
-    // The size of bytes that you want is out of ability
+    // The size of bytes to allocate is out of ability
     if (numBytes > TinyMemory::BYTES_LEVELS[TinyMemory::NUM_LEVELS - 1])
     {
+        assert(false);
         return nullptr;
     }
     
@@ -196,12 +197,16 @@ bool TinyMemory::freeMemory(void *ptr)
                     // Check the pointer is the header address of a cell
                     if (offset % realCellSize != 0)
                     {
+                        printf("Free a undefined pointer %p. Maybe the pointer address has an offset.\n", ptr);
+                        assert(false);
                         return false;
                     }
                     
                     unsigned long index = offset / realCellSize;
                     if (this->isFreeCell(block, (unsigned int)index))
                     {
+                        printf("Free the same pointer more than once.\n");
+                        assert(false);
                         return false;
                     }
                     
@@ -215,6 +220,8 @@ bool TinyMemory::freeMemory(void *ptr)
         }
     }
     
+    printf("Free a undefined pointer %p. Maybe the pointer is not allocated from the TinyMemory.\n", ptr);
+    assert(false);
     return false;
 }
 
@@ -261,6 +268,26 @@ void TinyMemory::debugPrint()
         }
         printf("\n");
     }
+}
+
+bool TinyMemory::hasUnreleasedMemory()
+{
+    if (!isInitialized())
+    {
+        return false;
+    }
+    
+    for (int i = 0; i < TinyMemory::NUM_LEVELS; ++i)
+    {
+        TinyMemory_Block* block = &this->blocks[i];
+        assert(block != nullptr);
+        if(block->data != nullptr && block->numFreeCells != TinyMemory::ENABLED_CELLS_PER_BLOCK[block->indexOfBytesLevel])
+        {
+            return true;
+        }
+    }
+    
+    return false;
 }
 
 /* PRIVATE */
