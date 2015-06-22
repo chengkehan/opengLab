@@ -10,6 +10,7 @@
 #include "FbxModel.h"
 #include "Common.h"
 #include "Memory.h"
+#include "BetterListHeapMemoryAllocator.h"
 
 /* PUBLIC */
 
@@ -116,15 +117,14 @@ void FbxModel::processFbxMesh(FbxNode *fbxNode)
         printf("There are more than 65535 vertices in a subMesh. The mesh is ignored.");
         return;
     }
-    FbxModelSubMesh* subMesh = nullptr;
-    Memory_NewHeapObject(subMesh, FbxModelSubMesh);
+    FbxModelSubMesh* subMesh = Memory_NewHeapObject(FbxModelSubMesh);
     subMeshes.add(subMesh);
     
     // Position
     FbxVector4* vertices = fbxMesh->GetControlPoints();
-    Memory_NewHeapObject(subMesh->vertices, BetterList<Vector3>, numVertices, true);
-    Memory_NewHeapObject(subMesh->uv, BetterList<Vector2>, numVertices, true);
-    Memory_NewHeapObject(subMesh->normals, BetterList<Vector3>, numVertices, true);
+    subMesh->vertices = Memory_NewHeapObject(BetterList<Vector3>, numVertices, true);
+    subMesh->uv = Memory_NewHeapObject(BetterList<Vector2>, numVertices, true);
+    subMesh->normals = Memory_NewHeapObject(BetterList<Vector3>, numVertices, true);
     for (int i = 0; i < numVertices; ++i)
     {
         FbxVector4* fbxVertex = &vertices[i];
@@ -140,7 +140,7 @@ void FbxModel::processFbxMesh(FbxNode *fbxNode)
     
     // Attributes
     int numPolygons = fbxMesh->GetPolygonCount();
-    Memory_NewHeapObject(subMesh->indices, BetterList<unsigned short>);
+    subMesh->indices = Memory_NewHeapObject(BetterList<unsigned short>);
     for (int i = 0; i < numPolygons; ++i)
     {
         int polygonSize = fbxMesh->GetPolygonSize(i);

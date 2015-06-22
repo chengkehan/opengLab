@@ -199,6 +199,7 @@ template<class T>
 bool BetterList<T>::setAllocator(BetterListAllocator *allocator)
 {
     this->allocator = allocator;
+    return true;
 }
 
 /* PRIVATE */

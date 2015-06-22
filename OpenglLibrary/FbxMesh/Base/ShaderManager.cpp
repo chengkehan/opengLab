@@ -33,7 +33,7 @@ bool ShaderManager::init(const char* projectName)
     }
     
 #define createShader(shaderType, vertexShaderFilePath, fragmentShaderFilePath) \
-        Memory_NewHeapObject(shaders[shaderType], Shader); \
+        shaders[shaderType] = Memory_NewHeapObject(Shader); \
         shaders[shaderType]->loadShadersFromFile(vertexShaderFilePath, fragmentShaderFilePath);
     
     string projectPath = string("/Users/jimCheng/projects/OpenglLibrary/") + projectName + "/Base/";
