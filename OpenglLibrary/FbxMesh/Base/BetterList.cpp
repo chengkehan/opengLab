@@ -9,6 +9,7 @@
 #include "BetterList.h"
 #include <assert.h>
 #include "BetterListDefaultAllocator.h"
+#include <stdio.h>
 
 #ifndef __FbxMesh__BetterList__CPP__
 #define __FbxMesh__BetterList__CPP__
@@ -23,6 +24,13 @@ BetterList<T>::BetterList() :
 }
 
 template<class T>
+BetterList<T>::BetterList(BetterListAllocator* allocator) :
+    buffer(nullptr), bufferSize(0), size(0), allocator(allocator)
+{
+    // Do nothing
+}
+
+template<class T>
 BetterList<T>::BetterList(unsigned int capacity) :
     buffer(nullptr), bufferSize(0), size(0), allocator(nullptr)
 {
@@ -30,8 +38,28 @@ BetterList<T>::BetterList(unsigned int capacity) :
 }
 
 template<class T>
+BetterList<T>::BetterList(unsigned int capacity, BetterListAllocator* allocator) :
+buffer(nullptr), bufferSize(0), size(0), allocator(allocator)
+{
+    InitAllocate(capacity);
+}
+
+template<class T>
 BetterList<T>::BetterList(unsigned int capacity, bool seekToEnd) :
     buffer(nullptr), bufferSize(0), size(0), allocator(nullptr)
+{
+    if(InitAllocate(capacity))
+    {
+        if (seekToEnd)
+        {
+            size = capacity;
+        }
+    }
+}
+
+template<class T>
+BetterList<T>::BetterList(unsigned int capacity, bool seekToEnd, BetterListAllocator* allocator) :
+buffer(nullptr), bufferSize(0), size(0), allocator(allocator)
 {
     if(InitAllocate(capacity))
     {
@@ -193,13 +221,6 @@ template<class T>
 BetterListAllocator* BetterList<T>::getAllocator()
 {
     return allocator;
-}
-
-template<class T>
-bool BetterList<T>::setAllocator(BetterListAllocator *allocator)
-{
-    this->allocator = allocator;
-    return true;
 }
 
 /* PRIVATE */

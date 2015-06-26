@@ -122,9 +122,9 @@ void FbxModel::processFbxMesh(FbxNode *fbxNode)
     
     // Position
     FbxVector4* vertices = fbxMesh->GetControlPoints();
-    subMesh->vertices = Memory_NewHeapObject(BetterList<Vector3>, numVertices, true);
-    subMesh->uv = Memory_NewHeapObject(BetterList<Vector2>, numVertices, true);
-    subMesh->normals = Memory_NewHeapObject(BetterList<Vector3>, numVertices, true);
+    subMesh->vertices = Memory_NewHeapObject(BetterList<Vector3>, numVertices, true, Memory_NewHeapObject(BetterListHeapMemoryAllocator));
+    subMesh->uv = Memory_NewHeapObject(BetterList<Vector2>, numVertices, true, Memory_NewHeapObject(BetterListHeapMemoryAllocator));
+    subMesh->normals = Memory_NewHeapObject(BetterList<Vector3>, numVertices, true, Memory_NewHeapObject(BetterListHeapMemoryAllocator));
     for (int i = 0; i < numVertices; ++i)
     {
         FbxVector4* fbxVertex = &vertices[i];
@@ -140,7 +140,7 @@ void FbxModel::processFbxMesh(FbxNode *fbxNode)
     
     // Attributes
     int numPolygons = fbxMesh->GetPolygonCount();
-    subMesh->indices = Memory_NewHeapObject(BetterList<unsigned short>);
+    subMesh->indices = Memory_NewHeapObject(BetterList<unsigned short>, Memory_NewHeapObject(BetterListHeapMemoryAllocator));
     for (int i = 0; i < numPolygons; ++i)
     {
         int polygonSize = fbxMesh->GetPolygonSize(i);
@@ -258,12 +258,14 @@ void FbxModel::processFbxMesh(FbxNode *fbxNode)
     // If uv or normal is not exists, delete the corresponding data-list.
     if (!uvExists)
     {
-        Memory_DeleteHeapObject(subMesh->uv);
+        Memory_DestructHeapObject(subMesh->uv->getAllocator(), BetterListHeapMemoryAllocator);
+        Memory_DestructHeapObject(subMesh->uv, BetterList<Vector2>);
         subMesh->uv = nullptr;
     }
     if (!normalExists)
     {
-        Memory_DeleteHeapObject(subMesh->normals);
+        Memory_DestructHeapObject(subMesh->normals->getAllocator(), BetterListHeapMemoryAllocator);
+        Memory_DestructHeapObject(subMesh->normals, BetterList<Vector3>);
         subMesh->normals = nullptr;
     }
 }
@@ -281,25 +283,29 @@ void FbxModel::releaseSubMeshes()
         FbxModelSubMesh* subMesh = subMeshes[i];
         if (subMesh->vertices != nullptr)
         {
-            Memory_DeleteHeapObject(subMesh->vertices);
+            Memory_DestructHeapObject(subMesh->vertices->getAllocator(), BetterListHeapMemoryAllocator);
+            Memory_DestructHeapObject(subMesh->vertices, BetterList<Vector3>);
             subMesh->vertices = nullptr;
         }
         if (subMesh->uv != nullptr)
         {
-            Memory_DeleteHeapObject(subMesh->uv);
+            Memory_DestructHeapObject(subMesh->uv->getAllocator(), BetterListHeapMemoryAllocator);
+            Memory_DestructHeapObject(subMesh->uv, BetterList<Vector2>);
             subMesh->uv = nullptr;
         }
         if (subMesh->normals != nullptr)
         {
-            Memory_DeleteHeapObject(subMesh->normals);
+            Memory_DestructHeapObject(subMesh->normals->getAllocator(), BetterListHeapMemoryAllocator);
+            Memory_DestructHeapObject(subMesh->normals, BetterList<Vector3>);
             subMesh->normals = nullptr;
         }
         if (subMesh->indices != nullptr)
         {
-            Memory_DeleteHeapObject(subMesh->indices);
+            Memory_DestructHeapObject(subMesh->indices->getAllocator(), BetterListHeapMemoryAllocator);
+            Memory_DestructHeapObject(subMesh->indices, BetterList<unsigned short>);
             subMesh->indices = nullptr;
         }
-        Memory_DeleteHeapObject(subMeshes[i]);
+        Memory_DestructHeapObject(subMeshes[i], FbxModelSubMesh);
     }
     subMeshes.release();
 }

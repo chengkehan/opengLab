@@ -16,8 +16,11 @@ class BetterList
 {
 public:
     BetterList();
+    BetterList(BetterListAllocator* allocator);
     BetterList(unsigned int capacity);
+    BetterList(unsigned int capacity, BetterListAllocator* allocator);
     BetterList(unsigned int capacity, bool seekToEnd);
+    BetterList(unsigned int capacity, bool seekToEnd, BetterListAllocator* allocator);
     ~BetterList();
     
     T& operator[](unsigned int index);
@@ -33,7 +36,6 @@ public:
     unsigned int length();
     T* rawBuffer();
     BetterListAllocator* getAllocator();
-    bool setAllocator(BetterListAllocator* allocator);
     
 private:
     T* buffer;

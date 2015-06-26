@@ -150,7 +150,7 @@ void* TinyMemory::allocateMemory(unsigned int numBytes)
     
     char* allocPtr = &block->data[(TinyMemory::BYTES_LEVELS[indexOfBytesLevel] + this->alignment) * freeIndex];
     char* alignedPtr = this->alignMemory(allocPtr);
-
+    
     return alignedPtr;
 }
 

@@ -8,55 +8,52 @@
 
 #include <stdio.h>
 #include "BetterList.cpp"
+#include "BetterListHeapMemoryAllocator.h"
+#include "MemoryLeakDetector.h"
+#include "Memory.h"
 
-class ClassA
+MemoryLeakDetector memoryLeakDetector;
+
+class Base
 {
 public:
-    int value;
+    Base(){ printf("Base Constructor\n"); }
+    virtual ~Base() { printf("Base Destructor\n"); }
 };
 
-template <class T>
-void printBetterList(BetterList<T>& betterList, const char* printFormat)
+class ClassA : public Base
 {
-    for (int i = 0; i < betterList.length(); ++i)
-    {
-        printf(printFormat, betterList[i]);
-    }
-    printf("\n");
+public:
+    ClassA() { printf("ClassA Constructor\n"); }
+    ~ClassA() { printf("ClassA Destructor\n"); }
+};
+
+void test1()
+{
+    ClassA* a = Memory_NewHeapObject(ClassA);
+    Memory_DestructHeapObject(a, ClassA);
 }
 
 void test0()
 {
-    BetterList<int> list;
-    for (int i = 0; i < 100; ++i)
+    BetterList<unsigned short>* list = Memory_NewHeapObject(BetterList<unsigned short>);
+    list->setAllocator(Memory_NewHeapObject(BetterListHeapMemoryAllocator));
+    
+    for (int i = 0; i < 1; ++i)
     {
-        list.add(i);
-    }
-    printBetterList(list, "%d ");
-}
-
-void test1()
-{
-    BetterList<ClassA*> list;
-    for (int i = 0; i < 100; ++i)
-    {
-        list.add(new ClassA());
-        list[i]->value = i;
+        list->add(i);
     }
     
-    for (int i = 0; i < list.length(); ++i)
-    {
-        printf("%d ", list[i]->value);
-    }
-    printf("\n");
+    Memory_DestructHeapObject(list->getAllocator(), BetterListHeapMemoryAllocator);
+    Memory_DestructHeapObject(list, BetterList<unsigned short>);
 }
 
 int main(int argc, char* argv[])
 {
     printf("Test BetterList\n");
     
-//    test0();
-    test1();
+    test0();
+//    test1();
     
     return 0;
 }

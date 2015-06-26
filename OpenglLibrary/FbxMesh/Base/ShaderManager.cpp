@@ -67,7 +67,7 @@ void ShaderManager::release()
 {
     for (int i = 0; i < SHADER_TYPE_AMOUNT; ++i)
     {
-        Memory_DeleteHeapObject(shaders[i]);
+        Memory_DestructHeapObject(shaders[i], Shader);
         shaders[i] = nullptr;
     }
 }
