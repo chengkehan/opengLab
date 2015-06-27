@@ -258,14 +258,14 @@ void FbxModel::processFbxMesh(FbxNode *fbxNode)
     // If uv or normal is not exists, delete the corresponding data-list.
     if (!uvExists)
     {
-        Memory_DestructHeapObject(subMesh->uv->getAllocator(), BetterListHeapMemoryAllocator);
-        Memory_DestructHeapObject(subMesh->uv, BetterList<Vector2>);
+        Memory_DeleteHeapObject(subMesh->uv->getAllocator(), BetterListHeapMemoryAllocator);
+        Memory_DeleteHeapObject(subMesh->uv, BetterList<Vector2>);
         subMesh->uv = nullptr;
     }
     if (!normalExists)
     {
-        Memory_DestructHeapObject(subMesh->normals->getAllocator(), BetterListHeapMemoryAllocator);
-        Memory_DestructHeapObject(subMesh->normals, BetterList<Vector3>);
+        Memory_DeleteHeapObject(subMesh->normals->getAllocator(), BetterListHeapMemoryAllocator);
+        Memory_DeleteHeapObject(subMesh->normals, BetterList<Vector3>);
         subMesh->normals = nullptr;
     }
 }
@@ -283,29 +283,29 @@ void FbxModel::releaseSubMeshes()
         FbxModelSubMesh* subMesh = subMeshes[i];
         if (subMesh->vertices != nullptr)
         {
-            Memory_DestructHeapObject(subMesh->vertices->getAllocator(), BetterListHeapMemoryAllocator);
-            Memory_DestructHeapObject(subMesh->vertices, BetterList<Vector3>);
+            Memory_DeleteHeapObject(subMesh->vertices->getAllocator(), BetterListHeapMemoryAllocator);
+            Memory_DeleteHeapObject(subMesh->vertices, BetterList<Vector3>);
             subMesh->vertices = nullptr;
         }
         if (subMesh->uv != nullptr)
         {
-            Memory_DestructHeapObject(subMesh->uv->getAllocator(), BetterListHeapMemoryAllocator);
-            Memory_DestructHeapObject(subMesh->uv, BetterList<Vector2>);
+            Memory_DeleteHeapObject(subMesh->uv->getAllocator(), BetterListHeapMemoryAllocator);
+            Memory_DeleteHeapObject(subMesh->uv, BetterList<Vector2>);
             subMesh->uv = nullptr;
         }
         if (subMesh->normals != nullptr)
         {
-            Memory_DestructHeapObject(subMesh->normals->getAllocator(), BetterListHeapMemoryAllocator);
-            Memory_DestructHeapObject(subMesh->normals, BetterList<Vector3>);
+            Memory_DeleteHeapObject(subMesh->normals->getAllocator(), BetterListHeapMemoryAllocator);
+            Memory_DeleteHeapObject(subMesh->normals, BetterList<Vector3>);
             subMesh->normals = nullptr;
         }
         if (subMesh->indices != nullptr)
         {
-            Memory_DestructHeapObject(subMesh->indices->getAllocator(), BetterListHeapMemoryAllocator);
-            Memory_DestructHeapObject(subMesh->indices, BetterList<unsigned short>);
+            Memory_DeleteHeapObject(subMesh->indices->getAllocator(), BetterListHeapMemoryAllocator);
+            Memory_DeleteHeapObject(subMesh->indices, BetterList<unsigned short>);
             subMesh->indices = nullptr;
         }
-        Memory_DestructHeapObject(subMeshes[i], FbxModelSubMesh);
+        Memory_DeleteHeapObject(subMeshes[i], FbxModelSubMesh);
     }
     subMeshes.release();
 }

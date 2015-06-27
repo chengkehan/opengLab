@@ -23,10 +23,12 @@ private:
     static Heap* s_heap;
 };
 
-#define Memory_DeleteHeapObject(ptr) Memory::heap()->freeMemory(ptr)
+#define Memory_MallocHeapBlock(numBytes) Memory::heap()->allocateMemory(numBytes)
+
+#define Memory_FreeHeapBlock(ptr) Memory::heap()->freeMemory(ptr);
 
 #define Memory_NewHeapObject(T, ...) new ((T*)Memory::heap()->allocateMemory(sizeof(T)))T(__VA_ARGS__)
 
-#define Memory_DestructHeapObject(ptr, T) ((T*)ptr)->~T(); Memory::heap()->freeMemory(ptr);
+#define Memory_DeleteHeapObject(ptr, T) ((T*)ptr)->~T(); Memory::heap()->freeMemory(ptr);
 
 #endif /* defined(__FbxMesh__Memory__) */

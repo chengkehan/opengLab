@@ -28,32 +28,38 @@ public:
     ~ClassA() { printf("ClassA Destructor\n"); }
 };
 
+class ClassB
+{
+public:
+    ClassB() { printf("ClassB Constructor\n"); }
+    ~ClassB() { printf("ClassB Destructor\n"); }
+};
+
 void test1()
 {
     ClassA* a = Memory_NewHeapObject(ClassA);
-    Memory_DestructHeapObject(a, ClassA);
+    Memory_DeleteHeapObject(a, ClassB);
 }
 
 void test0()
 {
-    BetterList<unsigned short>* list = Memory_NewHeapObject(BetterList<unsigned short>);
-    list->setAllocator(Memory_NewHeapObject(BetterListHeapMemoryAllocator));
+    BetterList<unsigned short>* list = Memory_NewHeapObject(BetterList<unsigned short>, Memory_NewHeapObject(BetterListHeapMemoryAllocator));
     
     for (int i = 0; i < 1; ++i)
     {
         list->add(i);
     }
     
-    Memory_DestructHeapObject(list->getAllocator(), BetterListHeapMemoryAllocator);
-    Memory_DestructHeapObject(list, BetterList<unsigned short>);
+    Memory_DeleteHeapObject(list->getAllocator(), BetterListHeapMemoryAllocator);
+    Memory_DeleteHeapObject(list, BetterList<unsigned short>);
 }
 
 int main(int argc, char* argv[])
 {
     printf("Test BetterList\n");
     
-    test0();
-//    test1();
+//    test0();
+    test1();
     
     return 0;
 }
