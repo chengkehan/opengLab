@@ -19,6 +19,13 @@ MemoryLeakDetector::MemoryLeakDetector()
 MemoryLeakDetector::~MemoryLeakDetector()
 {
     printf("Memory leak: %s\n", Memory::heap()->hasUnreleasedMemory() ? "true" : "false");
+    
+#ifdef __MEMORY_DEBUG_DETAIL__
+    Memory::heap()->printLog(true);
+#else
+    Memory::heap()->printLog(false);
+#endif
+    
 }
 
 /* PRIVATE */

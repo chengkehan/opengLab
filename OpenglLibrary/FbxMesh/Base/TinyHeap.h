@@ -9,26 +9,31 @@
 #ifndef __FbxMesh__TinyHeap__
 #define __FbxMesh__TinyHeap__
 
-#include "Heap.h"
 #include "TinyMemory.h"
+#include "MemoryLog.h"
 
-class TinyHeap : public Heap
+class TinyHeap
 {
 public:
     TinyHeap();
-    virtual ~TinyHeap();
+    ~TinyHeap();
     
-    virtual void* allocateMemory(unsigned int numBytes);
-    virtual void* allocateZeroMemory(unsigned int numBytes);
-    virtual bool freeMemory(void* ptr);
-    virtual void gc();
-    virtual bool hasUnreleasedMemory();
+    void* allocateMemory(unsigned int numBytes);
+    void* allocateMemory_debug(unsigned int numBytes, const char* file, unsigned int line);
+    void* allocateZeroMemory(unsigned int numBytes);
+    void* allocateZeroMemory_debug(unsigned int numBytes, const char* file, unsigned int line);
+    bool freeMemory(void* ptr);
+    bool freeMemory_debug(void* ptr, const char* file, unsigned int line);
+    void gc();
+    bool hasUnreleasedMemory();
+    void printLog(bool detail);
     
 private:
     TinyHeap(const TinyHeap&);
     TinyHeap& operator=(const TinyHeap&);
     
     jcgame::TinyMemory tinyMemory;
+    MemoryLog memoryLog;
 };
 
 #endif /* defined(__FbxMesh__TinyHeap__) */

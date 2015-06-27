@@ -7,7 +7,7 @@
 //
 
 #include "FbxBone.h"
-#include <string>
+#include <string.h>
 
 unsigned int FbxBone::MAX_CHARS_OF_NAME = 20;
 unsigned int FbxBone::MAX_CHILDREN_BONES_AMOUNT = 20;

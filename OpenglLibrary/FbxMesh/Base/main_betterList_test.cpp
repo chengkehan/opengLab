@@ -38,7 +38,7 @@ public:
 void test1()
 {
     ClassA* a = Memory_NewHeapObject(ClassA);
-    Memory_DeleteHeapObject(a, ClassB);
+    Memory_DeleteHeapObject(a);
 }
 
 void test0()
@@ -50,16 +50,16 @@ void test0()
         list->add(i);
     }
     
-    Memory_DeleteHeapObject(list->getAllocator(), BetterListHeapMemoryAllocator);
-    Memory_DeleteHeapObject(list, BetterList<unsigned short>);
+    Memory_DeleteHeapObject(list->getAllocator());
+    Memory_DeleteHeapObject(list);
 }
 
 int main(int argc, char* argv[])
 {
     printf("Test BetterList\n");
     
-//    test0();
-    test1();
+    test0();
+//    test1();
     
     return 0;
 }

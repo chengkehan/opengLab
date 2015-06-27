@@ -17,10 +17,10 @@ class Memory
 public:
     Memory();
     ~Memory();
-    static Heap* heap();
+    static TinyHeap* heap();
     
 private:
-    static Heap* s_heap;
+    static TinyHeap* s_heap;
 };
 
 template<class T>
@@ -29,12 +29,29 @@ inline void __Memory__InvokeDestructorManually(T* ptr)
     ((T*)ptr)->~T();
 }
 
-#define Memory_MallocHeapBlock(numBytes) Memory::heap()->allocateMemory(numBytes)
+#ifdef __MEMORY_DEBUG__
+    #define Memory_MallocHeapBlock(numBytes) Memory::heap()->allocateMemory_debug(numBytes, __FILE__, __LINE__)
+#else
+    #define Memory_MallocHeapBlock(numBytes) Memory::heap()->allocateMemory(numBytes)
+#endif
 
-#define Memory_FreeHeapBlock(ptr) Memory::heap()->freeMemory(ptr);
+#ifdef __MEMORY_DEBUG__
+    #define Memory_FreeHeapBlock(ptr) Memory::heap()->freeMemory_debug(ptr);
+#else
+    #define Memory_FreeHeapBlock(ptr) Memory::heap()->freeMemory(ptr);
+#endif
 
-#define Memory_NewHeapObject(T, ...) new ((T*)Memory::heap()->allocateMemory(sizeof(T)))T(__VA_ARGS__)
+#ifdef __MEMORY_DEBUG__
+    #define Memory_NewHeapObject(T, ...) new ((T*)Memory::heap()->allocateMemory_debug(sizeof(T), __FILE__, __LINE__))T(__VA_ARGS__)
+#else
+    #define Memory_NewHeapObject(T, ...) new ((T*)Memory::heap()->allocateMemory(sizeof(T)))T(__VA_ARGS__)
+#endif
 
-#define Memory_DeleteHeapObject(ptr) __Memory__InvokeDestructorManually(ptr); Memory::heap()->freeMemory(ptr);
+#ifdef __MEMORY_DEBUG__
+    #define Memory_DeleteHeapObject(ptr) __Memory__InvokeDestructorManually(ptr); Memory::heap()->freeMemory_debug(ptr, __FILE__, __LINE__);
+#else
+    #define Memory_DeleteHeapObject(ptr) __Memory__InvokeDestructorManually(ptr); Memory::heap()->freeMemory(ptr);
+#endif
+
 
 #endif /* defined(__FbxMesh__Memory__) */
