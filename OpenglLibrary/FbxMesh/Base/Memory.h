@@ -23,12 +23,18 @@ private:
     static Heap* s_heap;
 };
 
+template<class T>
+inline void __Memory__InvokeDestructorManually(T* ptr)
+{
+    ((T*)ptr)->~T();
+}
+
 #define Memory_MallocHeapBlock(numBytes) Memory::heap()->allocateMemory(numBytes)
 
 #define Memory_FreeHeapBlock(ptr) Memory::heap()->freeMemory(ptr);
 
 #define Memory_NewHeapObject(T, ...) new ((T*)Memory::heap()->allocateMemory(sizeof(T)))T(__VA_ARGS__)
 
-#define Memory_DeleteHeapObject(ptr, T) ((T*)ptr)->~T(); Memory::heap()->freeMemory(ptr);
+#define Memory_DeleteHeapObject(ptr) __Memory__InvokeDestructorManually(ptr); Memory::heap()->freeMemory(ptr);
 
 #endif /* defined(__FbxMesh__Memory__) */
