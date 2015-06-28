@@ -36,7 +36,7 @@ bool MemoryLog::releaseMemoryLog(const char* file, unsigned int line)
     return addMemoryLog(&releaseRootItem, file, line);
 }
 
-void MemoryLog::printLog(bool detail)
+void MemoryLog::printLog(bool listDetailLines, bool ignoreUnimportantInfo)
 {
     MemoryLog_StatisticInfo* allocationMemoryStatisticInfo = createStstisticInfo(allocationRootItem);
     MemoryLog_StatisticInfo* releaseMemoryStatisticInfo = createStstisticInfo(releaseRootItem);
@@ -49,6 +49,7 @@ void MemoryLog::printLog(bool detail)
     else
     {
         printf("Memory log:\n");
+        bool printSth = false;
         for (MemoryLog_StatisticInfo* i = allocationMemoryStatisticInfo; i != nullptr; i = i->siblingStatisticInfo)
         {
             int numAllocations = 0;
@@ -67,25 +68,34 @@ void MemoryLog::printLog(bool detail)
                     }
                 }
             }
-            printf("    File:%s. Allocations:%d. Releases:%d.\n", i->item->file, numAllocations, numReleases);
-
-            if (detail)
+            
+            if(numAllocations != numReleases || !ignoreUnimportantInfo)
             {
-                for (MemoryLog_StatisticInfo* j = i; j != nullptr; j = j->nextStatisticInfo)
+                printSth = true;
+                printf("   %sFile:%s. Allocations:%d. Releases:%d.\n", numAllocations == numReleases ? " " : "*", i->item->file, numAllocations, numReleases);
+                
+                if (listDetailLines)
                 {
-                    printf("        Allocation:%s(%d)\n", j->item->file, j->item->line);
-                }
-                for (MemoryLog_StatisticInfo* l = releaseMemoryStatisticInfo; l != nullptr; l = l->siblingStatisticInfo)
-                {
-                    if (strcmp(l->item->file, i->item->file) == 0)
+                    for (MemoryLog_StatisticInfo* j = i; j != nullptr; j = j->nextStatisticInfo)
                     {
-                        for (MemoryLog_StatisticInfo* m = l; m != nullptr; m = m->nextStatisticInfo)
+                        printf("        Allocation:%s(%d)\n", j->item->file, j->item->line);
+                    }
+                    for (MemoryLog_StatisticInfo* l = releaseMemoryStatisticInfo; l != nullptr; l = l->siblingStatisticInfo)
+                    {
+                        if (strcmp(l->item->file, i->item->file) == 0)
                         {
-                            printf("        Release:%s(%d)\n", m->item->file, m->item->line);
+                            for (MemoryLog_StatisticInfo* m = l; m != nullptr; m = m->nextStatisticInfo)
+                            {
+                                printf("        Release:%s(%d)\n", m->item->file, m->item->line);
+                            }
                         }
                     }
                 }
             }
+        }
+        if (!printSth)
+        {
+            printf("    Nothing to print.\n");
         }
     }
     

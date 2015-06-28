@@ -11,7 +11,7 @@
 #include "MemoryLeakDetector.h"
 #include "Memory.h"
 
-MemoryLeakDetector memoryLeakDetector;
+MemoryLeakDetector memoryLeakDetector(true, false);
 
 class Base
 {

@@ -13,11 +13,15 @@ class MemoryLeakDetector
 {
 public:
     MemoryLeakDetector();
+    MemoryLeakDetector(bool listDetailLines, bool ignoreUnimportantInfo);
     ~MemoryLeakDetector();
     
 private:
     MemoryLeakDetector(const MemoryLeakDetector&);
     MemoryLeakDetector& operator=(const MemoryLeakDetector&);
+    
+    bool listDetailLines;
+    bool ignoreUnimportantInfo;
 };
 
 #endif /* defined(__FbxMesh__MemoryLeakDetector__) */

@@ -19,7 +19,7 @@
 #include "FbxAnimation.h"
 #include "MemoryLeakDetector.h"
 
-MemoryLeakDetector memoryLeakDetector;
+MemoryLeakDetector memoryLeakDetector(true, false);
 
 const char* projectName = "FbxMesh";
 ShaderManager shaderManager;
@@ -40,7 +40,7 @@ void drawTriangleWithVertexArray_ArrayOfCompactVertexBufferObject();
 // This function does any needed initialization on the rendering context.
 // This is the first opportunity to do any OpenGL related tasks.
 void SetupRC()
-{
+{    
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     
     shaderManager.init(projectName);

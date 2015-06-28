@@ -26,7 +26,7 @@ public:
     bool freeMemory_debug(void* ptr, const char* file, unsigned int line);
     void gc();
     bool hasUnreleasedMemory();
-    void printLog(bool detail);
+    void printLog(bool listDetailLines, bool ignoreUnimportantInfo);
     
 private:
     TinyHeap(const TinyHeap&);

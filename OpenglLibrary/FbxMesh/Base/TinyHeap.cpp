@@ -64,9 +64,9 @@ bool TinyHeap::hasUnreleasedMemory()
     return tinyMemory.hasUnreleasedMemory();
 }
 
-void TinyHeap::printLog(bool detail)
+void TinyHeap::printLog(bool listDetailLines, bool ignoreUnimportantInfo)
 {
-    memoryLog.printLog(detail);
+    memoryLog.printLog(listDetailLines, ignoreUnimportantInfo);
 }
 
 /* PRIVATE */

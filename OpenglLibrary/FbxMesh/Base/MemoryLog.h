@@ -35,7 +35,7 @@ public:
     
     bool allocateMemoryLog(const char* file, unsigned int line);
     bool releaseMemoryLog(const char* file, unsigned int line);
-    void printLog(bool detail);
+    void printLog(bool listDetailLines, bool ignoreUnimportantInfo);
     
 private:
     MemoryLog(const MemoryLog&);

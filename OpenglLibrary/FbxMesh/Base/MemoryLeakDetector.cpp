@@ -11,7 +11,14 @@
 
 /* PUBLIC */
 
-MemoryLeakDetector::MemoryLeakDetector()
+MemoryLeakDetector::MemoryLeakDetector() :
+    listDetailLines(true), ignoreUnimportantInfo(false)
+{
+    // Do nothing
+}
+
+MemoryLeakDetector::MemoryLeakDetector(bool listDetailLines, bool ignoreUnimportantInfo) :
+    listDetailLines(listDetailLines), ignoreUnimportantInfo(ignoreUnimportantInfo)
 {
     // Do nothing
 }
@@ -19,12 +26,8 @@ MemoryLeakDetector::MemoryLeakDetector()
 MemoryLeakDetector::~MemoryLeakDetector()
 {
     printf("Memory leak: %s\n", Memory::heap()->hasUnreleasedMemory() ? "true" : "false");
-    
-#ifdef __MEMORY_DEBUG_DETAIL__
-    Memory::heap()->printLog(true);
-#else
-    Memory::heap()->printLog(false);
-#endif
+    printf("MemoryLeakDetector:listDetailLines(%s),ignoreUnimportantInfo(%s)\n", listDetailLines ? "true" : "false", ignoreUnimportantInfo ? "true" : "false");
+    Memory::heap()->printLog(listDetailLines, ignoreUnimportantInfo);
 }
 
 /* PRIVATE */
