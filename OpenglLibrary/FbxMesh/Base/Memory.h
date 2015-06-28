@@ -36,7 +36,7 @@ inline void __Memory__InvokeDestructorManually(T* ptr)
 #endif
 
 #ifdef __MEMORY_DEBUG__
-    #define Memory_FreeHeapBlock(ptr) Memory::heap()->freeMemory_debug(ptr);
+    #define Memory_FreeHeapBlock(ptr) Memory::heap()->freeMemory_debug(ptr, __FILE__, __LINE__);
 #else
     #define Memory_FreeHeapBlock(ptr) Memory::heap()->freeMemory(ptr);
 #endif

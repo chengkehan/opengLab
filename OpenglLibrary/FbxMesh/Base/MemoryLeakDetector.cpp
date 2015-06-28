@@ -25,7 +25,6 @@ MemoryLeakDetector::~MemoryLeakDetector()
 #else
     Memory::heap()->printLog(false);
 #endif
-    
 }
 
 /* PRIVATE */

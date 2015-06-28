@@ -8,7 +8,6 @@
 
 #include <stdio.h>
 #include "BetterList.cpp"
-#include "BetterListHeapMemoryAllocator.h"
 #include "MemoryLeakDetector.h"
 #include "Memory.h"
 
@@ -43,14 +42,13 @@ void test1()
 
 void test0()
 {
-    BetterList<unsigned short>* list = Memory_NewHeapObject(BetterList<unsigned short>, Memory_NewHeapObject(BetterListHeapMemoryAllocator));
+    BetterList<unsigned short>* list = Memory_NewHeapObject(BetterList<unsigned short>);
     
-    for (int i = 0; i < 1; ++i)
+    for (int i = 0; i < 33; ++i)
     {
         list->add(i);
     }
     
-    Memory_DeleteHeapObject(list->getAllocator());
     Memory_DeleteHeapObject(list);
 }
 

@@ -48,6 +48,7 @@ private:
     bool addMemoryLog(MemoryLog_Item** rootItem, const char* file, unsigned int line);
     MemoryLog_StatisticInfo* createStstisticInfo(MemoryLog_Item* rootItem);
     void releaseStatisticInfo(MemoryLog_StatisticInfo* statisticInfo);
+    void releaseItem(MemoryLog_Item* rootItem);
 };
 
 #endif /* defined(__FbxMesh__MemoryLog__) */

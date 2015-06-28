@@ -26,8 +26,6 @@
 		32B7B6871A86597B004A3DE9 /* GLTools.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 32B7B6861A86597B004A3DE9 /* GLTools.cpp */; };
 		32B9EC161AD0D99A00B06F9F /* Mesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 32B9EC141AD0D99A00B06F9F /* Mesh.cpp */; };
 		32B9EC281AD197E200B06F9F /* FbxModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 32B9EC261AD197E200B06F9F /* FbxModel.cpp */; };
-		32C423711B351E7F00855BB2 /* BetterListDefaultAllocator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 32C4236F1B351E7F00855BB2 /* BetterListDefaultAllocator.cpp */; };
-		32C423771B351FCC00855BB2 /* BetterListHeapMemoryAllocator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 32C423751B351FCC00855BB2 /* BetterListHeapMemoryAllocator.cpp */; };
 		32C4390C1B3E8C5200E55212 /* MemoryLog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 32C4390A1B3E8C5200E55212 /* MemoryLog.cpp */; };
 		32C4390E1B3EDA6600E55212 /* main_betterList_test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 32C4390D1B3EDA6600E55212 /* main_betterList_test.cpp */; };
 		32C4922A1B3076860008CDAF /* TinyMemory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 32C492281B3076860008CDAF /* TinyMemory.cpp */; };
@@ -99,11 +97,6 @@
 		32B9EC251AD159D800B06F9F /* mvp_texture_diffuse.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = mvp_texture_diffuse.fsh; sourceTree = "<group>"; };
 		32B9EC261AD197E200B06F9F /* FbxModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FbxModel.cpp; sourceTree = "<group>"; };
 		32B9EC271AD197E200B06F9F /* FbxModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FbxModel.h; sourceTree = "<group>"; };
-		32C23C451B31CAAC006827E4 /* BetterListAllocator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BetterListAllocator.h; sourceTree = "<group>"; };
-		32C4236F1B351E7F00855BB2 /* BetterListDefaultAllocator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BetterListDefaultAllocator.cpp; sourceTree = "<group>"; };
-		32C423701B351E7F00855BB2 /* BetterListDefaultAllocator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BetterListDefaultAllocator.h; sourceTree = "<group>"; };
-		32C423751B351FCC00855BB2 /* BetterListHeapMemoryAllocator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BetterListHeapMemoryAllocator.cpp; sourceTree = "<group>"; };
-		32C423761B351FCC00855BB2 /* BetterListHeapMemoryAllocator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BetterListHeapMemoryAllocator.h; sourceTree = "<group>"; };
 		32C4390A1B3E8C5200E55212 /* MemoryLog.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MemoryLog.cpp; sourceTree = "<group>"; };
 		32C4390B1B3E8C5200E55212 /* MemoryLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MemoryLog.h; sourceTree = "<group>"; };
 		32C4390D1B3EDA6600E55212 /* main_betterList_test.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main_betterList_test.cpp; sourceTree = "<group>"; };
@@ -224,11 +217,6 @@
 				3230BC381AE8057F00811736 /* FbxModelSubMesh.cpp */,
 				32D5C1C61AD2CA8300B4CEDC /* BetterList.cpp */,
 				32D5C1C71AD2CA8300B4CEDC /* BetterList.h */,
-				32C23C451B31CAAC006827E4 /* BetterListAllocator.h */,
-				32C4236F1B351E7F00855BB2 /* BetterListDefaultAllocator.cpp */,
-				32C423701B351E7F00855BB2 /* BetterListDefaultAllocator.h */,
-				32C423751B351FCC00855BB2 /* BetterListHeapMemoryAllocator.cpp */,
-				32C423761B351FCC00855BB2 /* BetterListHeapMemoryAllocator.h */,
 				3222E2BA1AF3871900A01D8C /* FbxAnimation.cpp */,
 				3222E2BB1AF3871900A01D8C /* FbxAnimation.h */,
 				32D022A21B2D7509009498E5 /* FbxBone.cpp */,
@@ -295,7 +283,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				32C423711B351E7F00855BB2 /* BetterListDefaultAllocator.cpp in Sources */,
 				32B9EC161AD0D99A00B06F9F /* Mesh.cpp in Sources */,
 				3222E2BC1AF3871900A01D8C /* FbxAnimation.cpp in Sources */,
 				32B9EC281AD197E200B06F9F /* FbxModel.cpp in Sources */,
@@ -314,7 +301,6 @@
 				32C492371B307E090008CDAF /* TinyHeap.cpp in Sources */,
 				32D5C1C81AD2CA8300B4CEDC /* BetterList.cpp in Sources */,
 				32C4390E1B3EDA6600E55212 /* main_betterList_test.cpp in Sources */,
-				32C423771B351FCC00855BB2 /* BetterListHeapMemoryAllocator.cpp in Sources */,
 				32D022A71B2DA36C009498E5 /* FbxSkeletons.cpp in Sources */,
 				325D3E491AD2818E00CB6DF5 /* Common.cxx in Sources */,
 				3276656C1AB576B9001541F8 /* Vector3.cpp in Sources */,

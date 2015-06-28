@@ -8,8 +8,8 @@
 
 #include "BetterList.h"
 #include <assert.h>
-#include "BetterListDefaultAllocator.h"
 #include <stdio.h>
+#include "Memory.h"
 
 #ifndef __FbxMesh__BetterList__CPP__
 #define __FbxMesh__BetterList__CPP__
@@ -18,48 +18,21 @@
 
 template<class T>
 BetterList<T>::BetterList() :
-    buffer(nullptr), bufferSize(0), size(0), allocator(nullptr)
-{
-    // Do nothing
-}
-
-template<class T>
-BetterList<T>::BetterList(BetterListAllocator* allocator) :
-    buffer(nullptr), bufferSize(0), size(0), allocator(allocator)
+    buffer(nullptr), bufferSize(0), size(0)
 {
     // Do nothing
 }
 
 template<class T>
 BetterList<T>::BetterList(unsigned int capacity) :
-    buffer(nullptr), bufferSize(0), size(0), allocator(nullptr)
-{
-    InitAllocate(capacity);
-}
-
-template<class T>
-BetterList<T>::BetterList(unsigned int capacity, BetterListAllocator* allocator) :
-buffer(nullptr), bufferSize(0), size(0), allocator(allocator)
+    buffer(nullptr), bufferSize(0), size(0)
 {
     InitAllocate(capacity);
 }
 
 template<class T>
 BetterList<T>::BetterList(unsigned int capacity, bool seekToEnd) :
-    buffer(nullptr), bufferSize(0), size(0), allocator(nullptr)
-{
-    if(InitAllocate(capacity))
-    {
-        if (seekToEnd)
-        {
-            size = capacity;
-        }
-    }
-}
-
-template<class T>
-BetterList<T>::BetterList(unsigned int capacity, bool seekToEnd, BetterListAllocator* allocator) :
-buffer(nullptr), bufferSize(0), size(0), allocator(allocator)
+    buffer(nullptr), bufferSize(0), size(0)
 {
     if(InitAllocate(capacity))
     {
@@ -217,19 +190,13 @@ T* BetterList<T>::rawBuffer()
     return buffer;
 }
 
-template<class T>
-BetterListAllocator* BetterList<T>::getAllocator()
-{
-    return allocator;
-}
-
 /* PRIVATE */
 
 template<class T>
 bool BetterList<T>::AllocateMore()
 {
     unsigned int newBufferSize = max(bufferSize << 1, 32);
-    T* newBuffer = (T*)currentAllocator()->allocate(newBufferSize * sizeof(T));
+    T* newBuffer = (T*)Memory_MallocHeapBlock(newBufferSize * sizeof(T));
     if (newBuffer == nullptr)
     {
         return false;
@@ -249,7 +216,7 @@ bool BetterList<T>::InitAllocate(unsigned int capacity)
         return false;
     }
     
-    buffer = (T*)currentAllocator()->allocate(capacity * sizeof(T));
+    buffer = (T*)Memory_MallocHeapBlock(capacity * sizeof(T));
     if (buffer == nullptr)
     {
         return false;
@@ -263,7 +230,7 @@ void BetterList<T>::releaseBuffer()
 {
     if (buffer != nullptr)
     {
-        bool releaseSuccessfully = currentAllocator()->release(buffer);
+        bool releaseSuccessfully = Memory_FreeHeapBlock(buffer);
         assert(releaseSuccessfully);
         buffer = nullptr;
     }
@@ -274,20 +241,6 @@ template<class T>
 unsigned int BetterList<T>::max(unsigned int a, unsigned int b)
 {
     return a > b ? a : b;
-}
-
-template<class T>
-BetterListAllocator* BetterList<T>::currentAllocator()
-{
-    if(allocator == nullptr)
-    {
-        static BetterListDefaultAllocator defaultAllocator;
-        return &defaultAllocator;
-    }
-    else
-    {
-        return allocator;
-    }
 }
 
 #endif /* defined(__FbxMesh__BetterList__CPP__) */

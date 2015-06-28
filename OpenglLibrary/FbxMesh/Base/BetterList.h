@@ -9,18 +9,13 @@
 #ifndef __FbxMesh__BetterList__
 #define __FbxMesh__BetterList__
 
-#include "BetterListAllocator.h"
-
 template<class T>
 class BetterList
 {
 public:
     BetterList();
-    BetterList(BetterListAllocator* allocator);
     BetterList(unsigned int capacity);
-    BetterList(unsigned int capacity, BetterListAllocator* allocator);
     BetterList(unsigned int capacity, bool seekToEnd);
-    BetterList(unsigned int capacity, bool seekToEnd, BetterListAllocator* allocator);
     ~BetterList();
     
     T& operator[](unsigned int index);
@@ -35,13 +30,11 @@ public:
     T pop();
     unsigned int length();
     T* rawBuffer();
-    BetterListAllocator* getAllocator();
     
 private:
     T* buffer;
     unsigned int bufferSize;
     unsigned int size;
-    BetterListAllocator* allocator;
     
 private:
     BetterList<T>(const BetterList<T>&);
@@ -51,7 +44,6 @@ private:
     bool InitAllocate(unsigned int capacity);
     void releaseBuffer();
     unsigned int max(unsigned int a, unsigned int b);
-    BetterListAllocator* currentAllocator();
 };
 
 #endif /* defined(__FbxMesh__BetterList__) */

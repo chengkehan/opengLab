@@ -19,15 +19,11 @@ MemoryLog::MemoryLog()
 
 MemoryLog::~MemoryLog()
 {
-    MemoryLog_Item* item = allocationRootItem;
-    while (item != nullptr)
-    {
-        MemoryLog_Item* nextItem = item->nextItem;
-        tinyMemory.freeMemory(item->file);
-        tinyMemory.freeMemory(item);
-        item = nextItem;
-    }
+    releaseItem(allocationRootItem);
     allocationRootItem = nullptr;
+    
+    releaseItem(releaseRootItem);
+    releaseRootItem = nullptr;
 }
 
 bool MemoryLog::allocateMemoryLog(const char *file, unsigned int line)
@@ -206,4 +202,16 @@ void MemoryLog::releaseStatisticInfo(MemoryLog_StatisticInfo *statisticInfo)
     
     releaseStatisticInfo(nextStatisticInfo);
     releaseStatisticInfo(siblingStatisticInfo);
+}
+
+void MemoryLog::releaseItem(MemoryLog_Item *rootItem)
+{
+    MemoryLog_Item* item = rootItem;
+    while (item != nullptr)
+    {
+        MemoryLog_Item* nextItem = item->nextItem;
+        tinyMemory.freeMemory(item->file);
+        tinyMemory.freeMemory(item);
+        item = nextItem;
+    }
 }
