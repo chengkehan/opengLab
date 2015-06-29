@@ -403,6 +403,7 @@ TinyMemory_Block* TinyMemory::newBlock(TinyMemory_Block *prevBlock, unsigned int
         }
         else
         {
+            nextBlock->data = nullptr;
             if (this->initBlock(nextBlock, indexOfBytesLevel))
             {
                 prevBlock->nextBlock = nextBlock;
