@@ -12,7 +12,8 @@
 
 /* PUBLIC */
 
-MemoryLog::MemoryLog()
+MemoryLog::MemoryLog() :
+    allocationRootItem(nullptr), releaseRootItem(nullptr)
 {
     tinyMemory.init(4);
 }
