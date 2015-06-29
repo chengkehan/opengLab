@@ -26,6 +26,7 @@ MemoryLeakDetector::MemoryLeakDetector(bool listDetailLines, bool ignoreUnimport
 MemoryLeakDetector::~MemoryLeakDetector()
 {
     printf("Memory leak: %s\n", Memory::heap()->hasUnreleasedMemory() ? "true" : "false");
+    printf("Bytes Used:%d, ReservedUnuned:%d\n", Memory::heap()->bytesUsed(), Memory::heap()->bytesReservedUnused());
     printf("MemoryLeakDetector:listDetailLines(%s),ignoreUnimportantInfo(%s)\n", listDetailLines ? "true" : "false", ignoreUnimportantInfo ? "true" : "false");
     Memory::heap()->printLog(listDetailLines, ignoreUnimportantInfo);
 }

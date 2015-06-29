@@ -58,6 +58,10 @@ namespace jcgame
         // Check whether there is any unreleased data remain in memory.
         // You can use this function to check memory leak while the program exit.
         bool hasUnreleasedMemory();
+        // The number of bytes that has been allocated to application to use.
+        unsigned int bytesUsed();
+        // The number of free bytes.
+        unsigned int bytesReservedUnused();
         
     private:
         // Define the increment of each block's cell

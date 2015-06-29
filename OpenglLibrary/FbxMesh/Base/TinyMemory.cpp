@@ -290,6 +290,45 @@ bool TinyMemory::hasUnreleasedMemory()
     return false;
 }
 
+unsigned int TinyMemory::bytesUsed()
+{
+    unsigned int bytes = 0;
+    for (int i = 0; i < TinyMemory::NUM_LEVELS; ++i)
+    {
+        TinyMemory_Block* block = &this->blocks[i];
+        unsigned int bytesOfCell = TinyMemory::BYTES_LEVELS[i];
+        unsigned int totalCells = TinyMemory::ENABLED_CELLS_PER_BLOCK[i];
+        while (block != nullptr)
+        {
+            if (block->data != nullptr)
+            {
+                bytes += (totalCells - block->numFreeCells) * bytesOfCell;
+            }
+            block = block->nextBlock;
+        }
+    }
+    return bytes;
+}
+
+unsigned int TinyMemory::bytesReservedUnused()
+{
+    unsigned int bytes = 0;
+    for (int i = 0; i < TinyMemory::NUM_LEVELS; ++i)
+    {
+        TinyMemory_Block* block = &this->blocks[i];
+        unsigned int bytesOfCell = TinyMemory::BYTES_LEVELS[i];
+        while (block != nullptr)
+        {
+            if (block->data != nullptr)
+            {
+                bytes += block->numFreeCells * bytesOfCell;
+            }
+            block = block->nextBlock;
+        }
+    }
+    return bytes;
+}
+
 /* PRIVATE */
 
 int TinyMemory::getIndexOfBytesLevel(unsigned int numBytes)

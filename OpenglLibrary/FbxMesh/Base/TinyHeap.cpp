@@ -11,7 +11,8 @@
 
 /* PUBLIC */
 
-TinyHeap::TinyHeap()
+TinyHeap::TinyHeap() :
+    reamtimeBytesInfo(true)
 {
     tinyMemory.init(4);
 }
@@ -23,35 +24,47 @@ TinyHeap::~TinyHeap()
 
 void* TinyHeap::allocateMemory(unsigned int numBytes)
 {
-    return tinyMemory.allocateMemory(numBytes);
+    void* ptr = tinyMemory.allocateMemory(numBytes);
+    printBytesInfo();
+    return ptr;
 }
 
 void* TinyHeap::allocateMemory_debug(unsigned int numBytes, const char *file, unsigned int line)
 {
     memoryLog.allocateMemoryLog(file, line);
-    return tinyMemory.allocateMemory(numBytes);
+    void* ptr = tinyMemory.allocateMemory(numBytes);
+    printBytesInfo();
+    return ptr;
 }
 
 void* TinyHeap::allocateZeroMemory(unsigned int numBytes)
 {
-    return tinyMemory.allocateZeroMemory(numBytes);
+    void* ptr = tinyMemory.allocateZeroMemory(numBytes);
+    printBytesInfo();
+    return ptr;
 }
 
 void* TinyHeap::allocateZeroMemory_debug(unsigned int numBytes, const char *file, unsigned int line)
 {
     memoryLog.allocateMemoryLog(file, line);
-    return tinyMemory.allocateZeroMemory(numBytes);
+    void* ptr = tinyMemory.allocateZeroMemory(numBytes);
+    printBytesInfo();
+    return ptr;
 }
 
 bool TinyHeap::freeMemory(void *ptr)
 {
-    return tinyMemory.freeMemory(ptr);
+    bool result = tinyMemory.freeMemory(ptr);
+    printBytesInfo();
+    return result;
 }
 
 bool TinyHeap::freeMemory_debug(void *ptr, const char *file, unsigned int line)
 {
     memoryLog.releaseMemoryLog(file, line);
-    return tinyMemory.freeMemory(ptr);
+    bool result = tinyMemory.freeMemory(ptr);
+    printBytesInfo();
+    return result;
 }
 
 void TinyHeap::gc()
@@ -69,4 +82,28 @@ void TinyHeap::printLog(bool listDetailLines, bool ignoreUnimportantInfo)
     memoryLog.printLog(listDetailLines, ignoreUnimportantInfo);
 }
 
+unsigned int TinyHeap::bytesUsed()
+{
+    return tinyMemory.bytesUsed();
+}
+
+unsigned int TinyHeap::bytesReservedUnused()
+{
+    return tinyMemory.bytesReservedUnused();
+}
+
+bool TinyHeap::printRealtimeBytesInfo(bool yesORno)
+{
+    reamtimeBytesInfo = yesORno;
+    return true;
+}
+
 /* PRIVATE */
+
+void TinyHeap::printBytesInfo()
+{
+    if (reamtimeBytesInfo)
+    {
+        printf("Heap Bytes Used:%d, ReservedUnuned:%d\n", tinyMemory.bytesUsed(), tinyMemory.bytesReservedUnused());
+    }
+}

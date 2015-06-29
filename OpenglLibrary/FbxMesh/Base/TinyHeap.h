@@ -27,6 +27,9 @@ public:
     void gc();
     bool hasUnreleasedMemory();
     void printLog(bool listDetailLines, bool ignoreUnimportantInfo);
+    unsigned int bytesUsed();
+    unsigned int bytesReservedUnused();
+    bool printRealtimeBytesInfo(bool yesORno);
     
 private:
     TinyHeap(const TinyHeap&);
@@ -34,6 +37,9 @@ private:
     
     jcgame::TinyMemory tinyMemory;
     MemoryLog memoryLog;
+    bool reamtimeBytesInfo;
+    
+    void printBytesInfo();
 };
 
 #endif /* defined(__FbxMesh__TinyHeap__) */
