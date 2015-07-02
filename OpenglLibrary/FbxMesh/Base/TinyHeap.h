@@ -37,7 +37,7 @@ private:
     
     jcgame::TinyMemory tinyMemory;
     MemoryLog memoryLog;
-    bool reamtimeBytesInfo;
+    bool realtimeBytesInfo;
     
     void printBytesInfo();
 };

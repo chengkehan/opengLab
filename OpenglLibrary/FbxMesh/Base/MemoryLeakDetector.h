@@ -13,7 +13,7 @@ class MemoryLeakDetector
 {
 public:
     MemoryLeakDetector();
-    MemoryLeakDetector(bool listDetailLines, bool ignoreUnimportantInfo);
+    MemoryLeakDetector(bool listDetailLines, bool ignoreUnimportantInfo, bool realtimeBytesInfo);
     ~MemoryLeakDetector();
     
 private:

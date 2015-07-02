@@ -8,46 +8,34 @@
 
 #include "FbxBone.h"
 #include <string.h>
-
-unsigned int FbxBone::MAX_CHARS_OF_NAME = 20;
-unsigned int FbxBone::MAX_CHILDREN_BONES_AMOUNT = 20;
+#include "Memory.h"
 
 /* PUBLIC */
 
 FbxBone::FbxBone() :
-    numChildrenBones(0)
+    name(nullptr)
 {
-    emptyName();
+    // Do nothing
 }
 
 FbxBone::~FbxBone()
 {
-    emptyName();
-    numChildrenBones = 0;
+    Memory_FreeHeapBlock(name);
+    name = nullptr;
 }
 
 bool FbxBone::setName(const char *name)
 {
+    Memory_FreeHeapBlock(this->name);
+    this->name = nullptr;
+    
     if (name == nullptr)
     {
-        emptyName();
         return true;
     }
     
     size_t length = strlen(name);
-    
-    if(length == 0)
-    {
-        emptyName();
-        return true;
-    }
-    
-    if(length > FbxBone::MAX_CHARS_OF_NAME)
-    {
-        printf("Limited max chars of bone's name.\n");
-        return false;
-    }
-    
+    this->name = (char*)Memory_MallocHeapBlock((unsigned int)(length + 1));
     memcpy(this->name, name, length);
     this->name[length] = '\0';
     
@@ -66,20 +54,12 @@ bool FbxBone::addChild(FbxBone *bone)
         return false;
     }
     
-    if (numChildrenBones >= FbxBone::MAX_CHILDREN_BONES_AMOUNT)
-    {
-        printf("Limited max amount of bones' children.\n");
-        return false;
-    }
-    
-    childrenBones[numChildrenBones] = bone;
-    ++numChildrenBones;
-    return true;
+    return childrenBones.add(bone);
 }
 
 FbxBone* FbxBone::getChild(unsigned int index)
 {
-    if (index >= FbxBone::MAX_CHILDREN_BONES_AMOUNT)
+    if (index >= childrenBones.length())
     {
         return nullptr;
     }
@@ -89,12 +69,7 @@ FbxBone* FbxBone::getChild(unsigned int index)
 
 unsigned int FbxBone::numChildren()
 {
-    return numChildrenBones;
+    return childrenBones.length();
 }
 
 /* PRIVATE */
-
-void FbxBone::emptyName()
-{
-    name[0] = '\0';
-}

@@ -8,20 +8,18 @@
 
 #include "FbxSkeletons.h"
 #include "Common.h"
-
-unsigned int FbxSkeletons::MAX_BONES_AMOUNT = 150;
+#include "Memory.h"
 
 /* PUBLIC */
 
-FbxSkeletons::FbxSkeletons() :
-    numBones(0)
+FbxSkeletons::FbxSkeletons()
 {
     
 }
 
 FbxSkeletons::~FbxSkeletons()
 {
-    
+    releaseBones();
 }
 
 bool FbxSkeletons::parseFromFile(const char *fbxFilePath)
@@ -67,13 +65,13 @@ bool FbxSkeletons::parseFromFile(const char *fbxFilePath)
 void FbxSkeletons::printTreeStruct()
 {
     printf("FbxSkeletons Tree Struct:\n");
-    if (numBones == 0)
+    if (bones.length() == 0)
     {
         printf("There is nothing");
     }
     else
     {
-        printTreeStructRecursively(&bones[0], 0);
+        printTreeStructRecursively(bones[0], 0);
     }
 }
 
@@ -97,26 +95,19 @@ void FbxSkeletons::processSkeleton(FbxNode *fbxNode, int parentIndex)
         {
             case FbxNodeAttribute::eSkeleton :
             {
-                if(numBones < FbxSkeletons::MAX_BONES_AMOUNT)
+                if(parentIndex != -1 || bones.length() == 0)
                 {
-                    if(parentIndex != -1 || numBones == 0)
+                    FbxBone* newBone = Memory_NewHeapObject(FbxBone);
+                    bones.add(newBone);
+                    newBone->setName(fbxNode->GetName());
+                    if (parentIndex != -1)
                     {
-                        FbxBone* bone = &bones[numBones];
-                        bone->setName(fbxNode->GetName());
-                        if (parentIndex != -1)
-                        {
-                            bones[parentIndex].addChild(bone);
-                        }
-                        ++numBones;
-                    }
-                    else
-                    {
-                        printf("The root bone must be only one.\n");
+                        bones[parentIndex]->addChild(newBone);
                     }
                 }
                 else
                 {
-                    printf("Limited max amount of bones");
+                    printf("The root bone must be only one.\n");
                 }
                 break;
             }
@@ -125,7 +116,7 @@ void FbxSkeletons::processSkeleton(FbxNode *fbxNode, int parentIndex)
         }
     }
     
-    unsigned int numBonesCurrent = numBones;
+    unsigned int numBonesCurrent = bones.length();
     int numChildren = fbxNode->GetChildCount();
     for (int i = 0; i < numChildren; ++i)
     {
@@ -220,9 +211,9 @@ void FbxSkeletons::printTreeStructRecursively(FbxBone* bone, unsigned int indent
 
 FbxBone* FbxSkeletons::getBone(const char *boneName)
 {
-    for (int i = 0; i < numBones; ++i)
+    for (int i = 0; i < bones.length(); ++i)
     {
-        FbxBone* bone = &bones[i];
+        FbxBone* bone = bones[i];
         if (bone->getName() == nullptr && boneName == nullptr)
         {
             return bone;
@@ -244,4 +235,12 @@ FbxBone* FbxSkeletons::getBone(const char *boneName)
         }
     }
     return nullptr;
+}
+
+void FbxSkeletons::releaseBones()
+{
+    for (int i = 0; i < bones.length(); ++i)
+    {
+        Memory_DeleteHeapObject(bones[i]);
+    }
 }

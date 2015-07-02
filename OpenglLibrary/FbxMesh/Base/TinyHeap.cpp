@@ -12,7 +12,7 @@
 /* PUBLIC */
 
 TinyHeap::TinyHeap() :
-    reamtimeBytesInfo(true)
+    realtimeBytesInfo(true)
 {
     tinyMemory.init(4);
 }
@@ -55,15 +55,21 @@ void* TinyHeap::allocateZeroMemory_debug(unsigned int numBytes, const char *file
 bool TinyHeap::freeMemory(void *ptr)
 {
     bool result = tinyMemory.freeMemory(ptr);
-    printBytesInfo();
+    if(ptr != nullptr)
+    {
+        printBytesInfo();
+    }
     return result;
 }
 
 bool TinyHeap::freeMemory_debug(void *ptr, const char *file, unsigned int line)
 {
-    memoryLog.releaseMemoryLog(file, line);
     bool result = tinyMemory.freeMemory(ptr);
-    printBytesInfo();
+    if(ptr != nullptr)
+    {
+        memoryLog.releaseMemoryLog(file, line);
+        printBytesInfo();
+    }
     return result;
 }
 
@@ -94,7 +100,7 @@ unsigned int TinyHeap::bytesReservedUnused()
 
 bool TinyHeap::printRealtimeBytesInfo(bool yesORno)
 {
-    reamtimeBytesInfo = yesORno;
+    realtimeBytesInfo = yesORno;
     return true;
 }
 
@@ -102,7 +108,7 @@ bool TinyHeap::printRealtimeBytesInfo(bool yesORno)
 
 void TinyHeap::printBytesInfo()
 {
-    if (reamtimeBytesInfo)
+    if (realtimeBytesInfo)
     {
         printf("Heap Bytes Used:%d, ReservedUnuned:%d\n", tinyMemory.bytesUsed(), tinyMemory.bytesReservedUnused());
     }

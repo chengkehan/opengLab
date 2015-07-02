@@ -18,6 +18,9 @@
 #include <assert.h>
 //#include "FbxAnimation.h"
 #include "FbxSkeletons.h"
+#include "MemoryLeakDetector.h"
+
+MemoryLeakDetector memoryLeakDetector(false, false, false);
 
 const char* projectName = "FbxMesh";
 ShaderManager shaderManager;

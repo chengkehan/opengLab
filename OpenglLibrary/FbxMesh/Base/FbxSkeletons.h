@@ -11,12 +11,11 @@
 
 #include "FbxBone.h"
 #include "fbxsdk.h"
+#include "BetterList.cpp"
 
 class FbxSkeletons
 {
 public:
-    static unsigned int MAX_BONES_AMOUNT;
-    
     FbxSkeletons();
     ~FbxSkeletons();
     
@@ -27,15 +26,14 @@ private:
     FbxSkeletons(const FbxSkeletons&);
     FbxSkeletons operator=(const FbxSkeletons&);
     
-    // MAX_BONES_AMOUNT
-    FbxBone bones[150];
-    unsigned int numBones;
+    BetterList<FbxBone*> bones;
     
     void processSkeleton(FbxNode *fbxNode, int parentIndex);
     void processMesh(FbxNode* fbxNode);
     void processGeometry(FbxGeometry* fbxGeometry);
     void printTreeStructRecursively(FbxBone* bone, unsigned int indent);
     FbxBone* getBone(const char* boneName);
+    void releaseBones();
 };
 
 #endif /* defined(__FbxMesh__FbxSkeleton__) */

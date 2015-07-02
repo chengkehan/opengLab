@@ -14,9 +14,6 @@
 class FbxBone
 {
 public:
-    static unsigned int MAX_CHARS_OF_NAME;
-    static unsigned int MAX_CHILDREN_BONES_AMOUNT;
-    
     FbxBone();
     ~FbxBone();
     
@@ -31,14 +28,8 @@ private:
     FbxBone(const FbxBone&);
     FbxBone operator=(const FbxBone&);
     
-    // MAX_CHARS_OF_NAME + 1/*end of char*/
-    char name[21];
-    
-    // MAX_CHILDREN_BONES_AMOUNT
-    FbxBone* childrenBones[20];
-    unsigned int numChildrenBones;
-    
-    void emptyName();
+    char* name;
+    BetterList<FbxBone*> childrenBones;
 };
 
 #endif /* defined(__FbxMesh__FbxBone__) */

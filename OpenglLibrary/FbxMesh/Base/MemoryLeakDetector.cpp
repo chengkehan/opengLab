@@ -14,20 +14,19 @@
 MemoryLeakDetector::MemoryLeakDetector() :
     listDetailLines(true), ignoreUnimportantInfo(false)
 {
-    // Do nothing
+    Memory::heap()->printRealtimeBytesInfo(true);
 }
 
-MemoryLeakDetector::MemoryLeakDetector(bool listDetailLines, bool ignoreUnimportantInfo) :
+MemoryLeakDetector::MemoryLeakDetector(bool listDetailLines, bool ignoreUnimportantInfo, bool realtimeBytesInfo) :
     listDetailLines(listDetailLines), ignoreUnimportantInfo(ignoreUnimportantInfo)
 {
-    // Do nothing
+    Memory::heap()->printRealtimeBytesInfo(realtimeBytesInfo);
 }
 
 MemoryLeakDetector::~MemoryLeakDetector()
 {
     printf("Memory leak: %s\n", Memory::heap()->hasUnreleasedMemory() ? "true" : "false");
     printf("Bytes Used:%d, ReservedUnuned:%d\n", Memory::heap()->bytesUsed(), Memory::heap()->bytesReservedUnused());
-    printf("MemoryLeakDetector:listDetailLines(%s),ignoreUnimportantInfo(%s)\n", listDetailLines ? "true" : "false", ignoreUnimportantInfo ? "true" : "false");
     Memory::heap()->printLog(listDetailLines, ignoreUnimportantInfo);
 }
 
