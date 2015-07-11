@@ -33,6 +33,7 @@ GLMatrixStack pTransform;
 GLFrustum viewFrustum;
 GLFrame cameraFrame;
 GLFrame modelTransform;
+GLFrame testFrame;
 
 void drawTriangleWithVertexArray_ArrayOfCompactVertexBufferObject();
 
@@ -41,6 +42,29 @@ void drawTriangleWithVertexArray_ArrayOfCompactVertexBufferObject();
 // This is the first opportunity to do any OpenGL related tasks.
 void SetupRC()
 {
+    // Test Matrix
+//    M3DMatrix44f testMatrix;
+//    testFrame.SetForwardVector(0, 0, 1);
+//    testFrame.TranslateLocal(1, 2, 3);
+//    testFrame.RotateLocalX(45.0 * 3.1415926 / 180.0);
+//    testFrame.GetMatrix(testMatrix);
+//    printf("testMatrix------------------------------------------\n");
+//    printf("%f  %f  %f  %f\n", testMatrix[0], testMatrix[4], testMatrix[8], testMatrix[12]);
+//    printf("%f  %f  %f  %f\n", testMatrix[1], testMatrix[5], testMatrix[9], testMatrix[13]);
+//    printf("%f  %f  %f  %f\n", testMatrix[2], testMatrix[6], testMatrix[10], testMatrix[14]);
+//    printf("%f  %f  %f  %f\n", testMatrix[3], testMatrix[7], testMatrix[11], testMatrix[15]);
+//    
+//    FbxAMatrix fbxMat;
+//    fbxMat.SetT(FbxVector4(1, 2, 3));
+//    fbxMat.SetR(FbxVector4(45.0, 0, 0));
+//    printf("fbxMat---------------------------------------------\n");
+//    printf("%f  %f  %f  %f\n", fbxMat[0][0], fbxMat[1][0], fbxMat[2][0], fbxMat[3][0]);
+//    printf("%f  %f  %f  %f\n", fbxMat[0][1], fbxMat[1][1], fbxMat[2][1], fbxMat[3][1]);
+//    printf("%f  %f  %f  %f\n", fbxMat[0][2], fbxMat[1][2], fbxMat[2][2], fbxMat[3][2]);
+//    printf("%f  %f  %f  %f\n", fbxMat[0][3], fbxMat[1][3], fbxMat[2][3], fbxMat[3][3]);
+
+    
+    
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     
     shaderManager.init(projectName);
@@ -50,8 +74,10 @@ void SetupRC()
         //fbxAnimation.loadFbxFromFile("/Users/jimCheng/resources/snail/DSGSY/DSG/Assets/Object/Act/NPC/34300011/34300011@idle.FBX");
         
         FbxSkeletons fbxSkeletons;
-        fbxSkeletons.parseFromFile("/Users/jimCheng/resources/snail/DSGSY/DSG/Assets/Object/Act/NPC/34300011/34300011@idle.FBX");
-        fbxSkeletons.printTreeStruct();
+//        fbxSkeletons.parseFromFile("/Users/jimCheng/resources/snail/DSGSY/DSG/Assets/Object/Act/NPC/34300011/34300011@idle.FBX");
+        fbxSkeletons.parseFromFile("/Users/jimCheng/resources/snail/DSGSY/DSG/Assets/Object/Act/NPC/34300011/34300011@TPOSE.FBX");
+//        fbxSkeletons.printTreeStruct();
+//        printf("root bone name:%s\n", fbxSkeletons.getRootBone()->getName());
     }
     
     {

@@ -13,21 +13,21 @@
 /* PUBLIC */
 
 FbxBone::FbxBone() :
-    name(nullptr)
+    name(nullptr), indices(nullptr), weights(nullptr)
 {
-    // Do nothing
+    m3dLoadIdentity44(bindpose);
 }
 
 FbxBone::~FbxBone()
 {
-    Memory_FreeHeapBlock(name);
-    name = nullptr;
+    releaseName();
+    releaseIndices();
+    releaseWeights();
 }
 
 bool FbxBone::setName(const char *name)
 {
-    Memory_FreeHeapBlock(this->name);
-    this->name = nullptr;
+    releaseName();
     
     if (name == nullptr)
     {
@@ -72,4 +72,94 @@ unsigned int FbxBone::numChildren()
     return childrenBones.length();
 }
 
+bool FbxBone::setIndices(const int *indices, unsigned int numIndices)
+{
+    if (numIndices != this->numIndices)
+    {
+        return false;
+    }
+    
+    releaseIndices();
+    
+    if (indices == nullptr)
+    {
+        return true;
+    }
+    
+    this->indices = (int*)Memory_MallocHeapBlock(sizeof(int) * numIndices);
+    memcpy(this->indices, indices, sizeof(int) * numIndices);
+    
+    return true;
+}
+
+const int* FbxBone::getIndices()
+{
+    return indices;
+}
+
+bool FbxBone::setWeights(const double *weights, unsigned int numWeights)
+{
+    if (numWeights != this->numIndices)
+    {
+        return false;
+    }
+    
+    releaseWeights();
+    
+    if (weights == nullptr)
+    {
+        return true;
+    }
+    
+    this->weights = (double*)Memory_MallocHeapBlock(sizeof(double) * numIndices);
+    memcpy(this->weights, weights, sizeof(double) * numIndices);
+    
+    return true;
+}
+
+const double* FbxBone::getWeights()
+{
+    return weights;
+}
+
+bool FbxBone::setNumIndices(unsigned int numIndices)
+{
+    this->numIndices = numIndices;
+    return true;
+}
+
+unsigned int FbxBone::getNumIndices()
+{
+    return numIndices;
+}
+
+bool FbxBone::setBindpose(const M3DMatrix44f& bindpose)
+{
+    memcpy(this->bindpose, bindpose, sizeof(M3DMatrix44f));
+    return true;
+}
+
+const M3DMatrix44f& FbxBone::getBindpose()
+{
+    return bindpose;
+}
+
 /* PRIVATE */
+
+void FbxBone::releaseName()
+{
+    Memory_FreeHeapBlock(name);
+    name = nullptr;
+}
+
+void FbxBone::releaseIndices()
+{
+    Memory_FreeHeapBlock(indices);
+    indices = nullptr;
+}
+
+void FbxBone::releaseWeights()
+{
+    Memory_FreeHeapBlock(weights);
+    weights = nullptr;
+}

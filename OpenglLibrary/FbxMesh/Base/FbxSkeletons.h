@@ -20,6 +20,7 @@ public:
     ~FbxSkeletons();
     
     bool parseFromFile(const char* fbxFilePath);
+    FbxBone* getRootBone();
     void printTreeStruct();
     
 private:

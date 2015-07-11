@@ -62,6 +62,11 @@ bool FbxSkeletons::parseFromFile(const char *fbxFilePath)
     return fbxResult;
 }
 
+FbxBone* FbxSkeletons::getRootBone()
+{
+    return bones.length() == 0 ? nullptr : bones[0];
+}
+
 void FbxSkeletons::printTreeStruct()
 {
     printf("FbxSkeletons Tree Struct:\n");
@@ -180,9 +185,22 @@ void FbxSkeletons::processGeometry(FbxGeometry *fbxGeometry)
                 int numControlPoints = cluster->GetControlPointIndicesCount();
                 int* controlPointIndices = cluster->GetControlPointIndices();
                 double* controlPointWeights = cluster->GetControlPointWeights();
-                for (int controlPointIndex = 0; controlPointIndex < numControlPoints; ++controlPointIndex)
+                bone->setNumIndices(numControlPoints);
+                bone->setIndices(controlPointIndices, numControlPoints);
+                bone->setWeights(controlPointWeights, numControlPoints);
+                
+                FbxAMatrix matrix;
+                cluster->GetTransformLinkMatrix(matrix);
+                M3DMatrix44f bindpose;
+                bindpose[0] = matrix[0][0]; bindpose[4] = matrix[1][0]; bindpose[8] = matrix[2][0]; bindpose[12] = matrix[3][0];
+                bindpose[1] = matrix[0][1]; bindpose[5] = matrix[1][1]; bindpose[9] = matrix[2][1]; bindpose[13] = matrix[3][1];
+                bindpose[2] = matrix[0][2]; bindpose[6] = matrix[1][2]; bindpose[10] = matrix[2][2]; bindpose[14] = matrix[3][2];
+                bindpose[3] = matrix[0][3]; bindpose[7] = matrix[1][3]; bindpose[11] = matrix[2][3]; bindpose[15] = matrix[3][3];
+                bone->setBindpose(bindpose);
+                
+                if(strcmp("Bip01", boneName) == 0)
                 {
-                    
+                    printf("----------------------------------------------------------\n");
                 }
             }
         }
@@ -211,7 +229,8 @@ void FbxSkeletons::printTreeStructRecursively(FbxBone* bone, unsigned int indent
 
 FbxBone* FbxSkeletons::getBone(const char *boneName)
 {
-    for (int i = 0; i < bones.length(); ++i)
+    unsigned int numBones = bones.length();
+    for (int i = 0; i < numBones; ++i)
     {
         FbxBone* bone = bones[i];
         if (bone->getName() == nullptr && boneName == nullptr)
@@ -239,7 +258,8 @@ FbxBone* FbxSkeletons::getBone(const char *boneName)
 
 void FbxSkeletons::releaseBones()
 {
-    for (int i = 0; i < bones.length(); ++i)
+    unsigned int numBones = bones.length();
+    for (int i = 0; i < numBones; ++i)
     {
         Memory_DeleteHeapObject(bones[i]);
     }
