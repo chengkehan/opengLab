@@ -70,7 +70,7 @@ private:
     void releaseColors();
     void releaseCompactAttributesVBO();
     
-    bool copyAttributes(void** dest, const void* src, unsigned int numBytes);
+    bool copyAttributes(void** dest, const void* src, unsigned long numBytes);
 };
 
 #endif /* defined(__FbxMesh__Mesh__) */

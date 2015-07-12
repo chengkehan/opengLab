@@ -116,7 +116,7 @@ bool TinyMemory::isInitialized()
     return this->alignment != 0;
 }
 
-void* TinyMemory::allocateMemory(unsigned int numBytes)
+void* TinyMemory::allocateMemory(unsigned long numBytes)
 {
     if (!this->isInitialized())
     {
@@ -154,7 +154,7 @@ void* TinyMemory::allocateMemory(unsigned int numBytes)
     return alignedPtr;
 }
 
-void* TinyMemory::allocateZeroMemory(unsigned int numBytes)
+void* TinyMemory::allocateZeroMemory(unsigned long numBytes)
 {
     void* ptr = this->allocateMemory(numBytes);
     if (ptr != nullptr)
@@ -331,7 +331,7 @@ unsigned int TinyMemory::bytesReservedUnused()
 
 /* PRIVATE */
 
-int TinyMemory::getIndexOfBytesLevel(unsigned int numBytes)
+int TinyMemory::getIndexOfBytesLevel(unsigned long numBytes)
 {
     assert(numBytes <= TinyMemory::BYTES_LEVELS[TinyMemory::NUM_LEVELS - 1]);
     

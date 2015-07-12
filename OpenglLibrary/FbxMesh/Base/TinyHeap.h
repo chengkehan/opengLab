@@ -18,10 +18,10 @@ public:
     TinyHeap();
     ~TinyHeap();
     
-    void* allocateMemory(unsigned int numBytes);
-    void* allocateMemory_debug(unsigned int numBytes, const char* file, unsigned int line);
-    void* allocateZeroMemory(unsigned int numBytes);
-    void* allocateZeroMemory_debug(unsigned int numBytes, const char* file, unsigned int line);
+    void* allocateMemory(unsigned long numBytes);
+    void* allocateMemory_debug(unsigned long numBytes, const char* file, unsigned int line);
+    void* allocateZeroMemory(unsigned long numBytes);
+    void* allocateZeroMemory_debug(unsigned long numBytes, const char* file, unsigned int line);
     bool freeMemory(void* ptr);
     bool freeMemory_debug(void* ptr, const char* file, unsigned int line);
     void gc();

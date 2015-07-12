@@ -16,7 +16,7 @@
 #include <GLGeometryTransform.h>
 #include "FbxModel.h"
 #include <assert.h>
-//#include "FbxAnimation.h"
+#include "FbxAnimation.h"
 #include "FbxSkeletons.h"
 #include "MemoryLeakDetector.h"
 
@@ -36,6 +36,7 @@ GLFrame modelTransform;
 GLFrame testFrame;
 
 FbxSkeletons fbxSkeletons;
+FbxAnimation fbxAnimation(&fbxSkeletons);
 
 void drawSkeletons();
 void drawBone(FbxBone* bone);
@@ -73,13 +74,8 @@ void SetupRC()
     shaderManager.init(projectName);
     
     {
-        //FbxAnimation fbxAnimation;
-        //fbxAnimation.loadFbxFromFile("/Users/jimCheng/resources/snail/DSGSY/DSG/Assets/Object/Act/NPC/34300011/34300011@idle.FBX");
-        
-//        fbxSkeletons.parseFromFile("/Users/jimCheng/resources/snail/DSGSY/DSG/Assets/Object/Act/NPC/34300011/34300011@idle.FBX");
         fbxSkeletons.parseFromFile("/Users/jimCheng/resources/snail/DSGSY/DSG/Assets/Object/Act/NPC/34300011/34300011@TPOSE.FBX");
-//        fbxSkeletons.printTreeStruct();
-//        printf("root bone name:%s\n", fbxSkeletons.getRootBone()->getName());
+        fbxAnimation.loadFbxFromFile("/Users/jimCheng/resources/snail/DSGSY/DSG/Assets/Object/Act/NPC/34300011/34300011@idle.FBX");
     
         cameraFrame.MoveForward(-250.0f);
         cameraFrame.MoveUp(200.0f);
@@ -87,9 +83,9 @@ void SetupRC()
         mvpTransform.SetMatrixStacks(mvTransform, pTransform);
         
         Vector3 vertices[] = {
-            {0.0f, 0.0f, 0.0f}, {0.1f, 0.0f, 0.0f},
-            {0.0f, 0.0f, 0.0f}, {0.0f, 0.1f, 0.0f},
-            {0.0f, 0.0f, 0.0f}, {0.0f, 0.0f, 0.1f}
+            {0.0f, 0.0f, 0.0f}, {0.05f, 0.0f, 0.0f},
+            {0.0f, 0.0f, 0.0f}, {0.0f, 0.05f, 0.0f},
+            {0.0f, 0.0f, 0.0f}, {0.0f, 0.0f, 0.05f}
         };
         mesh.setVertices(vertices, 6);
         

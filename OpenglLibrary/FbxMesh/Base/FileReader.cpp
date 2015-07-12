@@ -58,7 +58,7 @@ bool FileReader::read(const char *path)
     rewind(file);
     
     releaseMemory();
-    m_content = (char*)Memory::heap()->allocateMemory((unsigned int)(sizeof(char) * fileSize + 1));
+    m_content = (char*)Memory_MallocHeapBlock(sizeof(char) * (fileSize + 1));
     
     if (m_content == nullptr)
     {
@@ -89,6 +89,6 @@ const char* FileReader::content()
 
 void FileReader::releaseMemory()
 {
-    Memory::heap()->freeMemory(m_content);
+    Memory_FreeHeapBlock(m_content);
     m_content = nullptr;
 }

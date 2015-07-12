@@ -55,10 +55,10 @@ bool Shader::loadShadersFromFile(const char *vertexShaderFile, const char *fragm
         glGetProgramiv(shaderProgram, GL_INFO_LOG_LENGTH, &infoLength);
         if (infoLength > 1)
         {
-            char* info = (char*)Memory::heap()->allocateMemory(sizeof(char) * infoLength);
+            char* info = (char*)Memory_MallocHeapBlock(sizeof(char) * infoLength);
             glGetProgramInfoLog(shaderProgram, infoLength, nullptr, info);
             printThenExit("Link shader program error:%s. Vertes Shader:%s. Fragment Shader:%s.\n", info, vertexShaderFile, fragmentShaderFile);
-            Memory::heap()->freeMemory(info);
+            Memory_FreeHeapBlock(info);
         }
         release();
         return false;
@@ -172,10 +172,10 @@ GLuint Shader::createShaderFromFile(const char *shaderFile, GLenum shaderType)
         glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &infoLength);
         if (infoLength > 1)
         {
-            char* info = (char*)Memory::heap()->allocateMemory(sizeof(char) * infoLength);
+            char* info = (char*)Memory_MallocHeapBlock(sizeof(char) * infoLength);
             glGetShaderInfoLog(shader, infoLength, nullptr, info);
             printThenExit("Compile vertex shader error:%s. %s\n", info, shaderFile);
-            Memory::heap()->freeMemory(info);
+            Memory_FreeHeapBlock(info);
         }
         glDeleteShader(shader);
         printThenExit("Compile shader error.\n");

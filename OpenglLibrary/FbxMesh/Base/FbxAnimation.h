@@ -10,11 +10,14 @@
 #define __FbxMesh__FbxAnimation__
 
 #include "fbxsdk.h"
+#include "FbxSkeletons.h"
+#include "BetterList.cpp"
+#include "FbxAnimationStack.h"
 
 class FbxAnimation
 {
 public:
-    FbxAnimation();
+    FbxAnimation(FbxSkeletons* fbxSkeletons);
     ~FbxAnimation();
     
     bool loadFbxFromFile(const char* fbxFilePath);
@@ -23,7 +26,12 @@ private:
     FbxAnimation(const FbxAnimation&);
     FbxAnimation operator=(const FbxAnimation&);
     
-    void processFbxNode(FbxNode* fbxNode);
+    FbxSkeletons* fbxSkeletons;
+    BetterList<FbxAnimationStack*> animationStacks;
+    
+    void processAnimationStacks(FbxScene* fbxScene);
+    void processAnimationLayers(FbxAnimStack* fbxAnimStack, FbxScene* fbxScene);
+    void releaseClips();
 };
 
 #endif /* defined(__FbxMesh__FbxAnimation__) */

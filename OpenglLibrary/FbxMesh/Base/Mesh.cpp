@@ -84,7 +84,7 @@ bool Mesh::upload()
         return false;
     }
     
-    char* compactAttributes = (char*)Memory::heap()->allocateMemory(sizeof(Vector3) * numOfVertices + sizeof(Vector3) * numOfNormals + sizeof(Vector2) * numOfUV + sizeof(Vector3) * numOfColors);
+    char* compactAttributes = (char*)Memory_MallocHeapBlock(sizeof(Vector3) * numOfVertices + sizeof(Vector3) * numOfNormals + sizeof(Vector2) * numOfUV + sizeof(Vector3) * numOfColors);
     if (compactAttributes == nullptr)
     {
         return false;
@@ -113,7 +113,7 @@ bool Mesh::upload()
     glBindBuffer(GL_ARRAY_BUFFER, compactAttributesVBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(Vector3) * numOfVertices + sizeof(Vector3) * numOfNormals + sizeof(Vector2) * numOfUV + sizeof(Vector3) * numOfColors, compactAttributes, GL_STATIC_DRAW);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
-    Memory::heap()->freeMemory(compactAttributes);
+    Memory_FreeHeapBlock(compactAttributes);
     
     glGenBuffers(1, &compactIndicesVBO);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, compactIndicesVBO);
@@ -191,7 +191,7 @@ void Mesh::releaseVertices()
 {
     if (vertices != nullptr)
     {
-        Memory::heap()->freeMemory(vertices);
+        Memory_FreeHeapBlock(vertices);
         vertices = nullptr;
     }
 }
@@ -200,7 +200,7 @@ void Mesh::releaseNormals()
 {
     if (normals != nullptr)
     {
-        Memory::heap()->freeMemory(normals);
+        Memory_FreeHeapBlock(normals);
         normals = nullptr;
     }
 }
@@ -209,7 +209,7 @@ void Mesh::releaseIndices()
 {
     if (indices != nullptr)
     {
-        Memory::heap()->freeMemory(indices);
+        Memory_FreeHeapBlock(indices);
         indices = nullptr;
     }
 }
@@ -218,7 +218,7 @@ void Mesh::releaseUV()
 {
     if (uv != nullptr)
     {
-        Memory::heap()->freeMemory(uv);
+        Memory_FreeHeapBlock(uv);
         uv = nullptr;
     }
 }
@@ -227,7 +227,7 @@ void Mesh::releaseColors()
 {
     if (colors != nullptr)
     {
-        Memory::heap()->freeMemory(colors);
+        Memory_FreeHeapBlock(colors);
         colors = nullptr;
     }
 }
@@ -240,7 +240,7 @@ void Mesh::releaseCompactAttributesVBO()
     compactIndicesVBO = 0;
 }
 
-bool Mesh::copyAttributes(void **dest, const void *src, unsigned int numBytes)
+bool Mesh::copyAttributes(void **dest, const void *src, unsigned long numBytes)
 {
     if (src == nullptr)
     {
@@ -251,7 +251,7 @@ bool Mesh::copyAttributes(void **dest, const void *src, unsigned int numBytes)
         return false;
     }
     
-    *dest = Memory::heap()->allocateMemory(numBytes);
+    *dest = Memory_MallocHeapBlock(numBytes);
     if (*dest == nullptr)
     {
         return false;

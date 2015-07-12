@@ -22,14 +22,14 @@ TinyHeap::~TinyHeap()
     // Do nothing
 }
 
-void* TinyHeap::allocateMemory(unsigned int numBytes)
+void* TinyHeap::allocateMemory(unsigned long numBytes)
 {
     void* ptr = tinyMemory.allocateMemory(numBytes);
     printBytesInfo();
     return ptr;
 }
 
-void* TinyHeap::allocateMemory_debug(unsigned int numBytes, const char *file, unsigned int line)
+void* TinyHeap::allocateMemory_debug(unsigned long numBytes, const char *file, unsigned int line)
 {
     memoryLog.allocateMemoryLog(file, line);
     void* ptr = tinyMemory.allocateMemory(numBytes);
@@ -37,14 +37,14 @@ void* TinyHeap::allocateMemory_debug(unsigned int numBytes, const char *file, un
     return ptr;
 }
 
-void* TinyHeap::allocateZeroMemory(unsigned int numBytes)
+void* TinyHeap::allocateZeroMemory(unsigned long numBytes)
 {
     void* ptr = tinyMemory.allocateZeroMemory(numBytes);
     printBytesInfo();
     return ptr;
 }
 
-void* TinyHeap::allocateZeroMemory_debug(unsigned int numBytes, const char *file, unsigned int line)
+void* TinyHeap::allocateZeroMemory_debug(unsigned long numBytes, const char *file, unsigned int line)
 {
     memoryLog.allocateMemoryLog(file, line);
     void* ptr = tinyMemory.allocateZeroMemory(numBytes);

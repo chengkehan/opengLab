@@ -34,8 +34,11 @@ public:
     bool setNumIndices(unsigned int numIndices);
     unsigned int getNumIndices();
     
-    bool setBindpose(const M3DMatrix44f& bindpose);
+    bool setBindpose(const M3DMatrix44f bindpose);
     const M3DMatrix44f& getBindpose();
+    
+    bool setBindposeInverse(const M3DMatrix44f bindposeInverse);
+    const M3DMatrix44f& getBindposeInverse();
     
 private:
     FbxBone(const FbxBone&);
@@ -47,6 +50,7 @@ private:
     double* weights;
     unsigned int numIndices;
     M3DMatrix44f bindpose;
+    M3DMatrix44f bindposeInverse;
     
     void releaseIndices();
     void releaseWeights();

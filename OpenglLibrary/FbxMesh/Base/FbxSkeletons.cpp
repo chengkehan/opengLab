@@ -9,6 +9,7 @@
 #include "FbxSkeletons.h"
 #include "Common.h"
 #include "Memory.h"
+#include "matrix_util.h"
 
 /* PUBLIC */
 
@@ -189,18 +190,23 @@ void FbxSkeletons::processGeometry(FbxGeometry *fbxGeometry)
                 bone->setIndices(controlPointIndices, numControlPoints);
                 bone->setWeights(controlPointWeights, numControlPoints);
                 
-                FbxAMatrix matrix;
-                cluster->GetTransformLinkMatrix(matrix);
-                M3DMatrix44f bindpose;
-                bindpose[0] = matrix[0][0]; bindpose[4] = matrix[1][0]; bindpose[8] = matrix[2][0]; bindpose[12] = matrix[3][0];
-                bindpose[1] = matrix[0][1]; bindpose[5] = matrix[1][1]; bindpose[9] = matrix[2][1]; bindpose[13] = matrix[3][1];
-                bindpose[2] = matrix[0][2]; bindpose[6] = matrix[1][2]; bindpose[10] = matrix[2][2]; bindpose[14] = matrix[3][2];
-                bindpose[3] = matrix[0][3]; bindpose[7] = matrix[1][3]; bindpose[11] = matrix[2][3]; bindpose[15] = matrix[3][3];
-                bone->setBindpose(bindpose);
-                
-                if(strcmp("Bip01", boneName) == 0)
+                // Bindpose
                 {
-                    printf("----------------------------------------------------------\n");
+                    FbxAMatrix matrix;
+                    cluster->GetTransformLinkMatrix(matrix);
+                    M3DMatrix44f bindpose;
+                    fbxAMatrix_to_m3dMatrix(&matrix, bindpose);
+                    bone->setBindpose(bindpose);
+                }
+                
+                // Bindpose Inverse
+                {
+                    FbxAMatrix matrix;
+                    cluster->GetTransformLinkMatrix(matrix);
+                    FbxAMatrix inverse = matrix.Inverse();
+                    M3DMatrix44f bindposeInverse;
+                    fbxAMatrix_to_m3dMatrix(&inverse, bindposeInverse);
+                    bone->setBindposeInverse(bindposeInverse);
                 }
             }
         }

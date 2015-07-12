@@ -46,9 +46,9 @@ namespace jcgame
         // Whether the object has been initialized
         bool isInitialized();
         // Allocate memory with how many bytes you want
-        void* allocateMemory(unsigned int numBytes);
+        void* allocateMemory(unsigned long numBytes);
         // Allocate memory and all byte will be set with zero
-        void* allocateZeroMemory(unsigned int numBytes);
+        void* allocateZeroMemory(unsigned long numBytes);
         // Free memory
         bool freeMemory(void* ptr);
         // Destroy all unused TinyMemory_Blocks
@@ -84,7 +84,7 @@ namespace jcgame
         const TinyMemory& operator=(const TinyMemory&);
         
         // The number of bytes will map to which index of BYTES_LEVELS
-        int getIndexOfBytesLevel(unsigned int numBytes);
+        int getIndexOfBytesLevel(unsigned long numBytes);
         // Get memory block with index of BYTES_LEVELS
         TinyMemory_Block* getBlock(unsigned int indexOfLevel);
         // New memory block

@@ -35,7 +35,7 @@ bool FbxBone::setName(const char *name)
     }
     
     size_t length = strlen(name);
-    this->name = (char*)Memory_MallocHeapBlock((unsigned int)(length + 1));
+    this->name = (char*)Memory_MallocHeapBlock(sizeof(char) * (length + 1));
     memcpy(this->name, name, length);
     this->name[length] = '\0';
     
@@ -133,7 +133,7 @@ unsigned int FbxBone::getNumIndices()
     return numIndices;
 }
 
-bool FbxBone::setBindpose(const M3DMatrix44f& bindpose)
+bool FbxBone::setBindpose(const M3DMatrix44f bindpose)
 {
     memcpy(this->bindpose, bindpose, sizeof(M3DMatrix44f));
     return true;
@@ -142,6 +142,17 @@ bool FbxBone::setBindpose(const M3DMatrix44f& bindpose)
 const M3DMatrix44f& FbxBone::getBindpose()
 {
     return bindpose;
+}
+
+bool FbxBone::setBindposeInverse(const M3DMatrix44f bindposeInverse)
+{
+    memcpy(this->bindposeInverse, bindposeInverse, sizeof(M3DMatrix44f));
+    return true;
+}
+
+const M3DMatrix44f& FbxBone::getBindposeInverse()
+{
+    return bindposeInverse;
 }
 
 /* PRIVATE */
